@@ -8,11 +8,11 @@
 	<title>Steady Academy</title>
 
 	{{-- style for ngrok --}}
-	<link rel="stylesheet" href="https://f230-103-158-96-68.ap.ngrok.io/assets-user/css/style.css">
-	<link rel="stylesheet" href="https://f230-103-158-96-68.ap.ngrok.io/assets-user/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" href="https://0680-125-163-66-163.ap.ngrok.io/assets-user/css/style.css">
+	<link rel="stylesheet" href="https://0680-125-163-66-163.ap.ngrok.io/assets-user/vendor/font-awesome/css/all.min.css">
 	<link rel="stylesheet"
-		href="https://f230-103-158-96-68.ap.ngrok.io/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="https://f230-103-158-96-68.ap.ngrok.io/assets-user/css/custom.css">
+		href="https://0680-125-163-66-163.ap.ngrok.io/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" href="https://0680-125-163-66-163.ap.ngrok.io/assets-user/css/custom.css">
 
 	{{-- Default style --}}
 	{{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets-user/vendor/font-awesome/css/all.min.css') }}">
@@ -38,9 +38,9 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-	<script src="https://f230-103-158-96-68.ap.ngrok.io/assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js">
+	<script src="https://0680-125-163-66-163.ap.ngrok.io/assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js">
 	</script>
-	<script src="https://f230-103-158-96-68.ap.ngrok.io/assets-user/js/functions.js"></script>
+	<script src="https://0680-125-163-66-163.ap.ngrok.io/assets-user/js/functions.js"></script>
 
 	{{-- Default script --}}
 	{{-- <script src="{{ asset('assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>

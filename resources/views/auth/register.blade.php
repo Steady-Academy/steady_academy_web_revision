@@ -40,6 +40,24 @@
 										di bawah</p>
 								</div>
 							</div>
+							@if (Session::has('error'))
+								<div class="alert alert-dark bg-dark fw-normal text-white py-2 px-3 align-items-center"
+									style="border-radius: 30px" role="alert">
+									<div class="d-flex align-items-center gap-3">
+										<i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+										<p class="m-0">{{ Session::get('error') }}</p>
+									</div>
+								</div>
+							@endif
+							@if (session('message'))
+								<div class="alert alert-dark bg-dark fw-normal text-white py-2 px-3 align-items-center"
+									style="border-radius: 30px" role="alert">
+									<div class="d-flex align-items-center gap-3">
+										<i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+										<p class="m-0">{{ session('message') }}</p>
+									</div>
+								</div>
+							@endif
 							<form method="POST" action="{{ route('register') }}">
 								@csrf
 								<div class="mb-3">
@@ -67,7 +85,7 @@
 									<div class="input-group input-group-md">
 										<span class="input-group-text bg-light rounded-start border-1 text-secondary fw-bold text-small">+62</span>
 										<input type="tel" class="form-control form-control-md @error('telepon') is-invalid @enderror"
-											name="telepon" placeholder="Masukan telepon" value="{{ old('telepon') }}" required>
+											name="telepon" maxlength="13" placeholder="Masukan telepon" value="{{ old('telepon') }}" required>
 									</div>
 									@error('telepon')
 										<div class="error-message">

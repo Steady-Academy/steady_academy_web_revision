@@ -19,13 +19,12 @@ class VerifyUser
      */
     public function handle(Request $request, Closure $next)
     {
-      $uid = Session::get('uid');
-      $verify = app('firebase.auth')->getUser($uid)->emailVerified;
+        $uid = Session::get('uid');
+        $verify = app('firebase.auth')->getUser($uid)->emailVerified;
         if ($verify == 0) {
-          return redirect()->route('verify');
+            return redirect()->route('verify');
+        } else {
+            return $next($request);
         }
-        else{
-        return $next($request);
-      }
     }
 }

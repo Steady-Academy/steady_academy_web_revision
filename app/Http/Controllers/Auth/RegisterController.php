@@ -47,7 +47,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'nama' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'telepon' => ['required', 'numeric', 'min:10', 'max:13'],
+            'telepon' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11',
             'password' => ['required', 'string', 'min:8', 'max:12', 'confirmed'],
         ]);
     }
@@ -60,14 +60,25 @@ class RegisterController extends Controller
                 'emailVerified' => false,
                 'password' => $request->input('password'),
                 'displayName' => $request->input('nama'),
-                'telepon' => $request->input('telepon'),
+                'phoneNumber' => $request->input('telepon'),
                 'disabled' => false,
             ];
+
             $createdUser = $this->auth->createUser($userProperties);
+
+            $db = app('firebase.firestore')->database()->collection('Users')->document($createdUser->uid);
+            $db->set([
+                'name' => $createdUser->displayName,
+                'role' => 'Instruktur',
+                'phoneNumber' => $request->input('telepon'),
+                'provider' => 'Email dan password',
+                'registered' => false,
+            ]);
+
             Session::flash('message', 'Information Uploaded');
             return redirect()->route('login')->with('success', 'Berhasil mendaftar, silahkan masuk untuk verifikasi.');
         } catch (FirebaseException $e) {
-            Session::flash('error', $e->getMessage());
+            Session::flash('error', 'Email telah digunakan oleh akun lain');
             return back()->withInput();
         }
     }

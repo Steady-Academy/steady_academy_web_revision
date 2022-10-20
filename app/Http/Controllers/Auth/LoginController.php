@@ -63,17 +63,15 @@ class LoginController extends Controller
             $result = Auth::login($user);
             $userDetails = app('firebase.auth')->getUser($loginuid);
 
-            // Adding user data
+            // update user data
 
-            $db = app('firebase.firestore')->database()->collection('Users')->document($loginuid);
-            $db->set([
-                'firstname' => $userDetails->displayName,
-                'role' => true,
-                'login_at' => Carbon::now()->toDayDateTimeString(),
+            $db_users = app('firebase.firestore')->database()->collection('Users')->document($loginuid);
+            $db_users->update([
+                ['path' => 'login_at', 'value' => Carbon::now()->toDayDateTimeString()]
             ]);
-
             return redirect($this->redirectPath());
         } catch (FirebaseException $e) {
+            Session::flash('error', 'email atau password salah!');
             throw ValidationException::withMessages([$this->username() => [trans('auth.failed')],]);
         }
     }
@@ -84,23 +82,32 @@ class LoginController extends Controller
     public function handleCallback(Request $request, $provider)
     {
         $socialTokenId = $request->input('social-login-tokenId', '');
+
         try {
             $verifiedIdToken = $this->auth->verifyIdToken($socialTokenId);
             $user = new User();
             $user->displayName = $verifiedIdToken->claims()->get('name');
             $user->email = $verifiedIdToken->claims()->get('email');
             $user->localId = $verifiedIdToken->claims()->get('user_id');
-
+            $uid = $user->localId;
             // adding user data
-
-            $db = app('firebase.firestore')->database()->collection('Users')->document($user->localId);
-            $db->set([
-                'firstname' => $user->displayName,
-                'role' => true,
-                'login_at' => Carbon::now()->toDayDateTimeString(),
-            ]);
-
-            Session::put('uid', $user->localId);
+            $db = app('firebase.firestore')->database();
+            $snapshot = $db->collection('Users')->document($uid)->snapshot();
+            if (!$snapshot->exists()) {
+                $db = app('firebase.firestore')->database()->collection('Users')->document($uid);
+                $db->set([
+                    'name' => $user->displayName,
+                    'role' => 'Instruktur',
+                    'provider' => 'Google',
+                    'login_at' => Carbon::now()->toDayDateTimeString(),
+                    'phoneNumber' => null,
+                    'registered' => false,
+                ]);
+            } else if ($snapshot->data()['role'] == 'Student') {
+                Session::flush();
+                return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
+            }
+            Session::put('uid', $uid);
             Auth::login($user);
             return redirect($this->redirectPath());
         } catch (\InvalidArgumentException $e) {

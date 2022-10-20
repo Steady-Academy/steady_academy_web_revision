@@ -86,15 +86,76 @@
 				<!-- Nav Main menu END -->
 
 				<!-- Nav Search START -->
-				<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
-					<div class="nav-item w-100">
-						<div class="login">
-							<!-- Profile START -->
-							<a href="{{ route('register') }}" class="btn btn-primary mb-0 fw-bold">Daftar Menjadi Instruktur</a>
-							<!-- Profile START -->
+				@auth
+					{{-- <a href="#" class="btn btn-primary mb-0 fw-bold">Instruktor</a> --}}
+					@php
+						$uid = Session::get('uid');
+						$user = app('firebase.auth')->getUser($uid);
+						$uid = Session::get('uid');
+						$snapshot = app('firebase.firestore')
+						    ->database()
+						    ->collection('Users')
+						    ->document($uid)
+						    ->snapshot();
+					@endphp
+
+					<div class="dropdown ms-1 ms-lg-0">
+						<a class="fw-bold fs-6 text-dark" href="#" id="profileDropdown" type="button" data-bs-toggle="dropdown"
+							aria-expanded="false" data-bs-display="static">
+							{{ $snapshot->data()['name'] }}
+							<i class="ms-2 bi bi-caret-down-fill"></i>
+							{{-- <div class="avatar-img rounded-circle bg-dark">
+								<span class="text-white position-absolute top-50 start-50 translate-middle fw-bold">DA</span>
+							</div> --}}
+						</a>
+						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+							<!-- Profile info -->
+							<li class="px-3">
+								<div class="d-flex align-items-center">
+									<div>
+										<a class="h6" href="#">{{ $snapshot->data()['name'] }}d</a>
+										<p class="small m-0">{{ $user->email }}</p>
+									</div>
+								</div>
+								<hr>
+							</li>
+							<!-- Links -->
+
+							@if ($snapshot->data()['registered'] == false)
+								<li><a class="dropdown-item" href="#"><i class="bi bi-file-richtext fa-fw me-2"></i>Formulir
+									</a>
+								</li>
+							@else
+								<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Dashboard</a>
+								</li>
+								<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Ubah Profil</a>
+								</li>
+								<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Setting Akun</a>
+								</li>
+								<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Bantuan</a>
+								</li>
+							@endif
+
+							<li><a class="dropdown-item bg-danger-soft-hover" href="{{ route('logout') }}"
+									onclick="event.preventDefault();
+                                                         document.getElementById('logout-form').submit();"><i
+										class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+							<form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
+								@csrf
+							</form>
+						</ul>
+					</div>
+				@else
+					<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
+						<div class="nav-item w-100">
+							<div class="login">
+								<!-- Profile START -->
+								<a href="{{ route('register') }}" class="btn btn-primary mb-0 fw-bold">Daftar Menjadi Instruktur</a>
+								<!-- Profile START -->
+							</div>
 						</div>
 					</div>
-				</div>
+				@endauth
 				<!-- Nav Search END -->
 			</div>
 			<!-- Main navbar END -->

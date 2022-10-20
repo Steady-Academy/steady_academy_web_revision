@@ -22,7 +22,25 @@
 									style="border-radius: 30px" role="alert">
 									<div class="d-flex align-items-center gap-3">
 										<i class="bi bi-check-circle-fill fs-5 text-success"></i>
-										<p class="m-0">{{ $message }}</p>
+										<p class="m-0">{{ session('success') }}</p>
+									</div>
+								</div>
+							@endif
+							@if (session('message'))
+								<div class="alert alert-dark bg-dark fw-normal text-white py-2 px-3 align-items-center"
+									style="border-radius: 30px" role="alert">
+									<div class="d-flex align-items-center gap-3">
+										<i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+										<p class="m-0">{{ session('message') }}</p>
+									</div>
+								</div>
+							@endif
+							@if (Session::get('error'))
+								<div class="alert alert-dark bg-dark fw-normal text-white py-2 px-3 align-items-center"
+									style="border-radius: 30px" role="alert">
+									<div class="d-flex align-items-center gap-3">
+										<i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+										<p class="m-0">{{ Session::get('error') }}</p>
 									</div>
 								</div>
 							@endif
@@ -50,9 +68,13 @@
 									</div>
 									<a class="ms-auto text-link" href="{{ route('reset.index') }}">Lupa password?</a>
 								</div>
-								<div class="text-center mt-3 d-grid">
-									<button type="submit" class="btn btn-primary fw-bold">Masuk</button>
+								<div class="text-center mt-3 d-grid ">
+									<button type="submit" id="btn-loading" class="btn btn-primary fw-bold">Masuk</button>
 								</div>
+								{{-- <button class="btn btn-primary" type="button" disabled>
+									<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+									Loading...
+								</button> --}}
 							</form>
 							<div class="row">
 								<div class="position-relative my-1">
@@ -127,6 +149,7 @@
 			});
 		}
 	</script>
+
 	<script>
 		const togglePassword = document.querySelector("#togglePassword");
 		const password = document.querySelector("#current-password");

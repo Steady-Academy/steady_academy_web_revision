@@ -9,12 +9,22 @@
 						<div class="card-body">
 							<h1 class="h3 text-center">Verifikasi email kamu</h1>
 							@if (session('resent'))
-								<div class="alert alert-success" role="alert">
-									{{ __('A fresh verification link has been sent to your email address.') }}
+								<div class="alert alert-dark bg-dark fw-normal text-white py-2 px-3 align-items-center" style="border-radius: 30px"
+									role="alert">
+									<div class="d-flex align-items-center gap-3">
+										<i class="bi bi-check-circle-fill fs-5 text-success"></i>
+										<p class="m-0">{{ session('resent') }}</p>
+									</div>
 								</div>
 							@endif
 							@if (Session::has('error'))
-								<p class=" pb-3 alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('error') }}</p>
+								<div class="alert alert-dark bg-dark fw-normal text-white py-2 px-3 align-items-center"
+									style="border-radius: 30px" role="alert">
+									<div class="d-flex align-items-center gap-3">
+										<i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+										<p class="m-0">{{ Session::get('error') }}</p>
+									</div>
+								</div>
 							@endif
 							<div class="row justify-content-center text-center">
 								<div class="col-12 my-3">
