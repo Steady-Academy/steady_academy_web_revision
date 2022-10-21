@@ -122,7 +122,8 @@
 							<!-- Links -->
 
 							@if ($snapshot->data()['registered'] == false)
-								<li><a class="dropdown-item" href="#"><i class="bi bi-file-richtext fa-fw me-2"></i>Formulir
+								<li><a class="dropdown-item" href="{{ route('form.instructur') }}"><i
+											class="bi bi-file-richtext fa-fw me-2"></i>Formulir
 									</a>
 								</li>
 							@else

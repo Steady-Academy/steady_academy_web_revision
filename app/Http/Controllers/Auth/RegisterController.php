@@ -47,7 +47,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'nama' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
-            'telepon' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11',
+            'telepon' => ['required', 'digits_between:11,13', 'min:11'],
             'password' => ['required', 'string', 'min:8', 'max:12', 'confirmed'],
         ]);
     }
@@ -60,7 +60,7 @@ class RegisterController extends Controller
                 'emailVerified' => false,
                 'password' => $request->input('password'),
                 'displayName' => $request->input('nama'),
-                'phoneNumber' => $request->input('telepon'),
+                'telepon' => $request->input('telepon'),
                 'disabled' => false,
             ];
 
@@ -75,7 +75,7 @@ class RegisterController extends Controller
                 'registered' => false,
             ]);
 
-            Session::flash('message', 'Information Uploaded');
+
             return redirect()->route('login')->with('success', 'Berhasil mendaftar, silahkan masuk untuk verifikasi.');
         } catch (FirebaseException $e) {
             Session::flash('error', 'Email telah digunakan oleh akun lain');

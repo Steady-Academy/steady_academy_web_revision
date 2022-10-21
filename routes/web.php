@@ -47,7 +47,6 @@ Route::middleware(['user', 'fireauth', 'instructur'])->group(function () {
 Route::middleware(['user', 'fireauth', 'student'])->group(function () {
 });
 
-
 Route::middleware(['user', 'fireauth', 'auth'])->group(function () {
     Route::get('instruktur/formulir', function () {
         return "Dadang";
