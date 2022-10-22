@@ -8,11 +8,12 @@
 	<title>Steady Academy</title>
 
 	{{-- style for ngrok --}}
-	<link rel="stylesheet" href="https://dbf7-103-158-96-68.ap.ngrok.io/assets-user/css/style.css">
-	<link rel="stylesheet" href="https://dbf7-103-158-96-68.ap.ngrok.io/assets-user/vendor/font-awesome/css/all.min.css">
+
+	<link rel="stylesheet" href="https://67f1-36-71-254-252.ap.ngrok.io/assets-user/vendor/font-awesome/css/all.min.css">
 	<link rel="stylesheet"
-		href="https://dbf7-103-158-96-68.ap.ngrok.io/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
-	<link rel="stylesheet" href="https://dbf7-103-158-96-68.ap.ngrok.io/assets-user/css/custom.css">
+		href="https://67f1-36-71-254-252.ap.ngrok.io/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
+
+
 
 	{{-- Default style --}}
 	{{-- <link rel="stylesheet" type="text/css" href="{{ asset('assets-user/vendor/font-awesome/css/all.min.css') }}">
@@ -21,6 +22,9 @@
 	<link rel="stylesheet" href="{{ asset('assets-user/css/custom.css') }}"> --}}
 
 	@stack('custom-styles')
+	<link rel="stylesheet" href="https://67f1-36-71-254-252.ap.ngrok.io/assets-user/css/style.css">
+	<link rel="stylesheet" href="https://67f1-36-71-254-252.ap.ngrok.io/assets-user/css/custom.css">
+
 
 </head>
 
@@ -33,15 +37,13 @@
 	@include('layouts.footer')
 
 
-	@stack('custom-scripts')
-
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-	<script src="https://dbf7-103-158-96-68.ap.ngrok.io/assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js">
+	<script src="https://67f1-36-71-254-252.ap.ngrok.io/assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js">
 	</script>
-	<script src="https://dbf7-103-158-96-68.ap.ngrok.io/assets-user/js/functions.js"></script>
-
+	<script src="https://67f1-36-71-254-252.ap.ngrok.io/assets-user/js/functions.js"></script>
+	@stack('custom-scripts')
 	{{-- Default script --}}
 	{{-- <script src="{{ asset('assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 	<script src="{{ asset('assets-user/js/functions.js') }}"></script> --}}

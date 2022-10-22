@@ -30,6 +30,14 @@ body {
     border-width: 0;
 }
 
+.border-primary {
+    border-color: var(--primary) !important;
+}
+
+.btn-secondary {
+    background-color: var(--secondary) !important;
+}
+
 .btn-primary:hover {
     background-color: var(--primary) !important;
 }
@@ -132,3 +140,4 @@ body {
     color: var(--red);
     font-size: 13px;
 }
+
