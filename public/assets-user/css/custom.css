@@ -35,7 +35,14 @@ body {
 }
 
 .btn-secondary {
+    background-color: var(--secondary);
+    border-radius: 50px;
+    border-width: 0;
+}
+
+.btn-secondary:hover {
     background-color: var(--secondary) !important;
+
 }
 
 .btn-primary:hover {

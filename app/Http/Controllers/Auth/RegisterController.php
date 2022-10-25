@@ -73,6 +73,7 @@ class RegisterController extends Controller
                 'phoneNumber' => $request->input('telepon'),
                 'provider' => 'Email dan password',
                 'registered' => false,
+                'is_confirmed' => false,
             ]);
 
 

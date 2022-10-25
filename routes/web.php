@@ -41,6 +41,7 @@ Route::middleware(['user', 'fireauth', 'admin'])->group(function () {
 // if user role is instructur and is verified
 Route::middleware(['user', 'fireauth', 'instructur'])->group(function () {
     Route::resource('/home/profile', App\Http\Controllers\Auth\ProfileController::class);
+    Route::view('/success', 'registration-success')->name('registration.success');
 });
 
 // if user role is instructor and is verified
@@ -48,7 +49,5 @@ Route::middleware(['user', 'fireauth', 'student'])->group(function () {
 });
 
 Route::middleware(['user', 'fireauth', 'auth'])->group(function () {
-    Route::get('instruktur/formulir', function () {
-        return view('livewire.form-instructur');
-    })->name('form.instructur');
+    Route::get('instruktur/formulir', App\Http\Livewire\FormInstructur::class)->name('form.instructur');
 });

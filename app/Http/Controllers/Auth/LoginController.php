@@ -102,6 +102,7 @@ class LoginController extends Controller
                     'login_at' => Carbon::now()->toDayDateTimeString(),
                     'phoneNumber' => null,
                     'registered' => false,
+                    'is_confirmed' => false,
                 ]);
             } else if ($snapshot->data()['role'] == 'Student') {
                 Session::flush();
