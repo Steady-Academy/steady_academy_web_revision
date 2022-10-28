@@ -87,11 +87,9 @@
 
 				<!-- Nav Search START -->
 				@auth
-					{{-- <a href="#" class="btn btn-primary mb-0 fw-bold">Instruktor</a> --}}
 					@php
 						$uid = Session::get('uid');
 						$user = app('firebase.auth')->getUser($uid);
-						$uid = Session::get('uid');
 						$snapshot = app('firebase.firestore')
 						    ->database()
 						    ->collection('Users')
@@ -104,9 +102,6 @@
 							aria-expanded="false" data-bs-display="static">
 							{{ $snapshot->data()['name'] }}
 							<i class="ms-2 bi bi-caret-down-fill"></i>
-							{{-- <div class="avatar-img rounded-circle bg-dark">
-								<span class="text-white position-absolute top-50 start-50 translate-middle fw-bold">DA</span>
-							</div> --}}
 						</a>
 						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
 							<!-- Profile info -->
@@ -127,7 +122,8 @@
 									</a>
 								</li>
 							@else
-								<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Dashboard</a>
+								<li><a class="dropdown-item" href="{{ route('instructur.dashboard') }}"><i
+											class="bi bi-person fa-fw me-2"></i>Dashboard</a>
 								</li>
 								<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Ubah Profil</a>
 								</li>

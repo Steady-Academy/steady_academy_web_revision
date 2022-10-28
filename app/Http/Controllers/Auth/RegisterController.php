@@ -48,7 +48,7 @@ class RegisterController extends Controller
             'nama' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'telepon' => ['required', 'digits_between:11,13', 'min:11'],
-            'password' => ['required', 'string', 'min:8', 'max:12', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
     protected function register(Request $request)

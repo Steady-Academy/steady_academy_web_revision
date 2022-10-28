@@ -101,6 +101,10 @@ class FormInstructur extends Component
         $this->getKota();
         $this->getProvinsiName();
         $this->getKotaName();
+
+        $uid = Session::get('uid');
+        $userDetails = app('firebase.auth')->getUser($uid);
+
         return view('livewire.form-instructur')->extends('layouts.app');
     }
 
@@ -222,6 +226,7 @@ class FormInstructur extends Component
         $db = app('firebase.firestore')->database()->collection('Users')->document($uid);
         $db->set([
             'name' => $this->nama,
+            'phoneNumber' => $this->telepon,
             'profile' => [
                 'foto' => $firebase_storage_path_profile . $profile,
                 'dokumen_cv' => $firebase_storage_path_cv . $document,
@@ -234,7 +239,6 @@ class FormInstructur extends Component
                     'kode_pos' => $this->poskode,
                     'detail' => $this->alamat,
                 ],
-                'phoneNumber' => $this->telepon,
                 'instagram' => $this->instagram,
                 'facebook' => $this->facebook,
                 'website' => $this->website,
@@ -244,28 +248,6 @@ class FormInstructur extends Component
             'is_confirmed' => false,
         ], ['merge' => true]);
 
-
-
-        // $cv_name = 'CV_' . time() . $this->cv->getClientOriginalName();
-        // $upload_cv = $this->cv->storeAs('students_cvs', $cv_name);
-
-        // if ($upload_cv) {
-        //     $values = array(
-        //         "first_name" => $this->first_name,
-        //         "last_name" => $this->last_name,
-        //         "gender" => $this->gender,
-        //         "email" => $this->email,
-        //         "phone" => $this->phone,
-        //         "country" => $this->country,
-        //         "city" => $this->city,
-        //         "frameworks" => json_encode($this->frameworks),
-        //         "description" => $this->description,
-        //         "cv" => $cv_name,
-        //     );
-
-        // //   $this->reset();
-        // //   $this->currentStep = 1;
-        // $data = ['name' => $this->first_name . ' ' . $this->last_name, 'email' => $this->email];
-        return redirect()->route('registration.success');
+        return redirect()->route('instructur.success');
     }
 }

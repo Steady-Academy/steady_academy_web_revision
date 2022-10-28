@@ -113,7 +113,7 @@
 			<div class="row align-items-center g-5">
 				<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
 					<h1 class="fw-bold" style="font-size: 55px">Tingkatkan kemampuan IT kamu di <img
-							src="{{ asset('assets-user/images/logo.svg') }}" width="400" alt="">
+							src="{{ asset('assets-user/images/logo.svg') }}" width="400" loading="eager" alt="">
 					</h1>
 					<p class="fs-5">Steady Academy adalah program pendidikan, kami menyadari adanya gap skill antara akademisi dan
 						industri dan ingin
@@ -132,7 +132,7 @@
 					</div>
 				</div>
 				<div class="col-lg-7 col-xl-6 text-center position-relative order-first order-sm-last">
-					<img src="{{ asset('assets-user/images/home/intro.svg') }}" width="700" alt="">
+					<img src="{{ asset('assets-user/images/home/intro.svg') }}" loading="eager" width="700" alt="">
 				</div>
 			</div>
 		</div>
@@ -494,7 +494,8 @@
 						minus, consectetur rerum sint. Odio, dolores non, consequuntur.</p>
 				</div>
 				<div class="col-lg-7 col-xl-6 text-center position-relative my-4 order-first order-sm-last">
-					<img src="{{ asset('assets-user/images/home/belajar_apapun.svg') }}" width="500" alt="">
+					<img src="{{ asset('assets-user/images/home/belajar_apapun.svg') }}" loading="lazy" width="500"
+						alt="">
 				</div>
 			</div>
 		</div>
@@ -503,7 +504,7 @@
 		<div class="container">
 			<div class="row g-5 align-items-center">
 				<div class="col-lg-7 col-xl-6 text-center position-relative my-4">
-					<img src="{{ asset('assets-user/images/home/flesibel.svg') }}" width="380" alt="">
+					<img src="{{ asset('assets-user/images/home/flesibel.svg') }}" loading="lazy" width="380" alt="">
 				</div>
 				<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
 					<h2>Pembelajaran yang fleksibel</h2>
@@ -526,7 +527,7 @@
 						minus, consectetur rerum sint. Odio, dolores non, consequuntur.</p>
 				</div>
 				<div class="col-lg-7 col-xl-6 text-center position-relative my-4 order-first order-sm-last">
-					<img src="{{ asset('assets-user/images/home/industri.svg') }}" width="380" alt="">
+					<img src="{{ asset('assets-user/images/home/industri.svg') }}" loading="lazy" width="380" alt="">
 				</div>
 			</div>
 		</div>
@@ -557,8 +558,8 @@
 					<div class="card">
 						<div class="card-body bg-opacity-10 rounded-3">
 							<div class="text-center">
-								<img class="m-2" src="{{ asset('assets-user/images/categories/ilmu_komputer.svg') }}" width="70"
-									alt="">
+								<img class="m-2" src="{{ asset('assets-user/images/categories/ilmu_komputer.svg') }}" loading="lazy"
+									width="70" alt="">
 								<p class="h5 fw-bold">Ilmu Komputer</p>
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis est porro,</p>
 							</div>
@@ -570,8 +571,8 @@
 					<div class="card">
 						<div class="card-body bg-opacity-10 rounded-3">
 							<div class="text-center">
-								<img class="m-2" src="{{ asset('assets-user/images/categories/keamanan_siber.svg') }}" width="70"
-									alt="">
+								<img class="m-2" src="{{ asset('assets-user/images/categories/keamanan_siber.svg') }}" loading="lazy"
+									width="70" alt="">
 								<p class="h5 fw-bold">Keamanan Siber</p>
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis est porro,</p>
 							</div>
@@ -583,8 +584,8 @@
 					<div class="card">
 						<div class="card-body bg-opacity-10 rounded-3">
 							<div class="text-center">
-								<img class="m-2" src="{{ asset('assets-user/images/categories/sistem_informasi.svg') }}" width="70"
-									alt="">
+								<img class="m-2" src="{{ asset('assets-user/images/categories/sistem_informasi.svg') }}" loading="lazy"
+									width="70" alt="">
 								<p class="h5 fw-bold">Sistem Informasi</p>
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis est porro,</p>
 							</div>
@@ -596,8 +597,8 @@
 					<div class="card">
 						<div class="card-body bg-opacity-10 rounded-3">
 							<div class="text-center">
-								<img class="m-2" src="{{ asset('assets-user/images/categories/rekayasa_perangkat.svg') }}" width="70"
-									alt="">
+								<img class="m-2" src="{{ asset('assets-user/images/categories/rekayasa_perangkat.svg') }}" loading="lazy"
+									width="70" alt="">
 								<p class="h5 fw-bold">RPL</p>
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis est porro,</p>
 							</div>
@@ -609,8 +610,8 @@
 					<div class="card">
 						<div class="card-body bg-opacity-10 rounded-3">
 							<div class="text-center">
-								<img class="m-2" src="{{ asset('assets-user/images/categories/teknik_komputer.svg') }}" width="70"
-									alt="">
+								<img class="m-2" src="{{ asset('assets-user/images/categories/teknik_komputer.svg') }}" loading="lazy"
+									width="70" alt="">
 								<p class="h5 fw-bold">Teknik Komputer</p>
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis est porro,</p>
 							</div>
@@ -624,8 +625,8 @@
 					<div class="card">
 						<div class="card-body bg-opacity-10 rounded-3">
 							<div class="text-center">
-								<img class="m-2" src="{{ asset('assets-user/images/categories/desain_visual.svg') }}" width="70"
-									alt="">
+								<img class="m-2" src="{{ asset('assets-user/images/categories/desain_visual.svg') }}" loading="lazy"
+									width="70" alt="">
 								<p class="h5 fw-bold">Desain Visual</p>
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis est porro,</p>
 							</div>
@@ -637,8 +638,8 @@
 					<div class="card">
 						<div class="card-body bg-opacity-10 rounded-3">
 							<div class="text-center">
-								<img class="m-2" src="{{ asset('assets-user/images/categories/data_sain.svg') }}" width="70"
-									alt="">
+								<img class="m-2" src="{{ asset('assets-user/images/categories/data_sain.svg') }}" loading="lazy"
+									width="70" alt="">
 								<p class="h5 fw-bold">Data Sains</p>
 								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic quis est porro,</p>
 							</div>
@@ -654,7 +655,8 @@
 				<div class="col-12 position-relative overflow-hidden">
 					<div class="bg-primary bg-opacity-10 rounded-3 p-5 h-100 overflow-hidden">
 						<div class="position-absolute bottom-30 end-0 me-3 d-none d-xxl-block">
-							<img src="{{ asset('assets-user/images/home/daftar_instructur.svg') }}" width="350px" alt="">
+							<img src="{{ asset('assets-user/images/home/daftar_instructur.svg') }}" width="350px" loading="lazy"
+								alt="">
 						</div>
 						<figure class="fill-primary opacity-1 position-absolute top-50 start-0 translate-middle-y">
 							<svg width="141px" height="141px">

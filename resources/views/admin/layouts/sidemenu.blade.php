@@ -1,0 +1,76 @@
+<nav id="sidebar" class="sidebar">
+	<div class="sidebar-content js-simplebar">
+		<a class="sidebar-brand d-flex gap-1" href="/admin">
+			<img src="{{ asset('assets-admin/img/logo.svg') }}" width="25" alt="">
+			<span class="align-middle mt-2">teady Academy</span>
+		</a>
+
+		<ul class="sidebar-nav">
+			<li class="sidebar-header">Dashboard</li>
+			<li class="sidebar-item {{ request()->is('admin/dashboard*') ? 'active' : '' }}">
+				<a class="sidebar-link" href="{{ route('admin.dashboard') }}">
+					<i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+				</a>
+			</li>
+			<li class="sidebar-header">Data</li>
+			<li class="sidebar-item">
+				<a href="#" class="sidebar-link" data-bs-target="#users" data-bs-toggle="collapse" aria-expanded="false">
+					<i class="align-middle" data-feather="users"></i>
+					<span class="align-middle">Users</span>
+				</a>
+				<ul id="users" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+					<li class="sidebar-item">
+						<a href="#" class="sidebar-link">Admin</a>
+					</li>
+					<li class="sidebar-item ">
+						<a href="{{ route('admin.users.student.index') }}" class="sidebar-link">Student</a>
+					</li>
+					<li class="sidebar-item ">
+						<a href="#" class="sidebar-link">Instructor</a>
+					</li>
+				</ul>
+			</li>
+			<li class="sidebar-item">
+				<a class="sidebar-link" href="#">
+					<i class="align-middle" data-feather="tool"></i> <span class="align-middle">Roles</span>
+				</a>
+			</li>
+			<li class="sidebar-item ">
+				<a class="sidebar-link" data-bs-target="#category" href="#" data-bs-toggle="collapse" aria-expanded="false">
+					<i class="align-middle" data-feather="grid"></i>
+					<span class="align-middle">Categories</span>
+				</a>
+				<ul id="category" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+					<li class="sidebar-item">
+						<a href="#" class="sidebar-link">Course Category</a>
+					</li>
+					<li class="sidebar-item ">
+						<a href="#" class="sidebar-link">Price Type</a>
+					</li>
+					<li class="sidebar-item">
+						<a href="#" class="sidebar-link">Class Type</a>
+					</li>
+					<li class="sidebar-item ">
+						<a href="#" class="sidebar-link">Course Level</a>
+					</li>
+				</ul>
+			</li>
+
+			<li class="sidebar-item ">
+				<a class="sidebar-link" href="#">
+					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Masterclasses</span>
+				</a>
+			</li>
+
+			<li class="sidebar-header">Pages</li>
+			<li class="sidebar-item">
+				<a class="sidebar-link" href="#">
+					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Home Page</span>
+				</a>
+				<a class="sidebar-link" href="#">
+					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Help Page</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</nav>

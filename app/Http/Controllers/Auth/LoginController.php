@@ -60,16 +60,22 @@ class LoginController extends Controller
             $loginuid = $signInResult->firebaseUserId();
             Session::put('uid', $loginuid);
 
+            $db = app('firebase.firestore')->database();
+            $snapshot = $db->collection('Users')->document($loginuid)->snapshot();
+
+            if ($snapshot->data()['role'] == 'Student' || $snapshot->data()['role'] == 'Admin') {
+                Session::flush();
+                return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
+            }
             $result = Auth::login($user);
             $userDetails = app('firebase.auth')->getUser($loginuid);
 
             // update user data
-
             $db_users = app('firebase.firestore')->database()->collection('Users')->document($loginuid);
             $db_users->update([
                 ['path' => 'login_at', 'value' => Carbon::now()->toDayDateTimeString()]
             ]);
-            return redirect($this->redirectPath());
+            return redirect()->route('form.instructur');
         } catch (FirebaseException $e) {
             Session::flash('error', 'email atau password salah!');
             throw ValidationException::withMessages([$this->username() => [trans('auth.failed')],]);
@@ -104,13 +110,13 @@ class LoginController extends Controller
                     'registered' => false,
                     'is_confirmed' => false,
                 ]);
-            } else if ($snapshot->data()['role'] == 'Student') {
+            } else if ($snapshot->data()['role'] == 'Student' || 'Admin') {
                 Session::flush();
                 return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
             }
             Session::put('uid', $uid);
             Auth::login($user);
-            return redirect($this->redirectPath());
+            return redirect()->route('form.instructur');
         } catch (\InvalidArgumentException $e) {
             return redirect()->route('login');
         } catch (InvalidToken $e) {
