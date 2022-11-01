@@ -65,7 +65,7 @@ class LoginController extends Controller
         ]);
     }
 
-    protected function login(Request $request)
+    protected function loginAdmin(Request $request)
     {
         try {
             $validate = Validator::make($request->all(), [

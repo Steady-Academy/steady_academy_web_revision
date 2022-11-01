@@ -28,7 +28,7 @@ class ProfileController extends Controller
         //
         $uid = Session::get('uid');
         $user = app('firebase.auth')->getUser($uid);
-        $uid = Session::get('uid');
+
         $snapshot = app('firebase.firestore')->database()->collection('Users')->document($uid)->snapshot();
 
         return view('auth.profile', compact('user', 'snapshot'));

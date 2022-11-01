@@ -7,7 +7,7 @@ use Livewire\Component;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
 use Session;
-
+use Auth;
 
 class FormInstructur extends Component
 {
@@ -16,6 +16,7 @@ class FormInstructur extends Component
     public $nama;
     public $jenis_kelamin;
     public $foto;
+    public $foto_temp;
     public $email;
     public $telepon;
     public $poskode;
@@ -43,8 +44,32 @@ class FormInstructur extends Component
 
     public function mount()
     {
-
         $this->currentStep = 1;
+
+        $uid = Session::get('uid');
+        $snapshot = app('firebase.firestore')->database()->collection('Users')->document($uid)->snapshot();
+        $this->email = $snapshot->data()['email'];
+        $this->nama = $snapshot->data()['name'];
+        $this->telepon = $snapshot->data()['phoneNumber'];
+        if ($snapshot->data()['provider'] == "Google") {
+            $this->foto = $snapshot->data()['photoUrl'];
+        } else {
+            $this->foto = 'https://avatars.dicebear.com/api/human/' . str_replace(' ', '_', $snapshot->data()['name']) . '.svg?b=white&r=50&size=150';
+        }
+    }
+
+
+    protected function rules()
+    {
+        if (filter_var($this->foto, FILTER_VALIDATE_URL)) {
+            return [
+                'foto' => 'sometimes',
+            ];
+        } else {
+            return [
+                'foto' => 'required|image|mimes:jpg,png,jpeg,svg|max:1024',
+            ];
+        }
     }
 
     public function updatedProvinsiId()
@@ -130,7 +155,7 @@ class FormInstructur extends Component
     public function updated($fields)
     {
         $this->validateOnly($fields, [
-            'foto' => 'required|image|mimes:jpg,png,jpeg|max:1024',
+            'foto' => 'required',
         ]);
         $this->validateOnly($fields, [
             'dokumen' => 'required|mimes:jpg,png,jpeg,pdf|max:2024'
@@ -143,7 +168,7 @@ class FormInstructur extends Component
             $this->validate([
                 'nama' => 'required|string',
                 'email' => 'required|email',
-                'foto' => 'required|image|mimes:jpg,png,jpeg',
+                'foto' => 'required',
                 'tanggal_lahir' => 'required|date',
                 'jenis_kelamin' => 'required',
                 'kegiatan' => 'required',
@@ -172,7 +197,7 @@ class FormInstructur extends Component
             $this->validate([
                 'nama' => 'required|string',
                 'email' => 'required|email',
-                'foto' => 'required|image|mimes:jpg,png,jpeg',
+                'foto' => 'required',
                 'tanggal_lahir' => 'required|date',
                 'jenis_kelamin' => 'required',
                 'kegiatan' => 'required',
@@ -187,6 +212,10 @@ class FormInstructur extends Component
                 'dokumen' => 'required|mimes:jpg,png,jpeg,pdf|max:2024',
                 'alasan' => 'required|string',
             ]);
+        }
+
+        if ($this->foto_temp) {
+            $this->foto = $this->foto_temp;
         }
 
         // get user id
@@ -227,8 +256,8 @@ class FormInstructur extends Component
         $db->set([
             'name' => $this->nama,
             'phoneNumber' => $this->telepon,
+            'photoUrl' => $firebase_storage_path_profile . $profile,
             'profile' => [
-                'foto' => $firebase_storage_path_profile . $profile,
                 'dokumen_cv' => $firebase_storage_path_cv . $document,
                 'tanggal_lahir' => $this->tanggal_lahir,
                 'jenis_kelamin' => $this->jenis_kelamin,

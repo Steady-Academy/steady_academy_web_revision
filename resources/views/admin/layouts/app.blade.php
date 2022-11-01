@@ -15,9 +15,11 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
 
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&amp;display=swap" rel="stylesheet">
+	<link rel="stylesheet"
+		href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
 
-	<link class="js-stylesheet" rel="stylesheet" href="https://3f6b-103-158-96-68.ap.ngrok.io/assets-admin/css/light.css">
-	<link rel="stylesheet" href="https://3f6b-103-158-96-68.ap.ngrok.io/assets-admin/css/custom.css">
+	<link class="js-stylesheet" rel="stylesheet" href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/css/light.css">
+	<link rel="stylesheet" href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/css/custom.css">
 	{{-- <link class="js-stylesheet" href="{{ asset('assets-admin/css/light.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}"> --}}
 	<!-- END SETTINGS -->
@@ -44,7 +46,7 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 	{{-- <script src="{{ asset('assets-admin/js/app.js') }}"></script> --}}
-	<script src="https://3f6b-103-158-96-68.ap.ngrok.io/assets-admin/js/app.js"></script>
+	<script src="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/js/app.js"></script>
 
 	{{-- <script src="{{ asset('compiled/manifest.js') }}"></script>
 	<script src="{{ asset('compiled/vendor.js') }}"></script> --}}

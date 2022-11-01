@@ -13,7 +13,7 @@ class User extends Authenticatable
 
 
     protected $fillable = [
-        'displayName', 'email', 'localId', 'phoneNumber', 'role'
+        'displayName', 'email', 'localId', 'phoneNumber', 'role', 'photoUrl'
     ];
 
     public function getAuthIdentifierName()

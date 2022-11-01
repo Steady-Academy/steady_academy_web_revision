@@ -36,7 +36,7 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Users</li>
-				<li class="breadcrumb-item active" aria-current="page">Students</li>
+				<li class="breadcrumb-item active" aria-current="page">Admin</li>
 			</ol>
 		</nav>
 		@if (session('message'))
@@ -88,21 +88,16 @@
 											<tr>
 												<th class="sorting sorting_asc" tabindex="0" aria-controls="datatables-column-search-text-inputs"
 													rowspan="1" colspan="1" aria-sort="ascending" aria-label="Nama: activate to sort column descending"
-													style="width: 179px;">Akun</th>
+													style="width: 179px;">Nama</th>
 												<th class="sorting" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Telepon: activate to sort column ascending" style="width: 179px;">Telepon</th>
+													colspan="1" aria-label="Email: activate to sort column ascending" style="width: 179px;">Email</th>
 												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Terakhir Login: activate to sort column ascending" style="width: 179px;">Terakhir
-													Login
+													colspan="1" aria-label="Phone Number: activate to sort column ascending" style="width: 179px;">Telepon
 												</th>
 												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
 													colspan="1" aria-label="Provider: activate to sort column ascending" style="width: 179px;">Provider</th>
 												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Tanggal dibuat: activate to sort column ascending" style="width: 179px;">Tanggal
-													dibuat
-												</th>
-												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="aksi: activate to sort column ascending" style="width: 179px;">Aksi</th>
+													colspan="1" aria-label="Provider: activate to sort column ascending" style="width: 179px;">Aksi</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -111,19 +106,16 @@
 										<tfoot>
 											<tr>
 												<th rowspan="1" colspan="1">
-													<input type="text" class="form-control" placeholder="Search Akun">
+													<input type="text" class="form-control" placeholder="Search Name">
 												</th>
 												<th rowspan="1" colspan="1">
-													<input type="text" class="form-control" placeholder="Search Telepon">
+													<input type="text" class="form-control" placeholder="Search Email">
 												</th>
 												<th rowspan="1" colspan="1">
-													<input type="text" class="form-control" placeholder="Search Terakhir Login">
+													<input type="text" class="form-control" placeholder="Search Phone Number">
 												</th>
 												<th rowspan="1" colspan="1">
 													<input type="text" class="form-control" placeholder="Search Provider">
-												</th>
-												<th rowspan="1" colspan="1">
-													<input type="text" class="form-control" placeholder="Search Tanggal dibuat">
 												</th>
 												<th rowspan="1" colspan="1">
 													<input type="text" class="form-control d-none" placeholder="Search Action">
@@ -143,7 +135,7 @@
 @push('custom-script')
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-	<script src="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/js/page/dataTableStudent.js"></script>
+	<script src="https://66a6-180-245-162-50.ap.ngrok.io/assets-admin/js/page/dataTableAdmin.js"></script>
 
 	<script>
 		document.onreadystatechange = function() {

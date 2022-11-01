@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Yajra\DataTables\DataTables;
+use GuzzleHttp\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route::get('user-data', function () {
+//     $client = new Client();
+//     $res = $client->request('GET', 'https://avatars.dicebear.com/api/human/:seed.svg');
+//     $decode = json_decode($res->getBody());
+//     dd($decode);
+// });
+
+
+
 Route::get('/', function () {
     return view('welcome');
 })->name('landing');
@@ -24,7 +35,7 @@ Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, '
 Route::post('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify'])->name('send.email')->middleware('fireauth');
 Route::post('login/{provider}/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleCallback']);
 Route::get('steadyacademy/admin/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'showLoginForm']);
-Route::post('steadyacademy/admin/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'login'])->name('admin.login');
+Route::post('steadyacademy/admin/login', [App\Http\Controllers\Admin\Auth\LoginController::class, 'loginAdmin'])->name('admin.login');
 
 Route::resource('/password/reset', App\Http\Controllers\Auth\ResetController::class);
 
@@ -42,9 +53,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', function () {
             return view('admin.dashboard');
         })->name('dashboard');
-        Route::get('users/student', function () {
-            return view('admin.users.student.index');
-        })->name('users.student.index');
+        Route::resource('users/student', App\Http\Controllers\Admin\StudentController::class);
+        Route::resource('users/instructur', App\Http\Controllers\Admin\InstructurController::class);
+        Route::resource('users/admin', App\Http\Controllers\Admin\AdminController::class);
     });
 });
 

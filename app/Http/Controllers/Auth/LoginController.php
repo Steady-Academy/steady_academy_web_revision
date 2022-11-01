@@ -63,19 +63,21 @@ class LoginController extends Controller
             $db = app('firebase.firestore')->database();
             $snapshot = $db->collection('Users')->document($loginuid)->snapshot();
 
-            if ($snapshot->data()['role'] == 'Student' || $snapshot->data()['role'] == 'Admin') {
-                Session::flush();
-                return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
-            }
-            $result = Auth::login($user);
-            $userDetails = app('firebase.auth')->getUser($loginuid);
+            if ($snapshot->data()['role'] == 'Instruktur') {
+                $result = Auth::login($user);
+                $userDetails = app('firebase.auth')->getUser($loginuid);
 
-            // update user data
-            $db_users = app('firebase.firestore')->database()->collection('Users')->document($loginuid);
-            $db_users->update([
-                ['path' => 'login_at', 'value' => Carbon::now()->toDayDateTimeString()]
-            ]);
-            return redirect()->route('form.instructur');
+                // update user data
+                $db_users = app('firebase.firestore')->database()->collection('Users')->document($loginuid);
+                $db_users->update([
+                    ['path' => 'login_at', 'value' => Carbon::now()->toDayDateTimeString()]
+                ]);
+                return redirect()->route('form.instructur');
+            }
+
+
+            Session::flush();
+            return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
         } catch (FirebaseException $e) {
             Session::flash('error', 'email atau password salah!');
             throw ValidationException::withMessages([$this->username() => [trans('auth.failed')],]);
@@ -95,6 +97,7 @@ class LoginController extends Controller
             $user->displayName = $verifiedIdToken->claims()->get('name');
             $user->email = $verifiedIdToken->claims()->get('email');
             $user->localId = $verifiedIdToken->claims()->get('user_id');
+            $user->photoUrl = $verifiedIdToken->claims()->get('picture');
             $uid = $user->localId;
             // adding user data
             $db = app('firebase.firestore')->database();
@@ -102,15 +105,19 @@ class LoginController extends Controller
             if (!$snapshot->exists()) {
                 $db = app('firebase.firestore')->database()->collection('Users')->document($uid);
                 $db->set([
+                    'uid' => $uid,
                     'name' => $user->displayName,
+                    'photoUrl' => $user->photoUrl,
+                    'email' => $user->email,
                     'role' => 'Instruktur',
                     'provider' => 'Google',
                     'login_at' => Carbon::now()->toDayDateTimeString(),
                     'phoneNumber' => null,
                     'registered' => false,
                     'is_confirmed' => false,
+                    'created_at' => Carbon::now()->toDayDateTimeString(),
                 ]);
-            } else if ($snapshot->data()['role'] == 'Student' || 'Admin') {
+            } else if ($snapshot->data()['role'] == 'Student' || $snapshot->data()['role'] == 'Admin') {
                 Session::flush();
                 return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
             }
