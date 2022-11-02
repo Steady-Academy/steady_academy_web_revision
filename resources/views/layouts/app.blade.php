@@ -9,9 +9,8 @@
 
 	{{-- style for ngrok --}}
 
-	<link rel="stylesheet" href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-user/vendor/font-awesome/css/all.min.css">
-	<link rel="stylesheet"
-		href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
+	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/vendor/font-awesome/css/all.min.css">
+	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
 
 
 
@@ -23,8 +22,8 @@
 
 	@stack('custom-styles')
 	@livewireStyles
-	<link rel="stylesheet" href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-user/css/style.css">
-	<link rel="stylesheet" href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-user/css/custom.css">
+	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/css/style.css">
+	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/css/custom.css">
 
 
 </head>
@@ -41,11 +40,10 @@
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
 		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-	<script src="https://c1e2-125-164-16-170.ap.ngrok.io/assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js">
-	</script>
+	<script src="{{ env('URL_NGROK') }}/assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	@livewireScripts
 	@stack('custom-scripts')
-	<script src="https://c1e2-125-164-16-170.ap.ngrok.io/assets-user/js/functions.js"></script>
+	<script src="{{ env('URL_NGROK') }}/assets-user/js/functions.js"></script>
 	{{-- Default script --}}
 	{{-- <script src="{{ asset('assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 	<script src="{{ asset('assets-user/js/functions.js') }}"></script> --}}

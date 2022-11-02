@@ -24,16 +24,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 "name": 'name'
             },
             {
-                "data": 'email',
-                "name": 'email'
+                "data": 'phoneNumber',
+                "name": 'phoneNumber'
             },
             {
-                "data": 'phoneNumber',
-                "name": 'phoneNUmber',
+                "data": 'login_at',
+                "name": 'login_at',
             },
             {
                 "data": 'provider',
                 "name": 'provider',
+            },
+            {
+                "data": 'created_at',
+                "name": 'created_at',
             },
             {
                 "data": 'action',

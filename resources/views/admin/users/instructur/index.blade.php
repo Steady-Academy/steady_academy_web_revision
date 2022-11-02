@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Data Students | Steady Academy')
+@section('title', 'Data Instructurs | Steady Academy')
 @push('custom-style')
 	<style>
 		div.dataTables_wrapper div.dataTables_processing {
@@ -31,7 +31,7 @@
 @endpush
 @section('content')
 	<div class="container-fluid p-0">
-		<h1 class="mb-3">Data Students</h1>
+		<h1 class="mb-3">Data Instructurs</h1>
 		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
@@ -88,16 +88,21 @@
 											<tr>
 												<th class="sorting sorting_asc" tabindex="0" aria-controls="datatables-column-search-text-inputs"
 													rowspan="1" colspan="1" aria-sort="ascending" aria-label="Nama: activate to sort column descending"
-													style="width: 179px;">Nama</th>
+													style="width: 179px;">Akun</th>
 												<th class="sorting" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Email: activate to sort column ascending" style="width: 179px;">Email</th>
+													colspan="1" aria-label="Telepon: activate to sort column ascending" style="width: 179px;">Telepon</th>
 												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Phone Number: activate to sort column ascending" style="width: 179px;">Telepon
+													colspan="1" aria-label="Terakhir Login: activate to sort column ascending" style="width: 179px;">Terakhir
+													Login
 												</th>
 												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
 													colspan="1" aria-label="Provider: activate to sort column ascending" style="width: 179px;">Provider</th>
 												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-													colspan="1" aria-label="Provider: activate to sort column ascending" style="width: 179px;">Aksi</th>
+													colspan="1" aria-label="Tanggal dibuat: activate to sort column ascending" style="width: 179px;">Tanggal
+													dibuat
+												</th>
+												<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
+													colspan="1" aria-label="aksi: activate to sort column ascending" style="width: 179px;">Aksi</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -106,16 +111,19 @@
 										<tfoot>
 											<tr>
 												<th rowspan="1" colspan="1">
-													<input type="text" class="form-control" placeholder="Search Name">
+													<input type="text" class="form-control" placeholder="Search Akun">
 												</th>
 												<th rowspan="1" colspan="1">
-													<input type="text" class="form-control" placeholder="Search Email">
+													<input type="text" class="form-control" placeholder="Search Telepon">
 												</th>
 												<th rowspan="1" colspan="1">
-													<input type="text" class="form-control" placeholder="Search Phone Number">
+													<input type="text" class="form-control" placeholder="Search Terakhir Login">
 												</th>
 												<th rowspan="1" colspan="1">
 													<input type="text" class="form-control" placeholder="Search Provider">
+												</th>
+												<th rowspan="1" colspan="1">
+													<input type="text" class="form-control" placeholder="Search Tanggal dibuat">
 												</th>
 												<th rowspan="1" colspan="1">
 													<input type="text" class="form-control d-none" placeholder="Search Action">
@@ -135,7 +143,7 @@
 @push('custom-script')
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-	<script src="https://66a6-180-245-162-50.ap.ngrok.io/assets-admin/js/page/dataTableInstructur.js"></script>
+	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableInstructur.js"></script>
 
 	<script>
 		document.onreadystatechange = function() {
@@ -154,11 +162,11 @@
 		};
 	</script>
 
-	{{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-	{{-- <script type="text/javascript">
+	<script type="text/javascript">
 		function confirmDelete(username) {
-			var form = $('#data-' + username);
+			var form = $('#data-delete-' + username);
 			const swalWithBootstrapButtons = Swal.mixin({
 				customClass: {
 					confirmButton: 'btn btn-danger mx-2',
@@ -168,8 +176,8 @@
 			})
 
 			swalWithBootstrapButtons.fire({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
+				title: 'kamu yakin?',
+				text: "Jika anda menghapus anda tidak bisa mengembalikan data tersebut.",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonText: 'Yes, delete it!',
@@ -178,8 +186,8 @@
 			}).then((result) => {
 				if (result.isConfirmed) {
 					swalWithBootstrapButtons.fire(
-						'Deleted!',
-						'Your file has been deleted.',
+						'Terhapus!',
+						'Data berhasil dihapus.',
 						'success'
 					)
 					form.submit();
@@ -188,12 +196,92 @@
 					result.dismiss === Swal.DismissReason.cancel
 				) {
 					swalWithBootstrapButtons.fire(
-						'Cancelled',
-						'The record are save',
+						'Dibatalkan',
+						'Data tetap tersimpan',
 						'error'
 					)
 				}
 			})
 		}
-	</script> --}}
+	</script>
+	<script>
+		function confirmDisable(username) {
+			var form = $('#data-disable-' + username);
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-danger mx-2',
+					cancelButton: 'btn btn-dark mx-2'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah anda yakin?',
+				text: "Pengguna tidak akan bisa mengakses akunnya!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Bisukan!',
+				cancelButtonText: 'Tidak, Batalkan!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					swalWithBootstrapButtons.fire(
+						'Dibisukan!',
+						'Pengguna berhasil dibisukan',
+						'success'
+					)
+					form.submit();
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Dibatalkan',
+						'Data tetap tersimpan',
+						'error'
+					)
+				}
+			})
+		}
+	</script>
+	<script>
+		function confirmEnable(username) {
+			var form = $('#data-enable-' + username);
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-danger mx-2',
+					cancelButton: 'btn btn-dark mx-2'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah anda yakin?',
+				text: "Pengguna akan aktif kembali!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Aktifkan!',
+				cancelButtonText: 'Tidak, Batalkan!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					swalWithBootstrapButtons.fire(
+						'Diaktifkan!',
+						'Pengguna berhasil diaktifkan',
+						'success'
+					)
+					form.submit();
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Dibatalkan',
+						'Data tetap tersimpan',
+						'error'
+					)
+				}
+			})
+		}
+	</script>
 @endpush

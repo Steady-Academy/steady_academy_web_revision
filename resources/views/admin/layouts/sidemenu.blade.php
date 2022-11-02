@@ -13,25 +13,6 @@
 				</a>
 			</li>
 			<li class="sidebar-header">Data</li>
-			{{-- <li class="sidebar-item {{ request()->is('admin/users*') ? 'active' : '' }}">
-				<a href="#" class="sidebar-link {{ request()->is('admin/users*') ? '' : 'collapsed' }}"
-					data-bs-target="#users" data-bs-toggle="collapse" aria-expanded="false">
-					<i class="align-middle" data-feather="users"></i>
-					<span class="align-middle">Users</span>
-				</a>
-				<ul id="users" class="sidebar-dropdown list-unstyled collapse {{ request()->is('admin/users*') ? 'show' : '' }}"
-					data-bs-parent="#sidebar">
-					<li class="sidebar-item {{ request()->is('admin/users/admins*') ? 'active' : '' }}">
-						<a href="{{ route('admin.admins.index') }}" class="sidebar-link">Admin</a>
-					</li>
-					<li class="sidebar-item {{ request()->is('admin/users/students*') ? 'active' : '' }}">
-						<a href="{{ route('admin.students.index') }}" class="sidebar-link">Student</a>
-					</li>
-					<li class="sidebar-item {{ request()->is('admin/users/instructors*') ? 'active' : '' }}">
-						<a href="{{ route('admin.instructors.index') }}" class="sidebar-link">Instructor</a>
-					</li>
-				</ul>
-			</li> --}}
 			<li class="sidebar-item {{ request()->is('admin/users*') ? 'active' : '' }}">
 				<a href="#" class="sidebar-link {{ request()->is('admin/users*') ? '' : 'collapsed' }}"
 					data-bs-target="#users" data-bs-toggle="collapse" aria-expanded="false">
@@ -46,7 +27,7 @@
 					<li class="sidebar-item {{ request()->is('admin/users/student*') ? 'active' : '' }}">
 						<a href="{{ route('admin.student.index') }}" class="sidebar-link">Student</a>
 					</li>
-					<li class="sidebar-item {{ request()->is('admin/users/instructur') ? 'active' : '' }}">
+					<li class="sidebar-item {{ request()->is('admin/users/instructur*') ? 'active' : '' }}">
 						<a href="{{ route('admin.instructur.index') }}" class="sidebar-link">Instructor</a>
 					</li>
 				</ul>
