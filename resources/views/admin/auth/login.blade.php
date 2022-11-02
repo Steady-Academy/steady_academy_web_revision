@@ -16,8 +16,8 @@
 	{{-- <link class="js-stylesheet" href="{{ asset('assets-admin/css/light.css') }}" rel="stylesheet">
 	<script src="{{ asset('assets-admin/js/settings.js') }}"></script> --}}
 
-	<link class="js-stylesheet" rel="stylesheet" href="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/css/light.css">
-	{{-- <script src="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/js/settings.js"></script> --}}
+	<link class="js-stylesheet" rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-admin/css/light.css">
+	{{-- <script src="{{ env('URL_NGROK') }}/assets-admin/js/settings.js"></script> --}}
 
 	<!-- Include script -->
 	{!! htmlScriptTagJsApi() !!}
@@ -93,7 +93,7 @@
 		</main>
 	</div>
 	{{-- <script src="{{ asset('assets-admin/js/app.js') }}"></script> --}}
-	<script src="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/js/app.js"></script>
+	<script src="{{ env('URL_NGROK') }}/assets-admin/js/app.js"></script>
 </body>
 
 </html>

@@ -26,6 +26,7 @@
         "laravelcollective/html": "^6.2",
         "lcobucci/jwt": "^4.0",
         "livewire/livewire": "^2.10",
+        "realrashid/sweet-alert": "^5.1",
         "yajra/laravel-datatables": "^1.0"
     },
     "require-dev": {

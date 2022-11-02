@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\InstructurController;
 use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\DataTables;
 use GuzzleHttp\Client;
+use App\Http\Controllers\Admin\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,8 +55,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', function () {
             return view('admin.dashboard');
         })->name('dashboard');
-        Route::resource('users/student', App\Http\Controllers\Admin\StudentController::class);
-        Route::resource('users/instructur', App\Http\Controllers\Admin\InstructurController::class);
+        Route::resource('users/student', StudentController::class, ['except' => ['create', 'store']]);
+        Route::put('users/student/{student}/enable', [StudentController::class, 'enable'])->name('student.enable');
+        Route::put('users/student/{student}/disable', [StudentController::class, 'disabled'])->name('student.disable');
+        Route::resource('users/instructur', InstructurController::class, ['except' => ['create', 'store']]);
+        Route::put('users/instructur/{instructur}/enable', [InstructurController::class, 'enable'])->name('instructur.enable');
+        Route::put('users/instructur/{instructur}/disable', [InstructurController::class, 'disabled'])->name('instructur.disable');
         Route::resource('users/admin', App\Http\Controllers\Admin\AdminController::class);
     });
 });

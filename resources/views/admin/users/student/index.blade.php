@@ -143,7 +143,7 @@
 @push('custom-script')
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-	<script src="https://c1e2-125-164-16-170.ap.ngrok.io/assets-admin/js/page/dataTableStudent.js"></script>
+	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableStudent.js"></script>
 
 	<script>
 		document.onreadystatechange = function() {
@@ -162,11 +162,11 @@
 		};
 	</script>
 
-	{{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-	{{-- <script type="text/javascript">
+	<script type="text/javascript">
 		function confirmDelete(username) {
-			var form = $('#data-' + username);
+			var form = $('#data-delete-' + username);
 			const swalWithBootstrapButtons = Swal.mixin({
 				customClass: {
 					confirmButton: 'btn btn-danger mx-2',
@@ -176,8 +176,8 @@
 			})
 
 			swalWithBootstrapButtons.fire({
-				title: 'Are you sure?',
-				text: "You won't be able to revert this!",
+				title: 'kamu yakin?',
+				text: "Jika anda menghapus anda tidak bisa mengembalikan data tersebut.",
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonText: 'Yes, delete it!',
@@ -186,8 +186,8 @@
 			}).then((result) => {
 				if (result.isConfirmed) {
 					swalWithBootstrapButtons.fire(
-						'Deleted!',
-						'Your file has been deleted.',
+						'Terhapus!',
+						'Data berhasil dihapus.',
 						'success'
 					)
 					form.submit();
@@ -196,12 +196,92 @@
 					result.dismiss === Swal.DismissReason.cancel
 				) {
 					swalWithBootstrapButtons.fire(
-						'Cancelled',
-						'The record are save',
+						'Dibatalkan',
+						'Data tetap tersimpan',
 						'error'
 					)
 				}
 			})
 		}
-	</script> --}}
+	</script>
+	<script>
+		function confirmDisable(username) {
+			var form = $('#data-disable-' + username);
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-danger mx-2',
+					cancelButton: 'btn btn-dark mx-2'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah anda yakin?',
+				text: "Pengguna tidak akan bisa mengakses akunnya!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Bisukan!',
+				cancelButtonText: 'Tidak, Batalkan!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					swalWithBootstrapButtons.fire(
+						'Dibisukan!',
+						'Student berhasil dibisukan',
+						'success'
+					)
+					form.submit();
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Dibatalkan',
+						'Data tetap tersimpan',
+						'error'
+					)
+				}
+			})
+		}
+	</script>
+	<script>
+		function confirmEnable(username) {
+			var form = $('#data-enable-' + username);
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-danger mx-2',
+					cancelButton: 'btn btn-dark mx-2'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah anda yakin?',
+				text: "Pengguna akan aktif kembali!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Aktifkan!',
+				cancelButtonText: 'Tidak, Batalkan!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					swalWithBootstrapButtons.fire(
+						'Diaktifkan!',
+						'Student berhasil diaktifkan',
+						'success'
+					)
+					form.submit();
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Dibatalkan',
+						'Data tetap tersimpan',
+						'error'
+					)
+				}
+			})
+		}
+	</script>
 @endpush

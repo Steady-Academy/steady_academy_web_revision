@@ -4,6 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Kreait\Firebase\Factory;
+use Kreait\Firebase\ServiceAccount;
+use Kreait\Firebase\Auth;
+use Kreait\Auth\Request\UpdateUser;
+use Kreait\Firebase\Exception\FirebaseException;
+use RealRashid\SweetAlert\Facades\Alert;
+
+use Carbon\Carbon;
+
 
 class AdminController extends Controller
 {
@@ -14,6 +24,7 @@ class AdminController extends Controller
      */
     public function index(Request $request)
     {
+
         if ($request->ajax()) {
             $admin = app('firebase.firestore')->database();
             $users = $admin->collection('Users');
@@ -28,44 +39,36 @@ class AdminController extends Controller
 
             return DataTables::of($data)
                 ->addIndexColumn()
-                ->addColumn('action', function ($data) {
-                    $actionBtn =  '
-                <div class="d-flex gap-2">
-                <a href=' . '#' . ' class="btn btn-info"><i class="fas fa-search"></i></a>
-                <a href=' . "#" . ' class="btn btn-warning"><i class="fas fa-pencil-alt"></i></a>
-                <form method="POST" action=' . "#" . ' id="data-' . "#" . '">
-                ' . csrf_field() . '
-                <input name="_method" type="hidden" value="DELETE">
-                <button type="button" class="btn btn-danger" onclick="confirmDelete(' . '\'' . "#" . '\'' . ')" data-toggle="tooltip" title="Delete"><i class="fas fa-trash-alt"></i></button>
-                </form>
-                </div>';
-                    return $actionBtn;
+                ->editColumn('name', function ($data) {
+                    return view('admin.users.admin.partialsTable.account')->with('data', $data);
                 })
-                ->rawColumns(['action'])
+                ->addColumn('action', function ($data) {
+                    $user = app('firebase.auth')->getUser($data['uid']);
+                    return view('admin.users.admin.partialsTable.button', compact('data', 'user'));
+                })
+                ->editColumn('phoneNumber', function ($data) {
+                    if (!$data['phoneNumber']) {
+                        return $data['phoneNumber'] = "--- ---- --- ----";;
+                    } else {
+                        return $data['phoneNumber'];
+                    }
+                })
+                ->editColumn('login_at', function ($data) {
+                    $date = Carbon::parse($data['login_at'])->locale('id');
+                    $date->settings(['formatFunction' => 'translatedFormat']);
+                    $login_at = $date->format('l, j F Y  h:i a');
+                    return $login_at;
+                })
+                ->editColumn('created_at', function ($data) {
+                    $date = Carbon::parse($data['created_at'])->locale('id');
+                    $date->settings(['formatFunction' => 'translatedFormat']);
+                    $created_at = $date->format('l, j F Y  h:i a');
+                    return $created_at;
+                })
+                ->rawColumns(['name', 'action'])
                 ->make(true);
         }
         return view('admin.users.admin.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -76,40 +79,7 @@ class AdminController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $admin = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        return view('admin.users.admin.show', compact('admin'));
     }
 }

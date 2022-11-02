@@ -10,8 +10,10 @@ use Kreait\Firebase\ServiceAccount;
 use Kreait\Firebase\Auth;
 use Kreait\Auth\Request\UpdateUser;
 use Kreait\Firebase\Exception\FirebaseException;
+use RealRashid\SweetAlert\Facades\Alert;
 
 use Carbon\Carbon;
+
 
 class StudentController extends Controller
 {
@@ -22,10 +24,6 @@ class StudentController extends Controller
      */
     public function index(Request $request)
     {
-        // $test = $data->toJson();
-        // dd(DataTables::of($data));
-        // dd($data->all());
-
 
         if ($request->ajax()) {
             $students = app('firebase.firestore')->database();
@@ -45,7 +43,8 @@ class StudentController extends Controller
                     return view('admin.users.student.partialsTable.account')->with('data', $data);
                 })
                 ->addColumn('action', function ($data) {
-                    return view('admin.users.student.partialsTable.button')->with('data', $data);
+                    $user = app('firebase.auth')->getUser($data['uid']);
+                    return view('admin.users.student.partialsTable.button', compact('data', 'user'));
                 })
                 ->editColumn('phoneNumber', function ($data) {
                     if (!$data['phoneNumber']) {
@@ -93,7 +92,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        //
+        $student = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        return view('admin.users.student.show', compact('student'));
     }
 
     /**
@@ -180,6 +180,7 @@ class StudentController extends Controller
                         'is_confirmed' => $validate['konfirmasi'],
                     ], ['merge' => true]);
                 }
+                toast('Berhasil mengubah ' . $validate['nama'], 'success')->padding('8px');
 
                 return redirect()->route('admin.student.index');
             } else {
@@ -188,10 +189,38 @@ class StudentController extends Controller
                     'password_confirmation_baru' => 'same:password_baru'
                 ]);
                 $updateStudent = $auth->changeUserPassword($id, $request->password_baru);
+                toast('Berhasil mengubah password', 'success');
                 return redirect()->route('admin.student.index');
             }
         } catch (\Exception $e) {
             return back()->withInput();
+        }
+    }
+
+
+    public function enable(Request $request, $id)
+    {
+
+        $updatedUser = app('firebase.auth')->enableUser($id);
+
+        if ($updatedUser) {
+            toast("Student berhasil diaktifkan", 'success');
+            return redirect()->back();
+        } else {
+            toast("Student gagal diaktifkan", 'danger');
+            return redirect()->back();
+        }
+    }
+
+    public function disabled(Request $request, $id)
+    {
+        $updatedUser = app('firebase.auth')->disableUser($id);
+        if ($updatedUser) {
+            toast("Student berhasil dinonaktifkan", 'success');
+            return redirect()->back();
+        } else {
+            toast("Student gagal dinonaktifkan", 'danger');
+            return redirect()->back();
         }
     }
 
@@ -203,6 +232,15 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $db = app('firebase.firestore')->database();
+        $db->collection('Users')->document($id)->delete();
+        if ($db) {
+            $student = app('firebase.auth')->deleteUser($id);
+            toast("Student berhasil dihapus", 'success');
+            return redirect()->back();
+        } else {
+            toast("Student gagal dihapus", 'danger');
+            return redirect()->back();
+        }
     }
 }
