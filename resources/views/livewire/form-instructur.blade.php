@@ -61,7 +61,7 @@
 								<div class="mb-3">
 									<label for="email" class="form-label">Email</label>
 									<input type="email" class="form-control form-control-md @error('email') is-invalid @enderror"
-										wire:model="email" placeholder="Masukkan Email" value="{{ old('email') }}" required>
+										wire:model="email" placeholder="Masukkan Email" value="{{ old('email') }}" disabled required>
 									@error('email')
 										<div class="error-message">
 											{{ $message }}
@@ -72,9 +72,13 @@
 									<label for="foto" class="form-label">Foto Profil</label>
 									<div class="mb-3 col-sm-3">
 										<div
-											class="foto justify-content-center text-center p-4 p-sm-5 border border-2 border-dashed position-relative rounded-4">
-											@if ($foto)
-												<img id="profile" src="{{ $foto->temporaryUrl() }}" class="mb-3 rounded-circle" width="150"
+											class="foto justify-content-center text-center p-4 p-sm-5 border border-2 border-dashed position-relative rounded-4 d-grid">
+											@if ($foto_temp)
+												<img id="profile" src="{{ $foto_temp->temporaryUrl() }}"
+													class="mb-3 rounded-circle border-dark border border-3 border-secondary" width="150" alt="">
+											@elseif ($foto)
+												<img id="profile" src="{{ $foto }}"
+													class="mb-3 rounded-circle border-dark border-dark border border-3 border-secondary" width="150"
 													alt="">
 											@endif
 											<div wire:loading wire:target="foto">
@@ -82,10 +86,16 @@
 													<span class="visually-hidden">Loading...</span>
 												</div>
 											</div>
+											<div wire:loading wire:target="foto_temp">
+												<div class="spinner-border text-primary" role="status">
+													<span class="visually-hidden">Loading...</span>
+												</div>
+											</div>
 										</div>
 										<label for="foto" class="form-label" style="cursor: pointer;">
 											<input type="file" class="form-control form-control-sm mt-3 @error('foto') is-invalid @enderror"
-												wire:model="foto" name="foto" id="foto" accept="image/png, image/jpg, image/jpeg" required>
+												wire:model="{{ $foto_temp == '' ? 'foto_temp' : 'foto' }}" name="foto" id="foto"
+												accept="image/png, image/jpg, image/jpeg, image/svg" required>
 										</label>
 									</div>
 
@@ -397,8 +407,14 @@
 											<div class="row justify-content-center">
 												<div class="col-12 my-3">
 													<p class="fw-bold">Foto Profil</p>
-													@if ($foto)
-														<img src="{{ $foto->temporaryUrl() }}" class="rounded-circle" width="150" alt="">
+													@if ($foto_temp)
+														<img id="profile" src="{{ $foto_temp->temporaryUrl() }}"
+															class="mb-3 rounded-circle border-dark border border-3 border-secondary" width="150"
+															alt="">
+													@elseif ($foto)
+														<img id="profile" src="{{ $foto }}"
+															class="mb-3 rounded-circle border-dark border border-3 border-secondary" width="150"
+															alt="">
 													@endif
 												</div>
 												<div class="col-12 my-3">

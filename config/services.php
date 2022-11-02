@@ -36,4 +36,9 @@ return [
         'database_url' => 'https://database_url.com/',
         'storage_bucket' => '', // Only used from JS integration
     ],
+
+    'recaptcha' => [
+        'site_key' => env('RECAPTCHA_V2_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_V2_SECRET_KEY'),
+    ]
 ];

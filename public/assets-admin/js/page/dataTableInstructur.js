@@ -6,10 +6,13 @@ document.addEventListener("DOMContentLoaded", function() {
         $(this).html('<input type="text" class="form-control" placeholder="Search ' + title + '" />');
 
     });
-
     // DataTables
     var table = $('#datatables-column-search-text-inputs').DataTable({
         "order": [],
+        "language" : {
+
+            "processing": '<div class="progress text-center" style="height: 10px;"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"aria-label="Animated striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"style="width: 100%;"></div></div>',
+        },
         "responsive": true,
         "scrollX": true,
         "processing": true,
@@ -17,24 +20,20 @@ document.addEventListener("DOMContentLoaded", function() {
         "ajax": window.location.href,
         "lengthChange": false,
         "columns": [{
-                "data": 'full_name',
-                "name": 'full_name'
-            },
-            {
-                "data": 'username',
-                "name": 'username'
+                "data": 'name',
+                "name": 'name'
             },
             {
                 "data": 'email',
                 "name": 'email'
             },
             {
-                "data": 'status',
-                "name": 'status'
+                "data": 'phoneNumber',
+                "name": 'phoneNUmber',
             },
             {
-                "data": 'created_at',
-                "name": 'created_at'
+                "data": 'provider',
+                "name": 'provider',
             },
             {
                 "data": 'action',
@@ -42,8 +41,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 "orderable": false,
                 "searchable": false
             }
-        ]
+        ],
+
     });
+
 
 
     // Apply the search
@@ -57,5 +58,17 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
-    $('.col-sm-12.col-md-6').first().append($('.button'))
+
+    setInterval( function () {
+        table.ajax.reload();
+    }, 30000 );
+
+    $('.col-sm-12.col-md-6').first().append($('#add'))
+    $('#add>button').click(function refreshData() {
+        table.ajax.reload(null, true);
+    });
+		$('.col-sm-12.col-md-6:eq(1)').addClass("my-auto");
+		$('.loading').appendTo('.col-sm-12>#datatables-column-search-text-inputs_wrapper>.row:eq(0)').first();
+		$('.loading').append($('div.dataTables_processing'));
+
 });

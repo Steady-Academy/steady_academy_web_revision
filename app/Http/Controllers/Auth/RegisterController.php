@@ -14,6 +14,7 @@ use Kreait\Firebase\Auth as FirebaseAuth;
 use Kreait\Firebase\Exception\FirebaseException;
 use Illuminate\Validation\ValidationException;
 use Session;
+use Carbon\Carbon;
 
 class RegisterController extends Controller
 {
@@ -48,13 +49,14 @@ class RegisterController extends Controller
             'nama' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'telepon' => ['required', 'digits_between:11,13', 'min:11'],
-            'password' => ['required', 'string', 'min:8', 'max:12', 'confirmed'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
     protected function register(Request $request)
     {
         try {
             $this->validator($request->all())->validate();
+
             $userProperties = [
                 'email' => $request->input('email'),
                 'emailVerified' => false,
@@ -62,18 +64,23 @@ class RegisterController extends Controller
                 'displayName' => $request->input('nama'),
                 'telepon' => $request->input('telepon'),
                 'disabled' => false,
+                'photoUrl' => 'https://avatars.dicebear.com/api/human/' . str_replace(' ', '_', $request->input('nama')) . '.svg?b=white&r=50&size=150',
             ];
 
             $createdUser = $this->auth->createUser($userProperties);
 
             $db = app('firebase.firestore')->database()->collection('Users')->document($createdUser->uid);
             $db->set([
+                'uid' => $createdUser->uid,
                 'name' => $createdUser->displayName,
+                'photoUrl' => 'https://avatars.dicebear.com/api/human/' . str_replace(' ', '_', $request->input('nama')) . '.svg?b=white&r=50&size=150',
+                'email' => $request->input('email'),
                 'role' => 'Instruktur',
                 'phoneNumber' => $request->input('telepon'),
                 'provider' => 'Email dan password',
                 'registered' => false,
                 'is_confirmed' => false,
+                'created_at' => Carbon::now()->toDayDateTimeString(),
             ]);
 
 
