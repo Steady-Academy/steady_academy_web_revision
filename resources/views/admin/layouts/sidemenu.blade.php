@@ -32,9 +32,9 @@
 					</li>
 				</ul>
 			</li>
-			<li class="sidebar-item">
-				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="tool"></i> <span class="align-middle">Roles</span>
+			<li class="sidebar-item {{ request()->is('admin/instructur/request*') ? 'active' : '' }}">
+				<a class="sidebar-link" href="{{ route('admin.request.index') }}">
+					<i class="align-middle" data-feather="send"></i> <span class="align-middle">Permintaan</span>
 				</a>
 			</li>
 			<li class="sidebar-item ">

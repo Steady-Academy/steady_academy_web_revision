@@ -73,13 +73,15 @@
 									<div class="mb-3 col-sm-3">
 										<div
 											class="foto justify-content-center text-center p-4 p-sm-5 border border-2 border-dashed position-relative rounded-4 d-grid">
-											@if ($foto_temp)
-												<img id="profile" src="{{ $foto_temp->temporaryUrl() }}"
-													class="mb-3 rounded-circle border-dark border border-3 border-secondary" width="150" alt="">
-											@elseif ($foto)
+											@if ($foto_temp == null)
 												<img id="profile" src="{{ $foto }}"
 													class="mb-3 rounded-circle border-dark border-dark border border-3 border-secondary" width="150"
 													alt="">
+											@else
+												@if ($foto_temp)
+													<img id="profile" src="{{ $foto_temp->temporaryUrl() }}"
+														class="mb-3 rounded-circle border-dark border border-3 border-secondary" width="150" alt="">
+												@endif
 											@endif
 											<div wire:loading wire:target="foto">
 												<div class="spinner-border text-primary" role="status">
@@ -99,13 +101,14 @@
 										</label>
 									</div>
 
+
 									@error('foto')
 										<div class="error-message">
 											{{ $message }}
 										</div>
 									@enderror
 								</div>
-								<div class="mb-3 col-2">
+								<div class="mb-3 col-sm-2">
 									<label for="tanggal" class="form-label">Tanggal Lahir</label>
 									<input type="date" class="form-control form-control-sm @error('tanggal_lahir') is-invalid @enderror"
 										wire:model="tanggal_lahir" value="{{ old('tanggal_lahir') }}" required>
@@ -311,7 +314,7 @@
 						@if ($currentStep == 3)
 							<div class="step-3">
 								<div class="row">
-									<div class="col-8">
+									<div class="col-sm-8">
 										<h3>Pratinjau</h3>
 										<hr>
 										<div class="mb-3">
@@ -420,7 +423,6 @@
 												<div class="col-12 my-3">
 													<p class="fw-bold">Lampiran Dokumen</p>
 													@if ($dokumen)
-														{{-- <img src="{{ $dokumen->temporaryUrl() }}" class="h-50px" alt="dokumen"> --}}
 														<iframe src="{{ $dokumen->temporaryUrl() }}" align="top" height="450" width="100%"
 															frameborder="0" scrolling="auto"></iframe>
 													@endif

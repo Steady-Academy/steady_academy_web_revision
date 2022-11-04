@@ -87,7 +87,8 @@
 
 				<!-- Nav Search START -->
 				@auth
-					@php
+
+					{{-- @php
 						$uid = Session::get('uid');
 						$user = app('firebase.auth')->getUser($uid);
 						$snapshot = app('firebase.firestore')
@@ -95,55 +96,58 @@
 						    ->collection('Users')
 						    ->document($uid)
 						    ->snapshot();
-					@endphp
-
-					<div class="dropdown ms-1 ms-lg-0">
-						<a class="fw-bold fs-6 text-dark" href="#" id="profileDropdown" type="button" data-bs-toggle="dropdown"
-							aria-expanded="false" data-bs-display="static">
-							{{ $snapshot->data()['name'] }}
-							<i class="ms-2 bi bi-caret-down-fill"></i>
-						</a>
-						<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
-							<!-- Profile info -->
-							<li class="px-3">
-								<div class="d-flex align-items-center">
-									<div>
-										<a class="h6" href="#">{{ $snapshot->data()['name'] }}d</a>
-										<p class="small m-0">{{ $user->email }}</p>
+					@endphp --}}
+					<div class="text-center my-2">
+						<div class="dropdown ms-1 ms-lg-0 ">
+							<a class="fw-bold fs-6 text-dark" href="#" id="profileDropdown" type="button" data-bs-toggle="dropdown"
+								aria-expanded="false" data-bs-display="static">
+								{{-- {{ $user['name'] }}
+								<i class="ms-2 bi bi-caret-down-fill"></i> --}}
+								<img src="{{ $user['photoUrl'] }}" class="rounded-circle border border-1 border-dark" width="40"
+									height="40" alt="{{ $user['name'] }}">
+							</a>
+							<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+								<!-- Profile info -->
+								<li class="px-3">
+									<div class="d-flex align-items-center">
+										<div>
+											<a class="h6 text-truncate" href="#">{{ Str::limit($user['name'], '30', '...') }}</a>
+											<p class="small m-0 text-truncate">{{ Str::limit($user['email'], '30', '...') }}</p>
+										</div>
 									</div>
-								</div>
-								<hr>
-							</li>
-							<!-- Links -->
+									<hr>
+								</li>
+								<!-- Links -->
 
-							@if ($snapshot->data()['registered'] == false)
-								<li><a class="dropdown-item" href="{{ route('form.instructur') }}"><i
-											class="bi bi-file-richtext fa-fw me-2"></i>Formulir
-									</a>
-								</li>
-							@else
-								<li><a class="dropdown-item" href="{{ route('instructur.dashboard') }}"><i
-											class="bi bi-person fa-fw me-2"></i>Dashboard</a>
-								</li>
-								<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Ubah Profil</a>
-								</li>
-								<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Setting Akun</a>
-								</li>
-								<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Bantuan</a>
-								</li>
-							@endif
+								@if ($user['registered'] == false)
+									<li><a class="dropdown-item" href="{{ route('form.instructur') }}"><i
+												class="bi bi-file-richtext fa-fw me-2"></i>Formulir
+										</a>
+									</li>
+								@else
+									<li><a class="dropdown-item" href="{{ route('instructur.dashboard') }}"><i
+												class="bi bi-person fa-fw me-2"></i>Dashboard</a>
+									</li>
+									<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Ubah Profil</a>
+									</li>
+									<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Setting Akun</a>
+									</li>
+									<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Bantuan</a>
+									</li>
+								@endif
 
-							<li><a class="dropdown-item bg-danger-soft-hover" href="{{ route('logout') }}"
-									onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();"><i
-										class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
-							<form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
-								@csrf
-							</form>
-						</ul>
+								<li><a class="dropdown-item bg-danger-soft-hover" href="{{ route('logout') }}"
+										onclick="event.preventDefault();
+                                                             document.getElementById('logout-form').submit();"><i
+											class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+								<form action="{{ route('logout') }}" id="logout-form" method="POST" class="d-none">
+									@csrf
+								</form>
+							</ul>
+						</div>
 					</div>
 				@else
-					<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center">
+					<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center text-center">
 						<div class="nav-item w-100">
 							<div class="login">
 								<!-- Profile START -->

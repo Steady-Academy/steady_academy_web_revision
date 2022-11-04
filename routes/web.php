@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\DataTables;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\RequestInstructurController;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +63,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('users/instructur', InstructurController::class, ['except' => ['create', 'store']]);
         Route::put('users/instructur/{instructur}/enable', [InstructurController::class, 'enable'])->name('instructur.enable');
         Route::put('users/instructur/{instructur}/disable', [InstructurController::class, 'disabled'])->name('instructur.disable');
-        Route::resource('users/admin', App\Http\Controllers\Admin\AdminController::class);
+        Route::resource('users/admin', AdminController::class);
+        Route::resource('instructur/request', RequestInstructurController::class);
+        Route::put('users/instructur/request/{instructur}/enable', [RequestInstructurController::class, 'enable'])->name('request.enable');
+        Route::put('users/instructur/request/{instructur}/disable', [RequestInstructurController::class, 'disabled'])->name('request.disable');
     });
 });
 
@@ -109,9 +114,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // if user role is instructur and is verified
 Route::prefix('instructur')->name('instructur.')->group(function () {
+    Route::view('success', 'registration-success')->name('success')->middleware(['user', 'fireauth']);
     Route::middleware(['user', 'fireauth', 'instructur'])->group(function () {
         Route::resource('profile', App\Http\Controllers\Auth\ProfileController::class);
-        Route::view('success', 'registration-success')->name('success');
         Route::get('dashboard', function () {
             return view('instructur.dashboard');
         })->name('dashboard');

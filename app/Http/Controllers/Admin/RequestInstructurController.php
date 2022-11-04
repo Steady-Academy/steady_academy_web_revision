@@ -15,7 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
 
 
-class InstructurController extends Controller
+class RequestInstructurController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,25 +26,25 @@ class InstructurController extends Controller
     {
 
         if ($request->ajax()) {
-            $instructurs = app('firebase.firestore')->database();
-            $users = $instructurs->collection('Users');
-            $query = $users->where('role', '=', 'Instruktur')->where('registered', '=', true)->where('is_confirmed', '=', true);
+            $req_instructur = app('firebase.firestore')->database();
+            $users = $req_instructur->collection('Users');
+            $query = $users->where('role', '=', 'Instruktur')->where('registered', '=', true)->where('is_confirmed', '=', false);
             $documents = $query->documents();
 
-            $instructurs = [];
+            $req_instructur = [];
             foreach ($documents as $document) {
-                array_push($instructurs, $document->data());
+                array_push($req_instructur, $document->data());
             }
-            $data = collect($instructurs);
+            $data = collect($req_instructur);
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('name', function ($data) {
-                    return view('admin.users.instructur.partialsTable.account')->with('data', $data);
+                    return view('admin.request.partialsTable.account')->with('data', $data);
                 })
                 ->addColumn('action', function ($data) {
                     $user = app('firebase.auth')->getUser($data['uid']);
-                    return view('admin.users.instructur.partialsTable.button', compact('data', 'user'));
+                    return view('admin.request.partialsTable.button', compact('data', 'user'));
                 })
                 ->editColumn('phoneNumber', function ($data) {
                     if (!$data['phoneNumber']) {
@@ -68,7 +68,7 @@ class InstructurController extends Controller
                 ->rawColumns(['name', 'action'])
                 ->make(true);
         }
-        return view('admin.users.instructur.index');
+        return view('admin.request.index');
     }
 
     protected function rules(Request $request)
@@ -92,8 +92,8 @@ class InstructurController extends Controller
      */
     public function show($id)
     {
-        $instructur = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
-        return view('admin.users.instructur.show', compact('instructur'));
+        $req_instructur = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        return view('admin.request.show', compact('req_instructur'));
     }
 
     /**
@@ -105,8 +105,8 @@ class InstructurController extends Controller
     public function edit($id)
     {
         // $uid = Session::get('uid');
-        $instructur = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
-        return view('admin.users.instructur.edit', compact('instructur'));
+        $req_instructur = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        return view('admin.request.edit', compact('req_instructur'));
     }
 
     /**
@@ -182,15 +182,15 @@ class InstructurController extends Controller
                 }
                 toast('Berhasil mengubah ' . $validate['nama'], 'success')->padding('8px');
 
-                return redirect()->route('admin.instructur.index');
+                return redirect()->route('admin.request.index');
             } else {
                 $request->validate([
                     'password_baru' => 'required|min:8',
                     'password_confirmation_baru' => 'same:password_baru'
                 ]);
-                $updateInstructur = $auth->changeUserPassword($id, $request->password_baru);
+                $updateReqRequest = $auth->changeUserPassword($id, $request->password_baru);
                 toast('Berhasil mengubah password', 'success');
-                return redirect()->route('admin.instructur.index');
+                return redirect()->route('admin.request.index');
             }
         } catch (\Exception $e) {
             return back()->withInput();
