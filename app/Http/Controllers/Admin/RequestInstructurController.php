@@ -198,49 +198,53 @@ class RequestInstructurController extends Controller
     }
 
 
-    public function enable(Request $request, $id)
+    public function approve(Request $request, $id)
     {
-
-        $updatedUser = app('firebase.auth')->enableUser($id);
-
-        if ($updatedUser) {
-            toast("Instructur berhasil diaktifkan", 'success');
-            return redirect()->back();
-        } else {
-            toast("Instructur gagal diaktifkan", 'danger');
+        $db = app('firebase.firestore')->database()->collection('Users')->document($id);
+        $approve = $db->set([
+            'is_confirmed' => true,
+        ], ['merge' => true]);
+        if ($approve) {
+            toast("User telah menjadi instructur", 'success');
             return redirect()->back();
         }
+        toast("User gagal menjadi instructur", 'success');
+        return redirect()->back();
     }
 
     public function disabled(Request $request, $id)
     {
         $updatedUser = app('firebase.auth')->disableUser($id);
         if ($updatedUser) {
+            $db = app('firebase.firestore')->database()->collection('Users')->document($id);
+            $disable = $db->set([
+                'registered' => false,
+                'is_confirmed' => false,
+            ], ['merge' => true]);
             toast("Instructur berhasil dinonaktifkan", 'success');
             return redirect()->back();
-        } else {
-            toast("Instructur gagal dinonaktifkan", 'danger');
-            return redirect()->back();
         }
+        toast("Instructur gagal dinonaktifkan", 'danger');
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $db = app('firebase.firestore')->database();
-        $db->collection('Users')->document($id)->delete();
-        if ($db) {
-            app('firebase.auth')->deleteUser($id);
-            toast("Instructur berhasil dihapus", 'success');
-            return redirect()->back();
-        } else {
-            toast("Instructur gagal dihapus", 'danger');
-            return redirect()->back();
-        }
-    }
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     $db = app('firebase.firestore')->database();
+    //     $db->collection('Users')->document($id)->delete();
+    //     if ($db) {
+    //         app('firebase.auth')->deleteUser($id);
+    //         toast("Instructur berhasil dihapus", 'success');
+    //         return redirect()->back();
+    //     } else {
+    //         toast("Instructur gagal dihapus", 'danger');
+    //         return redirect()->back();
+    //     }
+    // }
 }

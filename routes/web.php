@@ -65,7 +65,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('users/instructur/{instructur}/disable', [InstructurController::class, 'disabled'])->name('instructur.disable');
         Route::resource('users/admin', AdminController::class);
         Route::resource('instructur/request', RequestInstructurController::class);
-        Route::put('users/instructur/request/{instructur}/enable', [RequestInstructurController::class, 'enable'])->name('request.enable');
+        Route::put('users/instructur/request/{instructur}/approve', [RequestInstructurController::class, 'approve'])->name('request.approve');
         Route::put('users/instructur/request/{instructur}/disable', [RequestInstructurController::class, 'disabled'])->name('request.disable');
     });
 });
