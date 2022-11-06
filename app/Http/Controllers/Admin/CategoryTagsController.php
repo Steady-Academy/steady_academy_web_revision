@@ -13,7 +13,7 @@ use Kreait\Firebase\Exception\FirebaseException;
 use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
 
-class CategoryPriceType extends Controller
+class CategoryTagsController extends Controller
 {
     public function getSnapshot($query)
     {
@@ -46,7 +46,7 @@ class CategoryPriceType extends Controller
 
         if ($request->ajax()) {
             $category = app('firebase.firestore')->database();
-            $category_course = $category->collection('Category_price_type');
+            $category_course = $category->collection('Category_tags');
             $query = $category_course->orderBy('created_at', 'DESC');
             $snapshot = $this->getSnapshot($query);
             $data = json_decode($snapshot);
@@ -55,7 +55,7 @@ class CategoryPriceType extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($data) {
-                    return view('admin.categories.price_type.partialsTable.button', compact('data'));
+                    return view('admin.categories.tags.partialsTable.button', compact('data'));
                 })
                 ->editColumn('created_at', function ($data) {
                     $date = Carbon::parse($data->created_at);
@@ -72,7 +72,7 @@ class CategoryPriceType extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-        return view('admin.categories.price_type.index');
+        return view('admin.categories.tags.index');
     }
 
     /**
@@ -82,7 +82,7 @@ class CategoryPriceType extends Controller
      */
     public function create()
     {
-        return view('admin.categories.price_type.create');
+        return view('admin.categories.tags.create');
     }
 
     /**
@@ -94,25 +94,23 @@ class CategoryPriceType extends Controller
     public function store(Request $request)
     {
         $validate = $request->validate([
-            'nama_tipe_harga' => 'required|string|max:50',
-            'deskripsi_tipe_harga' => 'required|string|max:255',
+            'nama_tags' => 'required|string|max:50',
         ]);
-        $db = app('firebase.firestore')->database()->collection('Category_price_type')->newDocument();
+        $db = app('firebase.firestore')->database()->collection('Category_tags')->newDocument();
         $date = Carbon::now();
         $create = $db->set([
             'id' => $db->id(),
-            'name' => $validate['nama_tipe_harga'],
-            'description' => $validate['deskripsi_tipe_harga'],
+            'name' => $validate['nama_tags'],
             'created_at' => new \Google\Cloud\Core\Timestamp($date),
             'updated_at' => new \Google\Cloud\Core\Timestamp($date),
         ]);
 
         if ($create) {
-            toast('Berhasil menambahkan tipe harga ' . $validate['nama_tipe_harga'], 'success')->padding('8px');
-            return redirect()->route('admin.tipe_harga.index');
+            toast('Berhasil menambahkan tags ' . $validate['nama_tags'], 'success')->padding('8px');
+            return redirect()->route('admin.tags.index');
         }
-        toast('Gagal menambahkan tipe harga ' . $validate['nama_tipe_harga'], 'danger')->padding('8px');
-        return redirect()->route('admin.tipe_harga.index');
+        toast('Gagal menambahkan tags ' . $validate['nama_tags'], 'danger')->padding('8px');
+        return redirect()->route('admin.tags.index');
     }
 
 
@@ -124,8 +122,8 @@ class CategoryPriceType extends Controller
      */
     public function edit($id)
     {
-        $price_type = app('firebase.firestore')->database()->collection('Category_price_type')->document($id)->snapshot();
-        return view('admin.categories.price_type.edit', compact('price_type'));
+        $tags = app('firebase.firestore')->database()->collection('Category_tags')->document($id)->snapshot();
+        return view('admin.categories.tags.edit', compact('tags'));
     }
 
     /**
@@ -138,25 +136,23 @@ class CategoryPriceType extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'nama_tipe_harga' => 'required|string|max:50',
-            'deskripsi_tipe_harga' => 'required|string|max:255',
+            'nama_tags' => 'required|string|max:50',
         ]);
 
-        $db = app('firebase.firestore')->database()->collection('Category_price_type')->document($id);
+        $db = app('firebase.firestore')->database()->collection('Category_tags')->document($id);
 
         $create = $db->set([
             'id' => $db->id(),
-            'name' => $validate['nama_tipe_harga'],
-            'description' => $validate['deskripsi_tipe_harga'],
+            'name' => $validate['nama_tags'],
             'updated_at' => new \Google\Cloud\Core\Timestamp(Carbon::now()),
         ], ['merge' => true]);
 
         if ($create) {
-            toast('Berhasil menambahkan tipe harga ' . $validate['nama_tipe_harga'], 'success')->padding('8px');
-            return redirect()->route('admin.tipe_harga.index');
+            toast('Berhasil mengubah tags ' . $validate['nama_tags'], 'success')->padding('8px');
+            return redirect()->route('admin.tags.index');
         }
-        toast('Gagal menambahkan tipe harga ' . $validate['nama_tipe_harga'], 'danger')->padding('8px');
-        return redirect()->route('admin.tipe_harga.index');
+        toast('Gagal mengubah tags ' . $validate['nama_tags'], 'danger')->padding('8px');
+        return redirect()->route('admin.tags.index');
     }
 
     /**
@@ -167,12 +163,12 @@ class CategoryPriceType extends Controller
      */
     public function destroy($id)
     {
-        $snapshot = app('firebase.firestore')->database()->collection('Category_price_type')->document($id)->delete();
+        $snapshot = app('firebase.firestore')->database()->collection('Category_tags')->document($id)->delete();
         if ($snapshot) {
-            toast('Berhasil menghapus kategori ', 'success')->padding('8px');
+            toast('Berhasil menghapus tags ', 'success')->padding('8px');
             return redirect()->back();
         }
-        toast('Gagal menghapus kategori ', 'danger')->padding('8px');
+        toast('Gagal menghapus tags ', 'danger')->padding('8px');
         return redirect()->back();
     }
 }

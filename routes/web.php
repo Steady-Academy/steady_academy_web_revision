@@ -8,7 +8,8 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\RequestInstructurController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryCourseController;
-use App\Http\Controllers\Admin\CategoryPriceType;
+use App\Http\Controllers\Admin\CategoryPriceTypeController;
+use App\Http\Controllers\Admin\CategoryTagsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,7 +71,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('users/instructur/request/{instructur}/approve', [RequestInstructurController::class, 'approve'])->name('request.approve');
         Route::put('users/instructur/request/{instructur}/disable', [RequestInstructurController::class, 'disabled'])->name('request.disable');
         Route::resource('kategori/kursus_kategori', CategoryCourseController::class);
-        Route::resource('kategori/tipe_harga', CategoryPriceType::class, ['except' => ['show']]);
+        Route::resource('kategori/tipe_harga', CategoryPriceTypeController::class, ['except' => ['show']]);
+        Route::resource('kategori/tags', CategoryTagsController::class, ['except' => ['show']]);
     });
 });
 
