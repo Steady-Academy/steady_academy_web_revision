@@ -55,8 +55,8 @@
 					<li class="sidebar-item {{ request()->is('admin/kategori/tags*') ? 'active' : '' }}">
 						<a href="{{ route('admin.tags.index') }}" class="sidebar-link">Tags</a>
 					</li>
-					<li class="sidebar-item ">
-						<a href="#" class="sidebar-link">Tipe Level</a>
+					<li class="sidebar-item {{ request()->is('admin/kategori/tipe_level*') ? 'active' : '' }}">
+						<a href="{{ route('admin.tipe_level.index') }}" class="sidebar-link">Tipe Level</a>
 					</li>
 				</ul>
 			</li>

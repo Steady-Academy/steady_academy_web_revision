@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\RequestInstructurController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CategoryCourseController;
+use App\Http\Controllers\Admin\CategoryLevelTypeController;
 use App\Http\Controllers\Admin\CategoryPriceTypeController;
 use App\Http\Controllers\Admin\CategoryTagsController;
 
@@ -73,6 +74,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('kategori/kursus_kategori', CategoryCourseController::class);
         Route::resource('kategori/tipe_harga', CategoryPriceTypeController::class, ['except' => ['show']]);
         Route::resource('kategori/tags', CategoryTagsController::class, ['except' => ['show']]);
+        Route::resource('kategori/tipe_level', CategoryLevelTypeController::class, ['except' => ['show']]);
     });
 });
 
