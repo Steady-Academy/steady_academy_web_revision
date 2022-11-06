@@ -143,15 +143,7 @@ class CategoryCourseController extends Controller
         return redirect()->route('admin.kursus_kategori.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -219,7 +211,6 @@ class CategoryCourseController extends Controller
                 'photoUrl' => $request->photo,
                 'name' => $validate['nama_kategori'],
                 'description' => $validate['deskripsi_kategori'],
-                'created_at' => new \Google\Cloud\Core\Timestamp($date),
                 'updated_at' => new \Google\Cloud\Core\Timestamp($date),
             ], ['merge' => true]);
         } else {
@@ -228,7 +219,6 @@ class CategoryCourseController extends Controller
                 'photoUrl' => $photo,
                 'name' => $validate['nama_kategori'],
                 'description' => $validate['deskripsi_kategori'],
-                'created_at' => new \Google\Cloud\Core\Timestamp($date),
                 'updated_at' => new \Google\Cloud\Core\Timestamp($date),
             ], ['merge' => true]);
         }
@@ -255,8 +245,8 @@ class CategoryCourseController extends Controller
         $decode = urldecode($old);
         $url_token = explode('?', $decode);
         $url = explode('/', $url_token[0]);
-        $photo = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
-        $imageDeleted = app('firebase.storage')->getBucket()->object($photo)->delete();
+        $oldPhoto = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
+        $imageDeleted = app('firebase.storage')->getBucket()->object($oldPhoto)->delete();
 
         $snapshot = app('firebase.firestore')->database()->collection('Category_course')->document($id)->delete();
         toast('Berhasil menghapus kategori ', 'success')->padding('8px');

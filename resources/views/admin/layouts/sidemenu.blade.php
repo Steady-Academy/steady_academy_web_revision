@@ -37,19 +37,20 @@
 					<i class="align-middle" data-feather="send"></i> <span class="align-middle">Permintaan</span>
 				</a>
 			</li>
-			<li class="sidebar-item ">
-				<a class="sidebar-link" data-bs-target="#category" href="#" data-bs-toggle="collapse" aria-expanded="false">
+			<li class="sidebar-item {{ request()->is('admin/kategori*') ? 'active' : '' }}">
+				<a class="sidebar-link {{ request()->is('admin/kategori*') ? '' : 'collapsed' }}" data-bs-target="#category"
+					href="#" data-bs-toggle="collapse" aria-expanded="false">
 					<i class="align-middle" data-feather="grid"></i>
 					<span class="align-middle">Kategori</span>
 				</a>
 				<ul id="category"
-					class="sidebar-dropdown list-unstyled collapse {{ request()->is('admin/kategori*' ? 'show' : '') }}"
+					class="sidebar-dropdown list-unstyled collapse {{ request()->is('admin/kategori*') ? 'show' : '' }}"
 					data-bs-parent="#sidebar">
-					<li class="sidebar-item {{ request()->is('admin/kategori/kategori_kursus*' ? 'active' : '') }}">
+					<li class="sidebar-item {{ request()->is('admin/kategori/kursus_kategori*') ? 'active' : '' }}">
 						<a href="{{ route('admin.kursus_kategori.index') }}" class="sidebar-link">Kategori Kursus</a>
 					</li>
-					<li class="sidebar-item ">
-						<a href="#" class="sidebar-link">Tipe Harga</a>
+					<li class="sidebar-item {{ request()->is('admin/kategori/tipe_harga*') ? 'active' : '' }}">
+						<a href="{{ route('admin.tipe_harga.index') }}" class="sidebar-link">Tipe Harga</a>
 					</li>
 					<li class="sidebar-item">
 						<a href="#" class="sidebar-link">Tags</a>

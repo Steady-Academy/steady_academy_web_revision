@@ -6,23 +6,35 @@ document.addEventListener("DOMContentLoaded", function() {
         $(this).html('<input type="text" class="form-control" placeholder="Search ' + title + '" />');
 
     });
-
     // DataTables
     var table = $('#datatables-column-search-text-inputs').DataTable({
         "order": [],
+        "language" : {
+
+            "processing": '<div class="progress text-center" style="height: 10px;"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"aria-label="Animated striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"style="width: 100%;"></div></div>',
+        },
         "responsive": true,
         "scrollX": true,
         "processing": true,
         "serverSide": true,
         "ajax": window.location.href,
         "lengthChange": false,
-        "columns": [{
-                "data": 'price_type_name',
-                "name": 'price_type_name'
+        "columns": [
+            {
+                "data": 'name',
+                "name": 'name',
             },
             {
-                "data": 'price_type_slug',
-                "name": 'price_type_slug'
+                "data": 'description',
+                "name": 'description',
+            },
+            {
+                "data": 'created_at',
+                "name": 'created_at',
+            },
+            {
+                "data": 'updated_at',
+                "name": 'updated_at',
             },
             {
                 "data": 'action',
@@ -30,7 +42,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 "orderable": false,
                 "searchable": false
             }
-        ]
+        ],
+
     });
 
 
@@ -45,5 +58,17 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
-    $('.col-sm-12.col-md-6').first().append($('.button'))
+
+    setInterval( function () {
+        table.ajax.reload();
+    }, 30000 );
+
+    $('.col-sm-12.col-md-6').first().append($('#add'))
+    $('#add>button').click(function refreshData() {
+        table.ajax.reload(null, true);
+    });
+		$('.col-sm-12.col-md-6:eq(1)').addClass("my-auto");
+		$('.loading').appendTo('.col-sm-12>#datatables-column-search-text-inputs_wrapper>.row:eq(0)').first();
+		$('.loading').append($('div.dataTables_processing'));
+
 });
