@@ -40,37 +40,39 @@
 			<li class="sidebar-item ">
 				<a class="sidebar-link" data-bs-target="#category" href="#" data-bs-toggle="collapse" aria-expanded="false">
 					<i class="align-middle" data-feather="grid"></i>
-					<span class="align-middle">Categories</span>
+					<span class="align-middle">Kategori</span>
 				</a>
-				<ul id="category" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-					<li class="sidebar-item">
-						<a href="#" class="sidebar-link">Course Category</a>
+				<ul id="category"
+					class="sidebar-dropdown list-unstyled collapse {{ request()->is('admin/kategori*' ? 'show' : '') }}"
+					data-bs-parent="#sidebar">
+					<li class="sidebar-item {{ request()->is('admin/kategori/kategori_kursus*' ? 'active' : '') }}">
+						<a href="{{ route('admin.kursus_kategori.index') }}" class="sidebar-link">Kategori Kursus</a>
 					</li>
 					<li class="sidebar-item ">
-						<a href="#" class="sidebar-link">Price Type</a>
+						<a href="#" class="sidebar-link">Tipe Harga</a>
 					</li>
 					<li class="sidebar-item">
-						<a href="#" class="sidebar-link">Class Type</a>
+						<a href="#" class="sidebar-link">Tags</a>
 					</li>
 					<li class="sidebar-item ">
-						<a href="#" class="sidebar-link">Course Level</a>
+						<a href="#" class="sidebar-link">Tipe Level</a>
 					</li>
 				</ul>
 			</li>
 
 			<li class="sidebar-item ">
 				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Masterclasses</span>
+					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Kursus</span>
 				</a>
 			</li>
 
-			<li class="sidebar-header">Pages</li>
+			<li class="sidebar-header">Halaman</li>
 			<li class="sidebar-item">
 				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Home Page</span>
+					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Halaman utama</span>
 				</a>
 				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Help Page</span>
+					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Bantuan</span>
 				</a>
 			</li>
 		</ul>

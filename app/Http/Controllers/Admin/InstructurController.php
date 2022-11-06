@@ -125,7 +125,7 @@ class InstructurController extends Controller
                 $validate = $request->validate([
                     'nama' => 'required|string',
                     'email' => 'required|email:dns',
-                    'telepon' => 'nullable',
+                    'telepon' => 'sometimes',
                     'konfirmasi' => 'required',
                     'terdaftar' => 'required',
                     'foto' => 'sometimes',
@@ -144,6 +144,13 @@ class InstructurController extends Controller
                 if (!$request->foto) {
                     $request->foto = $request->oldPicture;
                 } else {
+                    $old = $request->oldPicture;
+                    $decode = urldecode($old);
+                    $url_token = explode('?', $decode);
+                    $url = explode('/', $url_token[0]);
+                    $oldPicture = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
+                    $imageDeleted = app('firebase.storage')->getBucket()->object($oldPicture)->delete();
+
                     $getProfile = $validate['foto'];
                     $firebase_storage_path_profile = 'Users/' . $id . '/Profile/';
                     $name = $id;
@@ -168,16 +175,16 @@ class InstructurController extends Controller
                         'name' => $validate['nama'],
                         'phoneNumber' => $validate['telepon'],
                         'photoUrl' => $request->foto,
-                        'registered' => $validate['terdaftar'],
-                        'is_confirmed' => $validate['konfirmasi'],
+                        'registered' => $validate['terdaftar'] == 'true' ? true : false,
+                        'is_confirmed' => $validate['konfirmasi'] == 'true' ? true : false,
                     ], ['merge' => true]);
                 } else {
                     $db->set([
                         'name' => $validate['nama'],
                         'phoneNumber' => $validate['telepon'],
                         'photoUrl' => $image,
-                        'registered' => $validate['terdaftar'],
-                        'is_confirmed' => $validate['konfirmasi'],
+                        'registered' => $validate['terdaftar'] == 'true' ? true : false,
+                        'is_confirmed' => $validate['konfirmasi'] == 'true' ? true : false,
                     ], ['merge' => true]);
                 }
                 toast('Berhasil mengubah ' . $validate['nama'], 'success')->padding('8px');
@@ -232,6 +239,22 @@ class InstructurController extends Controller
      */
     public function destroy($id)
     {
+        $snapshot = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        $photo = $snapshot->data()['photoUrl'];
+        $cv = $snapshot->data()['profile']['dokumen_cv'];
+
+        $decode = urldecode($photo);
+        $url_token = explode('?', $decode);
+        $url = explode('/', $url_token[0]);
+        $photo = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
+        app('firebase.storage')->getBucket()->object($photo)->delete();
+
+        $decode = urldecode($cv);
+        $url_token = explode('?', $decode);
+        $url = explode('/', $url_token[0]);
+        $cv = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
+        app('firebase.storage')->getBucket()->object($cv)->delete();
+
         $db = app('firebase.firestore')->database();
         $db->collection('Users')->document($id)->delete();
         if ($db) {

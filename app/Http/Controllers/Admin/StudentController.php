@@ -144,6 +144,15 @@ class StudentController extends Controller
                 if (!$request->foto) {
                     $request->foto = $request->oldPicture;
                 } else {
+                    $old = $request->oldPicture;
+                    $decode = urldecode($old);
+                    $url_token = explode('?', $decode);
+                    if (count($url_token) > 5) {
+                        $url = explode('/', $url_token[0]);
+                        $oldPicture = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
+                        $imageDeleted = app('firebase.storage')->getBucket()->object($oldPicture)->delete();
+                    }
+
                     $getProfile = $validate['foto'];
                     $firebase_storage_path_profile = 'Users/' . $id . '/Profile/';
                     $name = $id;
@@ -168,16 +177,16 @@ class StudentController extends Controller
                         'name' => $validate['nama'],
                         'phoneNumber' => $validate['telepon'],
                         'photoUrl' => $request->foto,
-                        'registered' => $validate['terdaftar'],
-                        'is_confirmed' => $validate['konfirmasi'],
+                        'registered' => $validate['terdaftar'] == 'true' ? true : false,
+                        'is_confirmed' => $validate['konfirmasi'] == 'true' ? true : false,
                     ], ['merge' => true]);
                 } else {
                     $db->set([
                         'name' => $validate['nama'],
                         'phoneNumber' => $validate['telepon'],
                         'photoUrl' => $image,
-                        'registered' => $validate['terdaftar'],
-                        'is_confirmed' => $validate['konfirmasi'],
+                        'registered' => $validate['terdaftar'] == 'true' ? true : false,
+                        'is_confirmed' => $validate['konfirmasi'] == 'true' ? true : false,
                     ], ['merge' => true]);
                 }
                 toast('Berhasil mengubah ' . $validate['nama'], 'success')->padding('8px');
@@ -232,9 +241,20 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
+        $snapshot = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        $photo = $snapshot->data()['photoUrl'];
+
+        $decode = urldecode($photo);
+        $url_token = explode('?', $decode);
+        $url = explode('/', $url_token[0]);
+        if (count($url) > 5) {
+            $photo = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
+            $imageDeleted = app('firebase.storage')->getBucket()->object($photo)->delete();
+        }
+
         $db = app('firebase.firestore')->database();
-        $db->collection('Users')->document($id)->delete();
-        if ($db) {
+        $delete = $db->collection('Users')->document($id)->delete();
+        if ($delete) {
             $student = app('firebase.auth')->deleteUser($id);
             toast("Student berhasil dihapus", 'success');
             return redirect()->back();

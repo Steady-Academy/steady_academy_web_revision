@@ -39,27 +39,6 @@
 				<li class="breadcrumb-item active" aria-current="page">Instructur</li>
 			</ol>
 		</nav>
-		@if (session('message'))
-			<div class="alert alert-success alert-outline-coloured alert-dismissible " role="alert">
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				<div class="alert-icon">
-					<i class="fas fa-check-circle fs-3"></i>
-				</div>
-				<div class="alert-message">
-					<strong>Success</strong> {{ session('message') }}
-				</div>
-			</div>
-		@elseif (session('error'))
-			<div class="alert alert-danger alert-outline-coloured alert-dismissible " role="alert">
-				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-				<div class="alert-icon">
-					<i class="fas fa-exclamation-triangle fs-3"></i>
-				</div>
-				<div class="alert-message">
-					<strong>Failed</strong> {{ session('error') }}
-				</div>
-			</div>
-		@endif
 		<div class="row position-relative">
 			<div class="col-12">
 				<div class="card">

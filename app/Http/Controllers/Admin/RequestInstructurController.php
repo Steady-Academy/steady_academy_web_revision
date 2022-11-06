@@ -168,16 +168,16 @@ class RequestInstructurController extends Controller
                         'name' => $validate['nama'],
                         'phoneNumber' => $validate['telepon'],
                         'photoUrl' => $request->foto,
-                        'registered' => $validate['terdaftar'],
-                        'is_confirmed' => $validate['konfirmasi'],
+                        'registered' => $validate['terdaftar'] == 'true' ? true : false,
+                        'is_confirmed' => $validate['konfirmasi'] == 'true' ? true : false,
                     ], ['merge' => true]);
                 } else {
                     $db->set([
                         'name' => $validate['nama'],
                         'phoneNumber' => $validate['telepon'],
                         'photoUrl' => $image,
-                        'registered' => $validate['terdaftar'],
-                        'is_confirmed' => $validate['konfirmasi'],
+                        'registered' => $validate['terdaftar'] == 'true' ? true : false,
+                        'is_confirmed' => $validate['konfirmasi'] == 'true' ? true : false,
                     ], ['merge' => true]);
                 }
                 toast('Berhasil mengubah ' . $validate['nama'], 'success')->padding('8px');
