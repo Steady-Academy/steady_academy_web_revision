@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Session;
 use Auth;
 
+
 class FormInstructur extends Component
 {
     use WithFileUploads;
@@ -213,28 +214,32 @@ class FormInstructur extends Component
                 'alasan' => 'required|string',
             ]);
         }
-
-        if ($this->foto_temp) {
-            $this->foto = $this->foto_temp;
-        }
-
         // get user id
         $uid = Session::get('uid');
+        // dd($this->foto, $this->foto_temp);
+        // dd($this->foto_temp->getClientOriginalExtension(), $this->foto_temp->getClientOriginalName());
+        // if (filter_var($this->foto, FILTER_VALIDATE_URL)) {
 
-        // get picture and get name of the picture
-        if ($this->foto) {
-            $getProfile = $this->foto;
+        // }
+        if ($this->foto_temp) {
+            $getProfile = $this->foto_temp;
             $firebase_storage_path_profile = 'Users/' . $uid . '/Profile/';
             $name = $uid;
             $localfolder = public_path('storage/users/' . $uid) . '/Profile/';
-            $extension = $this->foto->getClientOriginalExtension();
+            $extension = $this->foto_temp->getClientOriginalExtension();
             $profile = $name . '.' . $extension;
             if ($getProfile->storeAs('public/users/' . $uid . '/Profile/', $profile)) {
                 $uploadedfile = fopen($localfolder . $profile, 'r');
-                app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_profile . $name]);
+                app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_profile . $profile]);
                 unlink($localfolder . $profile);
             }
+            $expiresAt = new \DateTime('20-12-2222');
+            $profileReference = app('firebase.storage')->getBucket()->object($firebase_storage_path_profile . $profile);
+            if ($profileReference->exists()) {
+                $profile_img = $profileReference->signedUrl($expiresAt);
+            }
         }
+
 
         // get cv and get name of the cv
         if ($this->dokumen) {
@@ -246,36 +251,67 @@ class FormInstructur extends Component
             $document = $name . '.' . $extension;
             if ($getDocument->storeAs('public/users/' . $uid . '/CV/', $document)) {
                 $uploadedfile = fopen($localfolder . $document, 'r');
-                app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_cv . $name]);
+                app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_cv . $document]);
                 unlink($localfolder . $document);
+            }
+            $expiresAt = new \DateTime('20-12-2222');
+            $documentReference = app('firebase.storage')->getBucket()->object($firebase_storage_path_cv . $document);
+            if ($documentReference->exists()) {
+                $document_img = $documentReference->signedUrl($expiresAt);
             }
         }
 
-        // add data to firestore
-        $db = app('firebase.firestore')->database()->collection('Users')->document($uid);
-        $db->set([
-            'name' => $this->nama,
-            'phoneNumber' => $this->telepon,
-            'photoUrl' => $firebase_storage_path_profile . $profile,
-            'profile' => [
-                'dokumen_cv' => $firebase_storage_path_cv . $document,
-                'tanggal_lahir' => $this->tanggal_lahir,
-                'jenis_kelamin' => $this->jenis_kelamin,
-                'kegiatan' => $this->kegiatan,
-                'alamat' => [
-                    'provinsi' => $this->final_provinsi,
-                    'kota' => $this->final_kota,
-                    'kode_pos' => $this->poskode,
-                    'detail' => $this->alamat,
+        if ($this->foto_temp) {
+            $db = app('firebase.firestore')->database()->collection('Users')->document($uid);
+            $db->set([
+                'name' => $this->nama,
+                'phoneNumber' => $this->telepon,
+                'photoUrl' => $profile_img,
+                'profile' => [
+                    'dokumen_cv' => $document_img,
+                    'tanggal_lahir' => $this->tanggal_lahir,
+                    'jenis_kelamin' => $this->jenis_kelamin,
+                    'kegiatan' => $this->kegiatan,
+                    'alamat' => [
+                        'provinsi' => $this->final_provinsi,
+                        'kota' => $this->final_kota,
+                        'kode_pos' => $this->poskode,
+                        'detail' => $this->alamat,
+                    ],
+                    'instagram' => $this->instagram,
+                    'facebook' => $this->facebook,
+                    'website' => $this->website,
+                    'alasan' => $this->alasan,
                 ],
-                'instagram' => $this->instagram,
-                'facebook' => $this->facebook,
-                'website' => $this->website,
-                'alasan' => $this->alasan,
-            ],
-            'registered' => true,
-            'is_confirmed' => false,
-        ], ['merge' => true]);
+                'registered' => true,
+                'is_confirmed' => false,
+            ], ['merge' => true]);
+        } else {
+            $db = app('firebase.firestore')->database()->collection('Users')->document($uid);
+            $db->set([
+                'name' => $this->nama,
+                'phoneNumber' => $this->telepon,
+                'photoUrl' => $this->foto,
+                'profile' => [
+                    'dokumen_cv' => $document_img,
+                    'tanggal_lahir' => $this->tanggal_lahir,
+                    'jenis_kelamin' => $this->jenis_kelamin,
+                    'kegiatan' => $this->kegiatan,
+                    'alamat' => [
+                        'provinsi' => $this->final_provinsi,
+                        'kota' => $this->final_kota,
+                        'kode_pos' => $this->poskode,
+                        'detail' => $this->alamat,
+                    ],
+                    'instagram' => $this->instagram,
+                    'facebook' => $this->facebook,
+                    'website' => $this->website,
+                    'alasan' => $this->alasan,
+                ],
+                'registered' => true,
+                'is_confirmed' => false,
+            ], ['merge' => true]);
+        }
 
         return redirect()->route('instructur.success');
     }

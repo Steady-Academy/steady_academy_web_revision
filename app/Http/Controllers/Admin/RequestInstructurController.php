@@ -15,7 +15,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
 
 
-class StudentController extends Controller
+class RequestInstructurController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,25 +26,25 @@ class StudentController extends Controller
     {
 
         if ($request->ajax()) {
-            $students = app('firebase.firestore')->database();
-            $users = $students->collection('Users');
-            $query = $users->where('role', '=', 'Student');
+            $req_instructur = app('firebase.firestore')->database();
+            $users = $req_instructur->collection('Users');
+            $query = $users->where('role', '=', 'Instruktur')->where('registered', '=', true)->where('is_confirmed', '=', false);
             $documents = $query->documents();
 
-            $students = [];
+            $req_instructur = [];
             foreach ($documents as $document) {
-                array_push($students, $document->data());
+                array_push($req_instructur, $document->data());
             }
-            $data = collect($students);
+            $data = collect($req_instructur);
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('name', function ($data) {
-                    return view('admin.users.student.partialsTable.account')->with('data', $data);
+                    return view('admin.request.partialsTable.account')->with('data', $data);
                 })
                 ->addColumn('action', function ($data) {
                     $user = app('firebase.auth')->getUser($data['uid']);
-                    return view('admin.users.student.partialsTable.button', compact('data', 'user'));
+                    return view('admin.request.partialsTable.button', compact('data', 'user'));
                 })
                 ->editColumn('phoneNumber', function ($data) {
                     if (!$data['phoneNumber']) {
@@ -68,7 +68,7 @@ class StudentController extends Controller
                 ->rawColumns(['name', 'action'])
                 ->make(true);
         }
-        return view('admin.users.student.index');
+        return view('admin.request.index');
     }
 
     protected function rules(Request $request)
@@ -92,8 +92,8 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $student = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
-        return view('admin.users.student.show', compact('student'));
+        $req_instructur = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        return view('admin.request.show', compact('req_instructur'));
     }
 
     /**
@@ -105,8 +105,8 @@ class StudentController extends Controller
     public function edit($id)
     {
         // $uid = Session::get('uid');
-        $student = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
-        return view('admin.users.student.edit', compact('student'));
+        $req_instructur = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
+        return view('admin.request.edit', compact('req_instructur'));
     }
 
     /**
@@ -136,7 +136,7 @@ class StudentController extends Controller
                     'email' => $request->email,
                 ];
 
-                $updateStudent = $auth->updateUser($id, $properties);
+                $updateInstructur = $auth->updateUser($id, $properties);
 
                 if ($user->email != $request->email) {
                     $auth->updateUser($id, ['emailVerified' => false]);
@@ -144,15 +144,6 @@ class StudentController extends Controller
                 if (!$request->foto) {
                     $request->foto = $request->oldPicture;
                 } else {
-                    $old = $request->oldPicture;
-                    $decode = urldecode($old);
-                    $url_token = explode('?', $decode);
-                    if (count($url_token) > 5) {
-                        $url = explode('/', $url_token[0]);
-                        $oldPicture = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
-                        $imageDeleted = app('firebase.storage')->getBucket()->object($oldPicture)->delete();
-                    }
-
                     $getProfile = $validate['foto'];
                     $firebase_storage_path_profile = 'Users/' . $id . '/Profile/';
                     $name = $id;
@@ -191,15 +182,15 @@ class StudentController extends Controller
                 }
                 toast('Berhasil mengubah ' . $validate['nama'], 'success')->padding('8px');
 
-                return redirect()->route('admin.student.index');
+                return redirect()->route('admin.request.index');
             } else {
                 $request->validate([
                     'password_baru' => 'required|min:8',
                     'password_confirmation_baru' => 'same:password_baru'
                 ]);
-                $updateStudent = $auth->changeUserPassword($id, $request->password_baru);
+                $updateReqRequest = $auth->changeUserPassword($id, $request->password_baru);
                 toast('Berhasil mengubah password', 'success');
-                return redirect()->route('admin.student.index');
+                return redirect()->route('admin.request.index');
             }
         } catch (\Exception $e) {
             return back()->withInput();
@@ -207,60 +198,53 @@ class StudentController extends Controller
     }
 
 
-    public function enable(Request $request, $id)
+    public function approve(Request $request, $id)
     {
-
-        $updatedUser = app('firebase.auth')->enableUser($id);
-
-        if ($updatedUser) {
-            toast("Student berhasil diaktifkan", 'success');
-            return redirect()->back();
-        } else {
-            toast("Student gagal diaktifkan", 'danger');
+        $db = app('firebase.firestore')->database()->collection('Users')->document($id);
+        $approve = $db->set([
+            'is_confirmed' => true,
+        ], ['merge' => true]);
+        if ($approve) {
+            toast("User telah menjadi instructur", 'success');
             return redirect()->back();
         }
+        toast("User gagal menjadi instructur", 'success');
+        return redirect()->back();
     }
 
     public function disabled(Request $request, $id)
     {
         $updatedUser = app('firebase.auth')->disableUser($id);
         if ($updatedUser) {
-            toast("Student berhasil dinonaktifkan", 'success');
-            return redirect()->back();
-        } else {
-            toast("Student gagal dinonaktifkan", 'danger');
+            $db = app('firebase.firestore')->database()->collection('Users')->document($id);
+            $disable = $db->set([
+                'registered' => false,
+                'is_confirmed' => false,
+            ], ['merge' => true]);
+            toast("Instructur berhasil dinonaktifkan", 'success');
             return redirect()->back();
         }
+        toast("Instructur gagal dinonaktifkan", 'danger');
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $snapshot = app('firebase.firestore')->database()->collection('Users')->document($id)->snapshot();
-        $photo = $snapshot->data()['photoUrl'];
-
-        $decode = urldecode($photo);
-        $url_token = explode('?', $decode);
-        $url = explode('/', $url_token[0]);
-        if (count($url) > 5) {
-            $photo = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
-            $imageDeleted = app('firebase.storage')->getBucket()->object($photo)->delete();
-        }
-
-        $db = app('firebase.firestore')->database();
-        $delete = $db->collection('Users')->document($id)->delete();
-        if ($delete) {
-            $student = app('firebase.auth')->deleteUser($id);
-            toast("Student berhasil dihapus", 'success');
-            return redirect()->back();
-        } else {
-            toast("Student gagal dihapus", 'danger');
-            return redirect()->back();
-        }
-    }
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($id)
+    // {
+    //     $db = app('firebase.firestore')->database();
+    //     $db->collection('Users')->document($id)->delete();
+    //     if ($db) {
+    //         app('firebase.auth')->deleteUser($id);
+    //         toast("Instructur berhasil dihapus", 'success');
+    //         return redirect()->back();
+    //     } else {
+    //         toast("Instructur gagal dihapus", 'danger');
+    //         return redirect()->back();
+    //     }
+    // }
 }

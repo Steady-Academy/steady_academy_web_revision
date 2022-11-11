@@ -20,24 +20,24 @@ document.addEventListener("DOMContentLoaded", function() {
         "ajax": window.location.href,
         "lengthChange": false,
         "columns": [{
-                "data": 'photo',
-                "name": 'photo'
-            },
-            {
                 "data": 'name',
-                "name": 'name',
+                "name": 'name'
             },
             {
-                "data": 'description',
-                "name": 'description',
+                "data": 'phoneNumber',
+                "name": 'phoneNumber'
+            },
+            {
+                "data": 'login_at',
+                "name": 'login_at',
+            },
+            {
+                "data": 'provider',
+                "name": 'provider',
             },
             {
                 "data": 'created_at',
                 "name": 'created_at',
-            },
-            {
-                "data": 'updated_at',
-                "name": 'updated_at',
             },
             {
                 "data": 'action',
@@ -48,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
         ],
 
     });
+
 
 
     // Apply the search

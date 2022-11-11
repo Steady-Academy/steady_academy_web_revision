@@ -19,17 +19,10 @@ document.addEventListener("DOMContentLoaded", function() {
         "serverSide": true,
         "ajax": window.location.href,
         "lengthChange": false,
-        "columns": [{
-                "data": 'photo',
-                "name": 'photo'
-            },
+        "columns": [
             {
                 "data": 'name',
                 "name": 'name',
-            },
-            {
-                "data": 'description',
-                "name": 'description',
             },
             {
                 "data": 'created_at',

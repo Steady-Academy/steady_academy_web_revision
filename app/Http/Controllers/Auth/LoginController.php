@@ -114,7 +114,6 @@ class LoginController extends Controller
                     'login_at' => Carbon::now()->toDayDateTimeString(),
                     'phoneNumber' => null,
                     'registered' => false,
-                    'is_confirmed' => false,
                     'created_at' => Carbon::now()->toDayDateTimeString(),
                 ]);
             } else if ($snapshot->data()['role'] == 'Student' || $snapshot->data()['role'] == 'Admin') {

@@ -5,6 +5,12 @@ use Illuminate\Support\Facades\Route;
 use Yajra\DataTables\DataTables;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\RequestInstructurController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CategoryCourseController;
+use App\Http\Controllers\Admin\CategoryLevelTypeController;
+use App\Http\Controllers\Admin\CategoryPriceTypeController;
+use App\Http\Controllers\Admin\CategoryTagsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +67,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('users/instructur', InstructurController::class, ['except' => ['create', 'store']]);
         Route::put('users/instructur/{instructur}/enable', [InstructurController::class, 'enable'])->name('instructur.enable');
         Route::put('users/instructur/{instructur}/disable', [InstructurController::class, 'disabled'])->name('instructur.disable');
-        Route::resource('users/admin', App\Http\Controllers\Admin\AdminController::class);
+        Route::resource('users/admin', AdminController::class);
+        Route::resource('instructur/request', RequestInstructurController::class);
+        Route::put('users/instructur/request/{instructur}/approve', [RequestInstructurController::class, 'approve'])->name('request.approve');
+        Route::put('users/instructur/request/{instructur}/disable', [RequestInstructurController::class, 'disabled'])->name('request.disable');
+        Route::resource('kategori/kursus_kategori', CategoryCourseController::class);
+        Route::resource('kategori/tipe_harga', CategoryPriceTypeController::class, ['except' => ['show']]);
+        Route::resource('kategori/tags', CategoryTagsController::class, ['except' => ['show']]);
+        Route::resource('kategori/tipe_level', CategoryLevelTypeController::class, ['except' => ['show']]);
     });
 });
 
@@ -109,9 +122,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // if user role is instructur and is verified
 Route::prefix('instructur')->name('instructur.')->group(function () {
+    Route::view('success', 'registration-success')->name('success')->middleware(['user', 'fireauth']);
     Route::middleware(['user', 'fireauth', 'instructur'])->group(function () {
         Route::resource('profile', App\Http\Controllers\Auth\ProfileController::class);
-        Route::view('success', 'registration-success')->name('success');
         Route::get('dashboard', function () {
             return view('instructur.dashboard');
         })->name('dashboard');

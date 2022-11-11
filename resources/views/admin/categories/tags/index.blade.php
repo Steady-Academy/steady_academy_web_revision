@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Data Admin | Steady Academy')
+@section('title', 'Data Tags | Steady Academy')
 @push('custom-style')
 	<style>
 		div.dataTables_wrapper div.dataTables_processing {
@@ -31,12 +31,12 @@
 @endpush
 @section('content')
 	<div class="container-fluid p-0">
-		<h1 class="mb-3">Data Admin</h1>
+		<h1 class="mb-3">Data Tags</h1>
 		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Users</li>
-				<li class="breadcrumb-item active" aria-current="page">Admin</li>
+				<li class="breadcrumb-item active" aria-current="page">Kategori</li>
+				<li class="breadcrumb-item active" aria-current="page">Tags</li>
 			</ol>
 		</nav>
 		<div class="row position-relative">
@@ -52,7 +52,9 @@
 						</div>
 						<div id="content" class="d-none">
 							<div id="add" class="add align-items-center text-lg-start text-center my-2">
-								<button class="btn btn-secondary mb-2"><i class="bi bi-arrow-repeat fs-4"></i> Reload </button>
+								<button class="btn btn-secondary mb-2"><i class="bi bi-arrow-repeat"></i> Reload </button>
+								<a href="{{ route('admin.tags.create') }}" class="btn btn-success mb-2"><i class="bi bi-bookmark-plus-fill"></i>
+									Tambah Tags </a>
 								{{-- <a href="#" class="btn btn-success mb-2"><i class="fas fa-puzzle-piece me-2"></i>New Class Type
 							</a> --}}
 							</div>
@@ -66,21 +68,15 @@
 											</div>
 											<thead>
 												<tr>
-													<th class="sorting sorting_asc" tabindex="0" aria-controls="datatables-column-search-text-inputs"
-														rowspan="1" colspan="1" aria-sort="ascending" aria-label="Nama: activate to sort column descending"
-														style="width: 179px;">Akun</th>
 													<th class="sorting" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-														colspan="1" aria-label="Telepon: activate to sort column ascending" style="width: 179px;">Telepon</th>
-													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-														colspan="1" aria-label="Terakhir Login: activate to sort column ascending" style="width: 179px;">
-														Terakhir
-														Login
+														colspan="1" aria-label="Nama: activate to sort column ascending" style="width: 179px;">Nama</th>
+													<th class="short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
+														colspan="1" aria-label="Tanggal dibuat: activate to sort column ascending" style="width: 179px;">
+														Tanggal dibuat
 													</th>
-													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-														colspan="1" aria-label="Provider: activate to sort column ascending" style="width: 179px;">Provider</th>
-													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-														colspan="1" aria-label="Tanggal dibuat: activate to sort column ascending" style="width: 179px;">Tanggal
-														dibuat
+													<th class="short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
+														colspan="1" aria-label="Tanggal diperbaharui: activate to sort column ascending" style="width: 179px;">
+														Tanggal diperbaharui
 													</th>
 													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
 														colspan="1" aria-label="aksi: activate to sort column ascending" style="width: 179px;">Aksi</th>
@@ -92,19 +88,13 @@
 											<tfoot>
 												<tr>
 													<th rowspan="1" colspan="1">
-														<input type="text" class="form-control" placeholder="Search Akun">
+														<input type="text" class="form-control" placeholder="Search Nama">
 													</th>
 													<th rowspan="1" colspan="1">
-														<input type="text" class="form-control" placeholder="Search Telepon">
+														<input type="text" class="form-control" placeholder="Search Created At">
 													</th>
 													<th rowspan="1" colspan="1">
-														<input type="text" class="form-control" placeholder="Search Terakhir Login">
-													</th>
-													<th rowspan="1" colspan="1">
-														<input type="text" class="form-control" placeholder="Search Provider">
-													</th>
-													<th rowspan="1" colspan="1">
-														<input type="text" class="form-control" placeholder="Search Tanggal dibuat">
+														<input type="text" class="form-control" placeholder="Search Updated At">
 													</th>
 													<th rowspan="1" colspan="1">
 														<input type="text" class="form-control d-none" placeholder="Search Action">
@@ -125,8 +115,8 @@
 @push('custom-script')
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableAdmin.js"></script>
-
+	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableTags.js"></script>
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		document.onreadystatechange = function() {
 			if (document.readyState !== "complete") {
@@ -140,5 +130,44 @@
 
 			}
 		};
+
+		function confirmDelete(username) {
+			var form = $('#data-delete-' + username);
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-danger mx-2',
+					cancelButton: 'btn btn-dark mx-2'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'kamu yakin?',
+				text: "Jika anda menghapus anda tidak bisa mengembalikan data tersebut.",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Yes, delete it!',
+				cancelButtonText: 'No, cancel!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					swalWithBootstrapButtons.fire(
+						'Terhapus!',
+						'Data berhasil dihapus.',
+						'success'
+					)
+					form.submit();
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Dibatalkan',
+						'Data tetap tersimpan',
+						'error'
+					)
+				}
+			})
+		}
 	</script>
 @endpush

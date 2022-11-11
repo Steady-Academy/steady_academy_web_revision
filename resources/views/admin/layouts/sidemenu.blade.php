@@ -32,45 +32,48 @@
 					</li>
 				</ul>
 			</li>
-			<li class="sidebar-item">
-				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="tool"></i> <span class="align-middle">Roles</span>
+			<li class="sidebar-item {{ request()->is('admin/instructur/request*') ? 'active' : '' }}">
+				<a class="sidebar-link" href="{{ route('admin.request.index') }}">
+					<i class="align-middle" data-feather="send"></i> <span class="align-middle">Permintaan</span>
 				</a>
 			</li>
-			<li class="sidebar-item ">
-				<a class="sidebar-link" data-bs-target="#category" href="#" data-bs-toggle="collapse" aria-expanded="false">
+			<li class="sidebar-item {{ request()->is('admin/kategori*') ? 'active' : '' }}">
+				<a class="sidebar-link {{ request()->is('admin/kategori*') ? '' : 'collapsed' }}" data-bs-target="#category"
+					href="#" data-bs-toggle="collapse" aria-expanded="false">
 					<i class="align-middle" data-feather="grid"></i>
-					<span class="align-middle">Categories</span>
+					<span class="align-middle">Kategori</span>
 				</a>
-				<ul id="category" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
-					<li class="sidebar-item">
-						<a href="#" class="sidebar-link">Course Category</a>
+				<ul id="category"
+					class="sidebar-dropdown list-unstyled collapse {{ request()->is('admin/kategori*') ? 'show' : '' }}"
+					data-bs-parent="#sidebar">
+					<li class="sidebar-item {{ request()->is('admin/kategori/kursus_kategori*') ? 'active' : '' }}">
+						<a href="{{ route('admin.kursus_kategori.index') }}" class="sidebar-link">Kategori Kursus</a>
 					</li>
-					<li class="sidebar-item ">
-						<a href="#" class="sidebar-link">Price Type</a>
+					<li class="sidebar-item {{ request()->is('admin/kategori/tipe_harga*') ? 'active' : '' }}">
+						<a href="{{ route('admin.tipe_harga.index') }}" class="sidebar-link">Tipe Harga</a>
 					</li>
-					<li class="sidebar-item">
-						<a href="#" class="sidebar-link">Class Type</a>
+					<li class="sidebar-item {{ request()->is('admin/kategori/tags*') ? 'active' : '' }}">
+						<a href="{{ route('admin.tags.index') }}" class="sidebar-link">Tags</a>
 					</li>
-					<li class="sidebar-item ">
-						<a href="#" class="sidebar-link">Course Level</a>
+					<li class="sidebar-item {{ request()->is('admin/kategori/tipe_level*') ? 'active' : '' }}">
+						<a href="{{ route('admin.tipe_level.index') }}" class="sidebar-link">Tipe Level</a>
 					</li>
 				</ul>
 			</li>
 
 			<li class="sidebar-item ">
 				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Masterclasses</span>
+					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Kursus</span>
 				</a>
 			</li>
 
-			<li class="sidebar-header">Pages</li>
+			<li class="sidebar-header">Halaman</li>
 			<li class="sidebar-item">
 				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Home Page</span>
+					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Halaman utama</span>
 				</a>
 				<a class="sidebar-link" href="#">
-					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Help Page</span>
+					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Bantuan</span>
 				</a>
 			</li>
 		</ul>

@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Data Admin | Steady Academy')
+@section('title', 'Data Permintaan Instructur | Steady Academy')
 @push('custom-style')
 	<style>
 		div.dataTables_wrapper div.dataTables_processing {
@@ -31,14 +31,34 @@
 @endpush
 @section('content')
 	<div class="container-fluid p-0">
-		<h1 class="mb-3">Data Admin</h1>
+		<h1 class="mb-3">Data Permintaan Instructur</h1>
 		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Users</li>
-				<li class="breadcrumb-item active" aria-current="page">Admin</li>
+				<li class="breadcrumb-item active" aria-current="page">Permintaan</li>
 			</ol>
 		</nav>
+		@if (session('message'))
+			<div class="alert alert-success alert-outline-coloured alert-dismissible " role="alert">
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				<div class="alert-icon">
+					<i class="fas fa-check-circle fs-3"></i>
+				</div>
+				<div class="alert-message">
+					<strong>Success</strong> {{ session('message') }}
+				</div>
+			</div>
+		@elseif (session('error'))
+			<div class="alert alert-danger alert-outline-coloured alert-dismissible " role="alert">
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				<div class="alert-icon">
+					<i class="fas fa-exclamation-triangle fs-3"></i>
+				</div>
+				<div class="alert-message">
+					<strong>Failed</strong> {{ session('error') }}
+				</div>
+			</div>
+		@endif
 		<div class="row position-relative">
 			<div class="col-12">
 				<div class="card">
@@ -125,7 +145,7 @@
 @push('custom-script')
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableAdmin.js"></script>
+	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableRequest.js"></script>
 
 	<script>
 		document.onreadystatechange = function() {
@@ -140,5 +160,88 @@
 
 			}
 		};
+	</script>
+
+	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script>
+		function confirmDisable(username) {
+			var form = $('#data-disable-' + username);
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-danger mx-2',
+					cancelButton: 'btn btn-dark mx-2'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah anda yakin?',
+				text: "Pengguna tidak akan bisa mengakses akunnya!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Bisukan!',
+				cancelButtonText: 'Tidak, Batalkan!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					swalWithBootstrapButtons.fire(
+						'Dibisukan!',
+						'Pengguna berhasil dibisukan',
+						'success'
+					)
+					form.submit();
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Dibatalkan',
+						'Data tetap tersimpan',
+						'error'
+					)
+				}
+			})
+		}
+	</script>
+	<script>
+		function confirmApprove(username) {
+			var form = $('#data-approve-' + username);
+			const swalWithBootstrapButtons = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-danger mx-2',
+					cancelButton: 'btn btn-dark mx-2'
+				},
+				buttonsStyling: false
+			})
+
+			swalWithBootstrapButtons.fire({
+				title: 'Apakah anda yakin?',
+				text: "User ini akan menjadi instructur!",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Ya, Jadikan instructur!',
+				cancelButtonText: 'Tidak, Batalkan!',
+				reverseButtons: true
+			}).then((result) => {
+				if (result.isConfirmed) {
+					swalWithBootstrapButtons.fire(
+						'Diaktifkan!',
+						'Berhasil menjadikan instructur',
+						'success'
+					)
+					form.submit();
+				} else if (
+					/* Read more about handling dismissals below */
+					result.dismiss === Swal.DismissReason.cancel
+				) {
+					swalWithBootstrapButtons.fire(
+						'Dibatalkan',
+						'Data tetap tersimpan',
+						'error'
+					)
+				}
+			})
+		}
 	</script>
 @endpush

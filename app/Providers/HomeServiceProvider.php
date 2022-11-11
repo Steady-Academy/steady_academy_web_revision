@@ -3,17 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Kreait\Firebase\Factory;
-use Kreait\Firebase\ServiceAccount;
-use Kreait\Firebase\Auth;
 use Illuminate\Support\Facades\View;
 
-use Session;
 
-class AppServiceProvider extends ServiceProvider
+class HomeServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register services.
      *
      * @return void
      */
@@ -23,11 +19,15 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      *
      * @return void
      */
     public function boot()
     {
+        View::composer(
+            'layouts.app',
+            'App\Http\ViewComposers\HomeComposer'
+        );
     }
 }
