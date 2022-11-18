@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Admin\InstructurController;
 use Illuminate\Support\Facades\Route;
-use Yajra\DataTables\DataTables;
-use GuzzleHttp\Client;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\RequestInstructurController;
 use App\Http\Controllers\Admin\AdminController;
@@ -11,6 +9,9 @@ use App\Http\Controllers\Admin\CategoryCourseController;
 use App\Http\Controllers\Admin\CategoryLevelTypeController;
 use App\Http\Controllers\Admin\CategoryPriceTypeController;
 use App\Http\Controllers\Admin\CategoryTagsController;
+use App\Http\Controllers\Admin\CoursesController;
+use App\Http\Controllers\HelpCenterController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,9 +37,20 @@ Route::get('/', function () {
     return view('welcome');
 })->name('landing');
 
-Auth::routes();
+
+Route::get('/bantuan', [HelpCenterController::class, 'index'])->name('help.center');
+Route::view('/tentang/steadyacademy', 'about-steady-academy')->name('about.steady-academy');
+Route::view('/tentang/kami', 'about-us')->name('about.us');
+Route::view('/kontak', 'contact-us')->name('contact.us');
+Route::view('/bantuan/akun-dan-keamanan-student', 'help.account')->name('help.account');
+Route::view('/bantuan/pembelajaran', 'help.learning')->name('help.learning');
+Route::view('/bantuan/pembayaran', 'help.payment')->name('help.payment');
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('user', 'fireauth');
+
+// Authentication routes
+Auth::routes();
 Route::get('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify_email'])->name('verify')->middleware('fireauth');
 Route::post('/email/verify', [App\Http\Controllers\Auth\ResetController::class, 'verify'])->name('send.email')->middleware('fireauth');
 Route::post('login/{provider}/callback', [App\Http\Controllers\Auth\LoginController::class, 'handleCallback']);
@@ -75,50 +87,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('kategori/tipe_harga', CategoryPriceTypeController::class, ['except' => ['show']]);
         Route::resource('kategori/tags', CategoryTagsController::class, ['except' => ['show']]);
         Route::resource('kategori/tipe_level', CategoryLevelTypeController::class, ['except' => ['show']]);
+        // Route::resource('kursus', CoursesController::class);
+        Route::get('kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('kursus');
     });
 });
 
-
-// Route::get('dashboard', [DashboardAdminController::class, 'index'])->name('dashboard');
-// Route::resource('profile', AdminProfileController::class, ['only' => ['show', 'post', 'put', 'delete']]);
-// Route::resource('users/admins', AdminController::class, ['only' => ['index', 'show']])->parameters([
-//     'users' => 'username'
-// ]);
-// Route::resource('users/students', StudentController::class)->parameters([
-//     'users' => 'username'
-// ]);
-// Route::resource('users/instructors', InstructorController::class)->parameters([
-//     'users' => 'username'
-// ]);
-// Route::resource('roles', RoleController::class, ['only' => ['index']])->parameters([
-//     'roles' => 'roles'
-// ]);
-// Route::resource('category/course-categories', CourseCategoryController::class, ['except' => 'show'])->parameters([
-//     'course_categories' => 'category_slug',
-// ]);
-// Route::resource('category/price-types', PriceTypeController::class, ['except' => 'show'])->parameters([
-//     'course_price_types' => 'price_type_slug'
-// ]);
-// Route::resource('category/class-types', ClassTypeController::class, ['except' => 'show'])->parameters([
-//     'course_class_types' => 'class_type_slug'
-// ]);
-// Route::resource('category/course-levels', CourseLevelController::class, ['except' => 'show'])->parameters([
-//     'course_masterclass_level' => 'masterclass_level_slug'
-// ]);
-// Route::resource('classes', ClassController::class);
-// Route::resource('masterclasses', MasterClassController::class)->parameters([
-//     'course_masterclasses' => 'masterclass_slug'
-// ]);
-// Route::resource('masterclass.curriculum-section', CurriculumSectionController::class, ['except' => 'show'])->parameters([
-//     'course_curriculum_sections' => 'curriculum_section'
-// ]);
-
-// Route::resource('masterclass.curriculum-section.curriculum', CurriculumController::class, ['except' => 'show'])->parameters([
-//     'course_curriculum' => 'curriculum'
-// ]);
-
-// Route::resource('certificates', CertificateController::class);
-// Route::resource('reviews', ReviewController::class);
 
 // if user role is instructur and is verified
 Route::prefix('instructur')->name('instructur.')->group(function () {
@@ -131,10 +104,17 @@ Route::prefix('instructur')->name('instructur.')->group(function () {
     });
 });
 
-// if user role is instructor and is verified
+// if user role is student and is verified
 Route::middleware(['user', 'fireauth', 'student'])->group(function () {
 });
 
 Route::middleware(['user', 'fireauth', 'auth'])->group(function () {
     Route::get('instruktur/formulir', App\Http\Livewire\FormInstructur::class)->name('form.instructur');
 });
+
+// Route::get('/help-center', function () {
+//     return view('helpcenter');
+// })->name('helpcenter');
+// Route::get('/inctructor-list', function () {
+//     return view('instructorlist');
+// })->name('instructorlist');

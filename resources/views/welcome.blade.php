@@ -711,5 +711,4 @@
 			</div>
 		</div>
 	</section>
-	<hr class="mt-4 mb-0">
 @endsection

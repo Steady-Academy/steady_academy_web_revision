@@ -44,6 +44,10 @@
 	@livewireScripts
 	@stack('custom-scripts')
 	<script src="{{ env('URL_NGROK') }}/assets-user/js/functions.js"></script>
+	{{-- <script>
+		var hashVal = window.location.hash.split("#")[1];
+		if ($('#' + hashVal).hasClass('jobs')) $('#' + hashVal).addClass('active');
+	</script> --}}
 	{{-- Default script --}}
 	{{-- <script src="{{ asset('assets-user/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
 	<script src="{{ asset('assets-user/js/functions.js') }}"></script> --}}

@@ -148,3 +148,26 @@ body {
     font-size: 13px;
 }
 
+.nav-pills {
+    border-radius: 30px;
+}
+
+.nav-pills .nav-item .nav-link {
+    border-radius: 30px;
+}
+
+.nav-pills .nav-link.active:hover {
+    color: white !important;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    background-color: var(--primary);
+}
+
+.nav-pills-bg-soft .nav-link {
+    color: var(--secondary) ;
+}
+/* .nav-pills .nav-item .nav-link:hover {
+    color: white !important;
+} */
+

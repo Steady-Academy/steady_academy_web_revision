@@ -27,10 +27,10 @@
 				<!-- Nav Main menu START -->
 				<ul class="navbar-nav navbar-nav-scroll me-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="" aria-haspopup="true" aria-expanded="false">Home</a>
+						<a class="nav-link" href="{{ route('landing') }}" aria-haspopup="true" aria-expanded="false">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="" aria-haspopup="true" aria-expanded="false">Pusat Bantuan</a>
+						<a class="nav-link" href="{{ route('help.center') }}" aria-haspopup="true" aria-expanded="false">Pusat Bantuan</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true"
@@ -44,9 +44,9 @@
 						<a class="nav-link dropdown-toggle" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false">Tentang</a>
 						<ul class="dropdown-menu" aria-labelledby="demoMenu">
-							<li><a class="dropdown-item" href="">Tentang Steady Academy</a></li>
-							<li><a class="dropdown-item" href="">Tentang Kami</a></li>
-							<li><a class="dropdown-item" href="">Kontak Kami</a></li>
+							<li><a class="dropdown-item" href="{{ route('about.steady-academy') }}">Tentang Steady Academy</a></li>
+							<li><a class="dropdown-item" href="{{ route('about.us') }}">Tentang Kami</a></li>
+							<li><a class="dropdown-item" href="{{ route('contact.us') }}">Kontak Kami</a></li>
 						</ul>
 					</li>
 					<!-- Nav item 4 Megamenu-->
