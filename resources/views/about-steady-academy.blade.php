@@ -11,7 +11,7 @@
 					</div>
 				</div>
 				<div class="col-12 col-lg-8">
-					<div class="card mt-3 border-1 mx-auto" style="border-radius: 30px;">
+					<div class="card shadow shadow-md mt-3 border-1 mx-auto" style="border-radius: 30px;">
 						<div class="card-body">
 							<h5>Tentang Steady Academy</h5>
 							<p class="text-black fs-6">
