@@ -61,9 +61,10 @@
 									<div class="col-sm-12">
 										<table id="datatables-column-search-text-inputs" class="table table-striped dataTable" style="width: 100%;"
 											aria-describedby="datatables-column-search-text-inputs_info">
-											<div class="loading col-12 mt-2" style="height: 12px">
+											<div class="loading col-12 mt-2" style="height: 20px">
 
 											</div>
+
 											<thead>
 												<tr>
 													<th class="sorting sorting_asc" tabindex="0" aria-controls="datatables-column-search-text-inputs"

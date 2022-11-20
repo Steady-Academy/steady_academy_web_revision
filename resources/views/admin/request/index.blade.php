@@ -92,11 +92,6 @@
 													<th class="sorting" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
 														colspan="1" aria-label="Telepon: activate to sort column ascending" style="width: 179px;">Telepon</th>
 													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-														colspan="1" aria-label="Terakhir Login: activate to sort column ascending" style="width: 179px;">
-														Terakhir
-														Login
-													</th>
-													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
 														colspan="1" aria-label="Provider: activate to sort column ascending" style="width: 179px;">Provider</th>
 													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
 														colspan="1" aria-label="Tanggal dibuat: activate to sort column ascending" style="width: 179px;">Tanggal

@@ -45,8 +45,8 @@
 					<div class="col-6 col-md-4">
 						<h5 class="mb-2 mb-md-4">Syarat & Ketentuan</h5>
 						<ul class="nav flex-column">
-							<li class="nav-item"><a class="nav-link" href="#">Syarat dan Ketentuan</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Privasi dan Keamanan</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ route('term.condition') }}">Syarat dan Ketentuan</a></li>
+							<li class="nav-item"><a class="nav-link" href="{{ route('term.privacy') }}">Privasi dan Keamanan</a></li>
 						</ul>
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 			<!-- Widget 3 START -->
 			<div class="col-lg-3">
 				<h5 class="mb-2 mb-md-4">Kontak</h5>
-				<p class="mb-0">Email:<span class="h6 fw-light ms-2">support@steadyacademy.com</span></p>
+				<p class="mb-0">Email:<span class="h6 fw-light text-primary ms-2">support@steadyacademy.com</span></p>
 
 				<div class="row g-2 mt-2">
 					<!-- Google play store button -->

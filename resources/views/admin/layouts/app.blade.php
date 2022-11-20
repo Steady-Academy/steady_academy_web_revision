@@ -20,6 +20,7 @@
 	<link class="js-stylesheet" rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-admin/css/light.css">
 	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-admin/css/custom.css">
 
+
 	{{-- <link class="js-stylesheet" href="{{ asset('assets-admin/css/light.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('assets-admin/css/custom.css') }}"> --}}
 	<!-- END SETTINGS -->
@@ -27,6 +28,7 @@
 	{{-- <link href="{{ asset('assets-admin/summernote/summernote.min.css') }}" rel="stylesheet"> --}}
 	@livewireStyles
 	@stack('custom-style')
+
 </head>
 
 <body data-theme="default" data-layout="fluid" data-sidebar-position="left" data-sidebar-behavior="sticky">

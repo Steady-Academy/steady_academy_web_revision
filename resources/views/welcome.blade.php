@@ -409,8 +409,8 @@
 				<div class="col-lg-12 mb-4 text-center">
 
 					<h2>Kursus</h2>
-					<p class="mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae, deserunt aut quaerat
-						perferendis mollitia commodi cupiditate corporis quod quos saepe?</p>
+					<p class="mb-0">Anda akan mendapatkan kenyamanan dalam belajar dan pengalaman yang luar biasa dengan fitur-fitur
+						yang kami berikan.</p>
 				</div>
 			</div>
 			<div class="row g-4 g-lg-5">
@@ -422,7 +422,8 @@
 						</div>
 						<!-- Title -->
 						<h5 class="mb-2">Video</h5>
-						<p class=" mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, corporis.</p>
+						<p class=" mb-2">Belajar lebih personal dengan video. Rasakan pengalaman belajar yang lebih
+							efektif.</p>
 
 					</div>
 				</div>
@@ -433,7 +434,8 @@
 								class="fs-5 fas fa-clipboard"></i></div>
 						<!-- Title -->
 						<h5 class="mb-2">Kuis</h5>
-						<p class=" mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, corporis.</p>
+						<p class=" mb-2">Implementasikan hasil pembelajaran Anda dengan mengerjakan kuis.
+						</p>
 
 					</div>
 				</div>
@@ -445,7 +447,7 @@
 
 						<!-- Title -->
 						<h5 class="mb-2">Rangkuman</h5>
-						<p class=" mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, corporis.</p>
+						<p class=" mb-2">Pahami konsep lebih mudah dengan fitur rangkuman yang disediakan oleh instruktur.</p>
 
 					</div>
 				</div>
@@ -457,7 +459,7 @@
 
 						<!-- Title -->
 						<h5 class="mb-2">Chatting</h5>
-						<p class=" mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, corporis.</p>
+						<p class=" mb-2">Melalui fitur ini Anda bisa konsultasi langsung dengan instruktur.</p>
 
 					</div>
 				</div>
@@ -475,10 +477,9 @@
 				</div>
 				<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0 ">
 					<h2>Belajar dengan Ahlinya</h2>
-					<p class="fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, assumenda repudiandae soluta
-						error molestias
-						deserunt necessitatibus nisi veniam nam id quas natus aspernatur maiores officia explicabo nulla nemo ducimus ad
-						minus, consectetur rerum sint. Odio, dolores non, consequuntur.</p>
+					<p class="fs-5">Di Steady Academy Anda akan diajarkan oleh para ahli di berbagai bidang yang sudah
+						terseleksi.
+					</p>
 				</div>
 			</div>
 		</div>
@@ -488,10 +489,8 @@
 			<div class="row g-5 align-items-center">
 				<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
 					<h2>Pelajari Apa Saja</h2>
-					<p class="fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, assumenda repudiandae soluta
-						error molestias
-						deserunt necessitatibus nisi veniam nam id quas natus aspernatur maiores officia explicabo nulla nemo ducimus ad
-						minus, consectetur rerum sint. Odio, dolores non, consequuntur.</p>
+					<p class="fs-5">Anda akan mendapatkan kenyamanan dalam belajar dan pengalaman yang luar biasa dengan fitur-fitur
+						yang kami berikan.</p>
 				</div>
 				<div class="col-lg-7 col-xl-6 text-center position-relative my-4 order-first order-sm-last">
 					<img src="{{ asset('assets-user/images/home/belajar_apapun.svg') }}" loading="lazy" width="500"
@@ -508,10 +507,9 @@
 				</div>
 				<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
 					<h2>Pembelajaran yang fleksibel</h2>
-					<p class="fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, assumenda repudiandae soluta
-						error molestias
-						deserunt necessitatibus nisi veniam nam id quas natus aspernatur maiores officia explicabo nulla nemo ducimus ad
-						minus, consectetur rerum sint. Odio, dolores non, consequuntur.</p>
+					<p class="fs-5">Metode belajar lebih fleksibel karena dapat diakses kapan saja dan dimanapun
+						anda butuhkan.
+					</p>
 				</div>
 			</div>
 		</div>
@@ -521,10 +519,9 @@
 			<div class="row g-5 align-items-center">
 				<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
 					<h2>Standar Industri</h2>
-					<p class="fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, assumenda repudiandae soluta
-						error molestias
-						deserunt necessitatibus nisi veniam nam id quas natus aspernatur maiores officia explicabo nulla nemo ducimus ad
-						minus, consectetur rerum sint. Odio, dolores non, consequuntur.</p>
+					<p class="fs-5">Materi yang disampaikan di Steady Academy mengikuti Standar Industri jadi cocok untuk siswa,
+						mahasiswa atau bagi anda yang baru terjun ke dunia IT.
+					</p>
 				</div>
 				<div class="col-lg-7 col-xl-6 text-center position-relative my-4 order-first order-sm-last">
 					<img src="{{ asset('assets-user/images/home/industri.svg') }}" loading="lazy" width="380" alt="">
@@ -700,8 +697,10 @@
 						<div class="row">
 							<div class="col-sm-8 position-relative">
 								<h3 class="mb-1">Mengajar di Steady Academy</h3>
-								<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Minus pariatur rem consequatur. In maxime quae
-									exercitationem nam quo vel animi.</p>
+								<p>Mengajar di Steady Academy membantu membangun reputasi Anda sebagai Ahli di bidang yang Anda ajarkan.
+									Andapun akan mendapatkan penghasilan setiap kali Peserta Kursus membeli Kursus Anda.
+									Ajarkan pengetahuan dan keterampilan yang anda kuasai ke banyak orang.
+								</p>
 								<a href="#" class="btn btn-primary fw-bold">Daftar Sekarang</a>
 								<a href="#" class="btn btn-link">Lihat Selengkapnya <i class="fas fa-arrow-right"></i></a>
 							</div>

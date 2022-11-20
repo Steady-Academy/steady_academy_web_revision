@@ -61,18 +61,18 @@
 				</ul>
 			</li>
 
-			<li class="sidebar-item ">
-				<a class="sidebar-link" href="#">
+			<li class="sidebar-item {{ request()->is('admin/kursus*') ? 'active' : '' }}">
+				<a class="sidebar-link" href="{{ route('admin.kursus') }}">
 					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Kursus</span>
 				</a>
 			</li>
 
 			<li class="sidebar-header">Halaman</li>
 			<li class="sidebar-item">
-				<a class="sidebar-link" href="#">
+				<a class="sidebar-link" href="{{ route('landing') }}">
 					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Halaman utama</span>
 				</a>
-				<a class="sidebar-link" href="#">
+				<a class="sidebar-link" href="{{ route('help.center') }}">
 					<i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Bantuan</span>
 				</a>
 			</li>
