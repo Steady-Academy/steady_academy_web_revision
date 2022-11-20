@@ -56,7 +56,7 @@
 			<h3>Cara Mengakses Rangkuman Materi</h3>
 			<hr>
 			<div class="row">
-				<div class="col-6">
+				<div class="col">
 					<img src="{{ asset('assets-user/images/helpcenter/pembelajaran-rangkuman-materi.png') }}" loading="lazy"
 						width="400" alt="">
 				</div>

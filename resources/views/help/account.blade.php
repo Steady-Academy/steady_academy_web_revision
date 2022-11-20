@@ -67,7 +67,7 @@
 			<h3>Atur Akun </h3>
 			<hr>
 			<div class="row">
-				<div class="col-6">
+				<div class="col">
 					<img src="{{ asset('assets-user/images/helpcenter/atur-akun-student.png') }}" loading="lazy" width="400"
 						alt="">
 				</div>

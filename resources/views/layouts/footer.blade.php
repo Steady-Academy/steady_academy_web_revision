@@ -38,7 +38,6 @@
 						<ul class="nav flex-column">
 							<li class="nav-item"><a class="nav-link" href="#">Jadi Instructur</a></li>
 							<li class="nav-item"><a class="nav-link" href="#">Para Instructur</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Petunjuk Penggunaan</a></li>
 						</ul>
 					</div>
 
