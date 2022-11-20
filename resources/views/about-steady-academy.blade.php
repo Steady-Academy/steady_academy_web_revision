@@ -6,8 +6,8 @@
 				<div class="col-12">
 					<h2 class="mb-5 text-center">Tentang Steady Academy</h2>
 					<div class="logo d-grid justify-content-center">
-						<img src="{{ asset('assets-user/images/logo-icon.svg') }}" class="mx-auto" alt="">
-						<img src="{{ asset('assets-user/images/logo.svg') }}" width="300" alt="">
+						<img src="{{ asset('assets-user/images/logo-icon.svg') }}" loading="eager" class="mx-auto" alt="">
+						<img src="{{ asset('assets-user/images/logo.svg') }}" loading="eager" width="300" alt="">
 					</div>
 				</div>
 				<div class="col-12 col-lg-8">
