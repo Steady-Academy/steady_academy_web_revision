@@ -167,7 +167,7 @@ class CategoryCourseController extends Controller
     public function update(Request $request, $id)
     {
         $validate = $request->validate([
-            'photo' => 'required|image|mimes:svg,png,jpg|max:2024',
+            'photo' => 'image|mimes:svg,png,jpg|max:2024',
             'nama_kategori' => 'required|string|max:50',
             'deskripsi_kategori' => 'required|string|max:255',
         ]);
