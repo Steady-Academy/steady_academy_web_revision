@@ -25,6 +25,7 @@ class CoursesLivewire extends Component
 
     // form input step 3
     public $nama_materi = [];
+    public $nama_materi_baru = [];
     public $materi = [];
     public $i = 0;
     public $sub_materi = [];
@@ -38,7 +39,7 @@ class CoursesLivewire extends Component
 
     public function addMateriItems()
     {
-        data_set($this->materi_sub_materi, $this->nama_materi, $this->sub_materi);
+        data_set($this->materi_sub_materi, is_array($this->nama_materi) ?  array_map('ucfirst', $this->nama_materi) : ucfirst($this->nama_materi), $this->sub_materi);
     }
 
     public function addSubMateriItems()
@@ -62,14 +63,14 @@ class CoursesLivewire extends Component
         }
     }
 
-    public function removeMateriItems($i)
+    public function removeMateriItems($key)
     {
-        unset($this->materi[$i]);
+        unset($this->materi_sub_materi[$key]);
     }
 
-    public function removeSubMateriItems($i)
+    public function removeSubMateriItems($key, $loop, $parent)
     {
-        unset($this->sub_materi[$i]);
+        unset($this->materi_sub_materi[$key][$loop][$parent]);
     }
 
 
@@ -238,11 +239,41 @@ class CoursesLivewire extends Component
     public function materi()
     {
         $this->validate([
-            'nama_materi' => 'required|string',
+            'nama_materi' => 'required|string|max:30',
         ]);
 
         $this->addMateriItems();
         $this->dispatchBrowserEvent('hide-form');
+        $this->nama_materi = [];
+    }
+
+    function recursive_change_key($arr, $set)
+    {
+        if (is_array($arr) && is_array($set)) {
+            $newArr = array();
+            foreach ($arr as $k => $v) {
+                $key = array_key_exists($k, $set) ? $set[$k] : $k;
+                $newArr[$key] = is_array($v) ? $this->recursive_change_key($v, $set) : $v;
+            }
+            return $newArr;
+        }
+        return $arr;
+    }
+
+    public function updateMateriItem($key)
+    {
+        $this->nama_materi_baru = $key;
+    }
+
+    public function updateMateri($key)
+    {
+        $this->validate([
+            'nama_materi_baru' => 'required|string|max:30',
+        ]);
+
+        $this->materi_sub_materi = $this->recursive_change_key($this->materi_sub_materi, array($key => $this->nama_materi_baru));
+        $this->dispatchBrowserEvent('hide-form');
+        $this->nama_materi_baru = [];
     }
 
     public function addNew()
@@ -250,10 +281,33 @@ class CoursesLivewire extends Component
         $this->dispatchBrowserEvent('show-form');
     }
 
+    public function updateSubMateriItem($key, $child, $parent)
+    {
+        $this->sub_materi_item[$key][$child]['video_sub_materi'] = $this->materi_sub_materi[$key][$child][$parent]['video_sub_materi'];
+        $this->sub_materi_item[$key][$child]['nama_sub_materi'] = $this->materi_sub_materi[$key][$child][$parent]['nama_sub_materi'];
+        $this->sub_materi_item[$key][$child]['deskripsi_sub_materi'] = $this->materi_sub_materi[$key][$child][$parent]['deskripsi_sub_materi'];
+
+
+        // dd($this->sub_materi_item[$key][$parent]['nama_sub_materi']);
+        // dd($this->sub_materi_item[$key . $child . 'nama_sub_materi']);
+    }
+
+    public function updateSubMateri($key, $child, $parent)
+    {
+        Validator::make($this->sub_materi_item, [
+            '*.*.nama_sub_materi' => 'required|string|max:30',
+            '*.*.video_sub_materi' => 'required|mimes:mp4,mov,ogg,mkv|max:20000',
+            '*.*.deskripsi_sub_materi' => 'required|string',
+        ])->validate();
+        $this->materi_sub_materi[$key][$child][$parent] = $this->sub_materi_item[$key][$child];
+        $this->dispatchBrowserEvent('hide-form');
+        $this->sub_materi_item = [];
+    }
+
     public function subMateri()
     {
         Validator::make($this->sub_materi_item, [
-            '*.*.nama_sub_materi' => 'required|string',
+            '*.*.nama_sub_materi' => 'required|string|max:30',
             '*.*.video_sub_materi' => 'required|mimes:mp4,mov,ogg,mkv|max:20000',
             '*.*.deskripsi_sub_materi' => 'required|string',
         ])->validate();

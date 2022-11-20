@@ -295,74 +295,14 @@
 											Pembelajaran</button>
 									</div>
 									<div class="row text-center">
-										<div wire:loading>
+										<div wire:loading wire:target="materi">
 											<div class="spinner-border text-primary" role="status">
 												<span class="visually-hidden">Loading...</span>
 											</div>
 										</div>
 									</div>
 									<div class="col-12 mt-4 mb-2">
-										{{-- @foreach ($materi as $value)
-											@dd($materi, $value);
-										@endforeach --}}
 										<div class="accordion" id="accordionExample">
-											{{-- @foreach ($materi as $key => $value)
-                                                @dd($materi_sub_materi)
-												@dd($materi, $materi_sub_materi, $key, $value); --}}
-											{{-- @if ($materi_sub_materi != []) --}}
-											{{-- @foreach ($materi_sub_materi as $key => $value)
-													<div class="accordion-item bg-white">
-														<h2 class="accordion-header" id="heading{{ $loop->index }}">
-															<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-																data-bs-target="#collapse{{ $loop->index }}" aria-expanded="true"
-																aria-controls="collapse{{ $loop->index }}">
-																<h4 class="fw-bold fs-5 mb-0">{{ $key }}</h4>
-															</button>
-														</h2>
-														<div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
-															aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
-															<div class="accordion-body" wire:key="{{ $loop->index }}" id="{{ $loop->index }}">
-																@foreach ($value as $key => $values)
-																	<div class="d-flex align-items-center">
-																		<button type="button" class="btn btn-link d-flex align-items-center" data-bs-toggle="modal"
-																			data-bs-target="#detailSubMateri{{ $loop->index }}">
-																			<i class="bi bi-play-circle-fill text-primary fs-2"></i>
-																			<h5 class="ms-2 mb-0">{{ $loop->index }}</h5>
-																		</button>
-																		<button type="button" class="btn btn-warning ms-auto mx-2"><i
-																				class="bi bi-pencil-fill"></i></i></button>
-																		<button type="button" class="btn btn-danger"
-																			wire:click.prevent="removeSubMateriItems({{ $loop->index }})"><i
-																				class="bi bi-trash-fill"></i></button>
-																	</div>
-																	<hr>
-
-																	@if (count($materi) > 2)
-																		@dd($materi, $materi_sub_materi, $sub_materi, $key, $value)
-																	@endif
-																@endforeach
-
-																<div class="row text-center">
-																	<div wire:loading wire:target="sub_materi_item">
-																		<div class="spinner-border text-primary" role="status">
-																			<span class="visually-hidden">Loading...</span>
-																		</div>
-																	</div>
-																</div>
-																<div class="d-flex justify-content-between">
-																	<button type="button" class="btn btn-info" data-bs-toggle="modal"
-																		data-bs-target="#addSubMateri{{ $loop->index }}">Tambah
-																		sub materi</button>
-																	<button type="button" class="btn btn-danger"
-																		wire:click.prevent="removeMateriItems({{ $loop->index }})">Hapus
-																		Materi</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												@endforeach
-											 --}}
-
 											@foreach ($materi_sub_materi as $key => $value)
 												<div class="accordion-item bg-white">
 													<h2 class="accordion-header" id="heading{{ $loop->index }}">
@@ -376,133 +316,59 @@
 													<div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
 														aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
 														<div class="accordion-body" wire:key="{{ $loop->index }}" id="{{ $loop->index }}">
-															{{-- @dd($materi_sub_materi, $key, $value) --}}
 															@foreach ($value as $keys => $values)
-																{{-- @dd($materi_sub_materi[$key][$loop->index][$loop->index + 1]['nama_sub_materi'], $value, $keys, $values, $key) --}}
 																@if ($values != [])
-																	{{-- @dd($value, $keys, $values) --}}
 																	<div class="d-flex align-items-center">
 																		<button type="button" class="btn btn-link d-flex align-items-center" data-bs-toggle="modal"
-																			data-bs-target="#detailSubMateri{{ $loop->index }}">
+																			data-bs-target="#detailSubMateri{{ $loop->index . $loop->parent->index }}">
 																			<i class="bi bi-play-circle-fill text-primary fs-2"></i>
 																			<h5 class="ms-2 mb-0">
 																				{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}</h5>
 																		</button>
-																		<button type="button" class="btn btn-warning ms-auto mx-2"><i
-																				class="bi bi-pencil-fill"></i></i></button>
+																		{{-- <button type="button" class="btn btn-warning ms-auto mx-2" data-bs-toggle="modal"
+																			data-bs-target="#editSubMateri{{ $loop->index . $loop->parent->index }}"
+																			wire:click.prevent="updateSubMateriItem({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})"
+																			wire:key="{{ $key }}">
+																			<i class="bi bi-pencil-fill"></i></button> --}}
+
+																		<button type="button" class="btn btn-warning ms-auto mx-2" data-bs-toggle="modal"
+																			data-bs-target="#editSubMateri{{ $loop->index . $loop->parent->index }}"
+																			wire:click.prevent="updateSubMateriItem({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})">
+																			<i class="bi bi-pencil-fill"></i></button>
+
 																		<button type="button" class="btn btn-danger"
-																			wire:click.prevent="removeSubMateriItems({{ $loop->index }})"><i
+																			onclick="confirm('Apakah kamu yakin menghapus sub materi  ({{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }})  ? ') || event.stopImmediatePropagation()"
+																			wire:click.prevent="removeSubMateriItems({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})"><i
 																				class="bi bi-trash-fill"></i></button>
+																	</div>
+																	<div class="row text-center">
+																		<div wire:loading
+																			wire:target="removeSubMateriItems({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})">
+																			<div class="spinner-border text-primary" role="status">
+																				<span class="visually-hidden">Loading...</span>
+																			</div>
+																		</div>
 																	</div>
 																	<hr>
 																@endif
 															@endforeach
-															<div class="row text-center">
-																<div wire:loading wire:target="sub_materi_item">
-																	<div class="spinner-border text-primary" role="status">
-																		<span class="visually-hidden">Loading...</span>
-																	</div>
-																</div>
-															</div>
-															<div class="d-flex justify-content-between">
+
+															<div class="d-flex ">
 																<button type="button" class="btn btn-info" data-bs-toggle="modal"
-																	data-bs-target="#addSubMateri{{ str_replace(' ', '_', $key) . $loop->index }}">Tambah
+																	data-bs-target="#addSubMateri{{ $loop->index }}">Tambah
 																	sub materi</button>
-																<button type="button" class="btn btn-danger"
-																	wire:click.prevent="removeMateriItems({{ str_replace(' ', '_', $key) . $loop->index }})">Hapus
+																<button type="button" class="ms-auto me-1 btn btn-warning" data-bs-toggle="modal"
+																	data-bs-target="#editMateri{{ $loop->index }}"
+																	wire:click.prevent="updateMateriItem({{ '\'' . $key . '\'' }})">Edit Materi</button>
+																<button type="button" class="btn btn-danger ms-1"
+																	onclick="confirm('Apakah kamu yakin menghapus materi  ({{ $key }})  ? ') || event.stopImmediatePropagation()"
+																	wire:click.prevent="removeMateriItems('{{ $key }}')">Hapus
 																	Materi</button>
 															</div>
 														</div>
 													</div>
 												</div>
 											@endforeach
-
-											{{-- @foreach ($materi_sub_materi as $key => $value)
-												<div class="accordion-item bg-white">
-													<h2 class="accordion-header" id="heading{{ $loop->index }}">
-														<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-															data-bs-target="#collapse{{ $loop->index }}" aria-expanded="true"
-															aria-controls="collapse{{ $loop->index }}">
-															<h4 class="fw-bold fs-5 mb-0">{{ $key }}</h4>
-														</button>
-													</h2>
-													<div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
-														aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
-														<div class="accordion-body" wire:key="{{ $loop->index }}" id="{{ $loop->index }}">
-															@foreach ($value as $key => $value)
-																<div class="d-flex align-items-center">
-																	<button type="button" class="btn btn-link d-flex align-items-center" data-bs-toggle="modal"
-																		data-bs-target="#detailSubMateri{{ $loop->index }}">
-																		<i class="bi bi-play-circle-fill text-primary fs-2"></i>
-																		<h5 class="ms-2 mb-0">{{ $loop->index }}</h5>
-																	</button>
-																	<button type="button" class="btn btn-warning ms-auto mx-2"><i
-																			class="bi bi-pencil-fill"></i></i></button>
-																	<button type="button" class="btn btn-danger"
-																		wire:click.prevent="removeSubMateriItems({{ $loop->index }})"><i
-																			class="bi bi-trash-fill"></i></button>
-																</div>
-																<hr>
-																@foreach ($value as $child_key => $child_value)
-																	@if (count($materi) > 2)
-																		@dd($materi, $materi_sub_materi, $sub_materi, $key, $value)
-																	@endif
-																@endforeach
-															@endforeach
-
-															<div class="row text-center">
-																<div wire:loading wire:target="sub_materi_item">
-																	<div class="spinner-border text-primary" role="status">
-																		<span class="visually-hidden">Loading...</span>
-																	</div>
-																</div>
-															</div>
-															<div class="d-flex justify-content-between">
-																<button type="button" class="btn btn-info" data-bs-toggle="modal"
-																	data-bs-target="#addSubMateri{{ $loop->index }}">Tambah
-																	sub materi</button>
-																<button type="button" class="btn btn-danger"
-																	wire:click.prevent="removeMateriItems({{ $loop->index }})">Hapus
-																	Materi</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											@endforeach --}}
-
-
-											{{-- <div class="accordion-item bg-white">
-														<h2 class="accordion-header" id="heading{{ $loop->index }}">
-															<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-																data-bs-target="#collapse{{ $loop->index }}" aria-expanded="true"
-																aria-controls="collapse{{ $loop->index }}">
-																<h4 class="fw-bold fs-5 mb-0">{{ $value }}</h4>
-															</button>
-														</h2>
-														<div id="collapse{{ $loop->index }}" class="accordion-collapse collapse"
-															aria-labelledby="heading{{ $loop->index }}" data-bs-parent="#accordionExample">
-															<div class="accordion-body" wire:key="{{ $loop->index }}" id="{{ $loop->index }}">
-
-																<div class="row text-center">
-																	<div wire:loading wire:target="sub_materi_item">
-																		<div class="spinner-border text-primary" role="status">
-																			<span class="visually-hidden">Loading...</span>
-																		</div>
-																	</div>
-																</div>
-																<div class="d-flex justify-content-between">
-																	<button type="button" class="btn btn-info" data-bs-toggle="modal"
-																		data-bs-target="#addSubMateri{{ $loop->index }}">Tambah
-																		sub materi</button>
-																	<button type="button" class="btn btn-danger"
-																		wire:click.prevent="removeMateriItems({{ $loop->index }})">Hapus
-																		Materi</button>
-																</div>
-															</div>
-														</div>
-													</div> --}}
-
-
 										</div>
 									</div>
 								</div>
@@ -535,16 +401,139 @@
 			</form>
 		</div>
 	</div>
+
+	{{-- Detail Sub Materi --}}
 	@foreach ($materi_sub_materi as $key => $value)
-		<div class="modal fade" id="addSubMateri{{ str_replace(' ', '_', $key) . $loop->index }}" tabindex="-1"
-			aria-labelledby="addSubMateri{{ str_replace(' ', '_', $key) . $loop->index }}Label" aria-hidden="true"
-			wire:ignore.self>
+		@foreach ($value as $keys => $values)
+			<div class="modal fade" id="detailSubMateri{{ $loop->index . $loop->parent->index }}" tabindex="-1"
+				aria-labelledby="detailSubMateri{{ $loop->index . $loop->parent->index }}Label" aria-hidden="true"
+				wire:ignore.self>
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="detailSubMateri{{ $loop->index . $loop->parent->index }}Label">Detail Sub
+								Materi {{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}
+							</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="text-center">
+								<div class="video-player rounded-3">
+									<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
+										<source src="{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}" />
+									</video>
+								</div>
+							</div>
+							<div class="mb-3">
+								<label for="nama_sub_materi">Nama Sub Materi</label>
+								<input type="text" class="form-control"
+									value="{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}" readonly>
+							</div>
+							<div class="mb-3">
+								<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
+								<textarea class="form-control" cols="10" rows="5" readonly>{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['deskripsi_sub_materi'] }}</textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		@endforeach
+	@endforeach
+
+	{{-- Edit Sub Materi --}}
+	@foreach ($materi_sub_materi as $key => $value)
+		@foreach ($value as $keys => $values)
+			<div class="modal fade" id="editSubMateri{{ $loop->index . $loop->parent->index }}" tabindex="-1"
+				aria-labelledby="editSubMateri{{ $loop->index . $loop->parent->index }}Label" aria-hidden="true"
+				wire:ignore.self>
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<form
+							wire:submit.prevent="updateSubMateri({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="editSubMateri{{ $loop->index . $loop->parent->index }}Label">Edit
+									Sub
+									Materi {{ $key }}
+								</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<div class="text-center">
+									@if ($sub_materi_item)
+										<div class="video-player rounded-3">
+
+											<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
+												<source src="" />
+											</video>
+										</div>
+									@endif
+									<div wire:loading wire:target="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
+										wire:key="{{ $key }}">
+										<div class="spinner-border text-primary" role="status">
+											<span class="visually-hidden">Loading...</span>
+										</div>
+									</div>
+								</div>
+								<div class="mb-3">
+									<label for="video_sub_materi">Video Sub Materi</label>
+									<input type="file" class="form-control @error('sub_materi_item.video_sub_materi') is-invalid @enderror"
+										wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
+										wire:key="{{ $key }}">
+
+									@error('sub_materi_item.video_sub_materi')
+										<div class="invalid-feedback">
+											{{ $message }}
+										</div>
+									@enderror
+								</div>
+								<div class="mb-3">
+									<label for="nama_sub_materi">Nama Sub Materi</label>
+									<input type="text"
+										wire:model.defer="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
+										wire:key="{{ $key }}"
+										class="form-control @error('sub_materi_item.nama_sub_materi') is-invalid @enderror">
+									@error('sub_materi_item.nama_sub_materi')
+										<div class="invalid-feedback">
+											{{ $message }}
+										</div>
+									@enderror
+								</div>
+								<div class="mb-3">
+									<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
+									<textarea wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi"
+									 wire:key="{{ $key }}" class="form-control @error('deskripsi_sub_materi') is-invalid @enderror"
+									 cols="10" rows="5"></textarea>
+									@error('deskripsi_sub_materi')
+										<div class="invalid-feedback">
+											{{ $message }}
+										</div>
+									@enderror
+								</div>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+								<button type="submit" class="btn btn-primary">Simpan</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		@endforeach
+	@endforeach
+
+	{{-- Tambah Sub Materi --}}
+	@foreach ($materi_sub_materi as $key => $value)
+		<div class="modal fade" id="addSubMateri{{ $loop->index }}" tabindex="-1"
+			aria-labelledby="addSubMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self>
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<form wire:submit.prevent="subMateri">
 						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="addSubMateri{{ str_replace(' ', '_', $key) . $loop->index }}Label">Tambah Sub
-								Materi
+							<h1 class="modal-title fs-5" id="addSubMateri{{ $loop->index }}Label">Tambah Sub
+								Materi {{ $key }}
 							</h1>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
@@ -567,10 +556,11 @@
 							</div>
 							<div class="mb-3">
 								<label for="video_sub_materi">Video Sub Materi</label>
-								<input type="file" class="form-control @error('video_sub_materi') is-invalid @enderror"
+								<input type="file" class="form-control @error('sub_materi_item.video_sub_materi') is-invalid @enderror"
 									wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 									:key="{{ $key }}">
-								@error('video_sub_materi')
+
+								@error('sub_materi_item.video_sub_materi')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>
@@ -580,8 +570,9 @@
 								<label for="nama_sub_materi">Nama Sub Materi</label>
 								<input type="text"
 									wire:model.defer="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
-									:key="{{ $key }}" class="form-control @error('nama_sub_materi') is-invalid @enderror">
-								@error('nama_sub_materi')
+									:key="{{ $key }}"
+									class="form-control @error('sub_materi_item.nama_sub_materi') is-invalid @enderror">
+								@error('sub_materi_item.nama_sub_materi')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>
@@ -604,49 +595,44 @@
 							<button type="submit" class="btn btn-primary">Simpan</button>
 						</div>
 					</form>
+				</div>
+			</div>
+		</div>
+	@endforeach
+
+	{{-- Edit Materi --}}
+	@foreach ($materi_sub_materi as $key => $value)
+		<div class="modal fade" id="editMateri{{ $loop->index }}" tabindex="-1"
+			aria-labelledby="editMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self>
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<form wire:submit.prevent="updateMateri({{ '\'' . $key . '\'' }})">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5" id="editMateri{{ $loop->index }}Label">Ubah Nama Materi Pembelajaran</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<label for="nama_materi">Nama Materi</label>
+							<input type="text" value="{{ $key }}" wire:model.defer="nama_materi_baru"
+								class="form-control @error('nama_materi_baru') is-invalid @enderror">
+							@error('nama_materi_baru')
+								<div class="invalid-feedback">
+									{{ $message }}
+								</div>
+							@enderror
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+							<button type="submit" class="btn btn-primary">Simpan</button>
+						</div>
+					</form>
 
 				</div>
 			</div>
 		</div>
 	@endforeach
-	{{-- @foreach ($sub_materi as $key => $value)
-		<div class="modal fade" id="detailSubMateri{{ $key }}" tabindex="-1"
-			aria-labelledby="detailSubMateri{{ $key }}Label" aria-hidden="true" wire:ignore.self>
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5" id="detailSubMateri{{ $key }}Label">Tambah Sub Materi
-							{{ $value['nama_sub_materi'] }}
-						</h1>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="text-center">
-							@if ($value['video_sub_materi'])
-								<div class="video-player rounded-3">
-									<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
-										<source src="{{ $value['video_sub_materi']->temporaryUrl() }}" />
-									</video>
-								</div>
-							@endif
-						</div>
-						<div class="mb-3">
-							<label for="nama_sub_materi">Nama Sub Materi</label>
-							<input type="text" class="form-control" disabled value="{{ $value['nama_sub_materi'] }}">
-						</div>
-						<div class="mb-3">
-							<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
-							<textarea class="form-control" cols="10" rows="5" disabled>{{ $value['deskripsi_sub_materi'] }}</textarea>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	@endforeach --}}
 
+	{{-- Tambah Materi --}}
 	<div class="modal fade" id="add_lecture" tabindex="-1" aria-labelledby="add_lectureLabel" aria-hidden="true"
 		wire:ignore.self>
 		<div class="modal-dialog modal-dialog-centered">
@@ -675,13 +661,36 @@
 			</div>
 		</div>
 	</div>
+
+	{{-- Modal Control --}}
+	@foreach ($materi_sub_materi as $key => $value)
+		@foreach ($value as $keys => $values)
+			<script>
+				window.addEventListener('show-form', event => {
+					$('#editSubMateri{{ $loop->index . $loop->parent->index }}').modal('show')
+				})
+				window.addEventListener('hide-form', event => {
+					$('#editSubMateri{{ $loop->index . $loop->parent->index }}').modal('hide')
+				})
+			</script>
+		@endforeach
+	@endforeach
+
 	@foreach ($materi_sub_materi as $key => $value)
 		<script>
 			window.addEventListener('show-form', event => {
-				$('#addSubMateri{{ $key }}').modal('show')
+				$('#editMateri{{ $loop->index }}').modal('show')
 			})
 			window.addEventListener('hide-form', event => {
-				$('#addSubMateri{{ $key }}').modal('hide')
+				$('#editMateri{{ $loop->index }}').modal('hide')
+			})
+		</script>
+		<script>
+			window.addEventListener('show-form', event => {
+				$('#addSubMateri{{ $loop->index }}').modal('show')
+			})
+			window.addEventListener('hide-form', event => {
+				$('#addSubMateri{{ $loop->index }}').modal('hide')
 			})
 		</script>
 	@endforeach
