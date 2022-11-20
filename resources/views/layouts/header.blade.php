@@ -61,22 +61,15 @@
 								<hr>
 								<!-- Dropdown item -->
 								<div class="position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
-									<a class="stretched-link h6 mb-0" href="">Petunjuk Penggunaan</a>
-									<p class="mb-0 small text-truncate-2">Speedily say has suitable disposal add
-										boy. On forth doubt miles of child.</p>
-								</div>
-								<!-- Dropdown item -->
-								<div class="position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
-									<a class="stretched-link h6 mb-0" href="">Privacy
+									<a class="stretched-link h6 mb-0" href="{{ route('term.privacy') }}">Privasi
 										dan security</a>
-									<p class="mb-0 small text-truncate-2">Speedily say has suitable disposal add
-										boy. On forth doubt miles of child.</p>
+									<p class="mb-0 small text-truncate-2">Kami melindungi data dengan keamanan berlapi, termasuk teknologi enkirpsi
+										terdepan seperti HTTPS.</p>
 								</div>
 								<!-- Dropdown item -->
 								<div class="position-relative bg-primary-soft-hover rounded-2 transition-base p-3">
-									<a class="stretched-link h6 mb-0" href="">Syarat dan Ketentuan</a>
-									<p class="mb-0 small text-truncate-2">Speedily say has suitable disposal add
-										boy. On forth doubt miles of child.</p>
+									<a class="stretched-link h6 mb-0" href="{{ route('term.condition') }}">Syarat dan Ketentuan</a>
+									<p class="mb-0 small text-truncate-2">Mengatur penggunaan atas situs web kami</p>
 								</div>
 
 							</div>
