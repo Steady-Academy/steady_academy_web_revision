@@ -325,12 +325,6 @@
 																			<h5 class="ms-2 mb-0">
 																				{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}</h5>
 																		</button>
-																		{{-- <button type="button" class="btn btn-warning ms-auto mx-2" data-bs-toggle="modal"
-																			data-bs-target="#editSubMateri{{ $loop->index . $loop->parent->index }}"
-																			wire:click.prevent="updateSubMateriItem({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})"
-																			wire:key="{{ $key }}">
-																			<i class="bi bi-pencil-fill"></i></button> --}}
-
 																		<button type="button" class="btn btn-warning ms-auto mx-2" data-bs-toggle="modal"
 																			data-bs-target="#editSubMateri{{ $loop->index . $loop->parent->index }}"
 																			wire:click.prevent="updateSubMateriItem({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})">
@@ -466,7 +460,8 @@
 										<div class="video-player rounded-3">
 
 											<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
-												<source src="" />
+												<source
+													src="{{ $sub_materi_item[$key] != [] ? $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() : '' }}" />
 											</video>
 										</div>
 									@endif
@@ -479,11 +474,12 @@
 								</div>
 								<div class="mb-3">
 									<label for="video_sub_materi">Video Sub Materi</label>
-									<input type="file" class="form-control @error('sub_materi_item.video_sub_materi') is-invalid @enderror"
+									<input type="file"
+										class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi') is-invalid @enderror"
 										wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 										wire:key="{{ $key }}">
 
-									@error('sub_materi_item.video_sub_materi')
+									@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
@@ -494,8 +490,8 @@
 									<input type="text"
 										wire:model.defer="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
 										wire:key="{{ $key }}"
-										class="form-control @error('sub_materi_item.nama_sub_materi') is-invalid @enderror">
-									@error('sub_materi_item.nama_sub_materi')
+										class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi') is-invalid @enderror">
+									@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
@@ -504,9 +500,10 @@
 								<div class="mb-3">
 									<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
 									<textarea wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi"
-									 wire:key="{{ $key }}" class="form-control @error('deskripsi_sub_materi') is-invalid @enderror"
+									 wire:key="{{ $key }}"
+									 class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi') is-invalid @enderror"
 									 cols="10" rows="5"></textarea>
-									@error('deskripsi_sub_materi')
+									@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
@@ -540,12 +537,10 @@
 						<div class="modal-body">
 							<div class="text-center">
 								@if ($sub_materi_item)
-									<div class="video-player rounded-3">
-
-										<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
-											<source src="" />
-										</video>
-									</div>
+									<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
+										<source
+											src="{{ $sub_materi_item[$key] != [] ? $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() : '' }}" />
+									</video>
 								@endif
 								<div wire:loading wire:target="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 									:key={{ $key }}>
@@ -556,7 +551,8 @@
 							</div>
 							<div class="mb-3">
 								<label for="video_sub_materi">Video Sub Materi</label>
-								<input type="file" class="form-control @error('sub_materi_item.video_sub_materi') is-invalid @enderror"
+								<input type="file"
+									class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi') is-invalid @enderror"
 									wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 									:key="{{ $key }}">
 
@@ -571,7 +567,8 @@
 								<input type="text"
 									wire:model.defer="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
 									:key="{{ $key }}"
-									class="form-control @error('sub_materi_item.nama_sub_materi') is-invalid @enderror">
+									class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi') is-invalid @enderror"
+									{{ isset($sub_materi_item[$key]) ? '' : 'disabled' }}>
 								@error('sub_materi_item.nama_sub_materi')
 									<div class="invalid-feedback">
 										{{ $message }}
@@ -581,9 +578,10 @@
 							<div class="mb-3">
 								<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
 								<textarea wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi"
-								 :key="{{ $key }}" class="form-control @error('deskripsi_sub_materi') is-invalid @enderror" cols="10"
-								 rows="5"></textarea>
-								@error('deskripsi_sub_materi')
+								 :key="{{ $key }}"
+								 class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi') is-invalid @enderror"
+								 cols="10" rows="5" {{ isset($sub_materi_item[$key]) ? '' : 'disabled' }}></textarea>
+								@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>

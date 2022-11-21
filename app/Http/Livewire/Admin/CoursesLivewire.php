@@ -122,6 +122,8 @@ class CoursesLivewire extends Component
 
     public function render()
     {
+        $this->materi_sub_materi;
+
         $this->getCategory();
         $this->getLevel();
         return view('livewire.admin.courses-livewire')->extends('admin.layouts.app');
