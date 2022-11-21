@@ -10,8 +10,13 @@ document.addEventListener("DOMContentLoaded", function() {
     var table = $('#datatables-column-search-text-inputs').DataTable({
         "order": [],
         "language" : {
-
-            "processing": '<div class="progress text-center" style="height: 10px;"><div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"aria-label="Animated striped example" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"style="width: 100%;"></div></div>',
+            "processing": `
+            <div role="progressbar" class="mdc-linear-progress mdc-linear-progress--indeterminate">
+                <div class="mdc-linear-progress__buffer"></div>
+                <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar"><span class="mdc-linear-progress__bar-inner"></span></div>
+                <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar"><span class="mdc-linear-progress__bar-inner"></span></div>
+            </div>
+            `,
         },
         "responsive": true,
         "scrollX": true,

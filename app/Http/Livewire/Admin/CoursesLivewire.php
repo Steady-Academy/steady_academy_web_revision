@@ -13,7 +13,7 @@ class CoursesLivewire extends Component
 {
     use WithFileUploads;
     public $totalSteps = 4;
-    public $currentStep = 3;
+    public $currentStep = 1;
     public $ottPlatform = '';
 
     // form input step 1
@@ -36,6 +36,9 @@ class CoursesLivewire extends Component
 
     public $result = [];
     public $test = [];
+    public $doneStepOne = false;
+    public $doneStepTwo = false;
+    public $doneStepThree = false;
 
     public function addMateriItems()
     {
@@ -76,7 +79,7 @@ class CoursesLivewire extends Component
 
     public function mount()
     {
-        $this->currentStep = 3;
+        $this->currentStep = 1;
     }
 
     public function increaseStep()
@@ -208,11 +211,13 @@ class CoursesLivewire extends Component
     {
         if ($this->currentStep == 1) {
             $this->validate();
+            $this->doneStepOne = true;
         } else if ($this->currentStep == 2) {
             $this->validate([
                 'thumbnail' => 'required|mimes:png,jpg,jpeg|max:1500',
                 'video_preview' => 'required|mimes:mp4,mov,ogg,mkv|max:20000',
             ]);
+            $this->doneStepTwo = true;
         } else if ($this->currentStep == 3) {
         }
     }

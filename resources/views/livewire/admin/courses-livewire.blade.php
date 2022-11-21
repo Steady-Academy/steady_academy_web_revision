@@ -28,6 +28,7 @@
 	</style>
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 	<link rel="stylesheet" href="https://cdn.plyr.io/3.7.2/plyr.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 @endpush
 <div>
 	<div class="container-fluid p-0">
@@ -43,13 +44,16 @@
 			<form wire:submit.prevent="register">
 				<div id="smartwizard-default-primary" class="wizard wizard-primary mb-4 sw sw-theme-default sw-justified">
 					<ul class="nav">
-						<li class="nav-item"><a class="nav-link {{ $currentStep != 1 ? 'inactive' : 'active' }}"
-								href="#default-primary-step-1">Langkah
+						<li class="nav-item"><a
+								class="nav-link {{ $currentStep != 1 ? 'inactive' : 'active' }} {{ $doneStepOne ? 'done' : '' }}"
+								href="#default-primary-step-1" wire:click="{{ $doneStepOne ? $currentStep == 1 : '' }}">Langkah
 								Pertama<br><small>Detail Kursus</small></a></li>
-						<li class="nav-item"><a class="nav-link {{ $currentStep != 2 ? 'inactive' : 'active' }}"
+						<li class="nav-item"><a
+								class="nav-link {{ $currentStep != 2 ? 'inactive' : 'active' }} {{ $doneStepTwo ? 'done' : '' }}"
 								href="#default-primary-step-2">Langkah Kedua<br><small>Kursus
 									Media</small></a></li>
-						<li class="nav-item"><a class="nav-link {{ $currentStep != 3 ? 'inactive' : 'active' }}"
+						<li class="nav-item"><a
+								class="nav-link {{ $currentStep != 3 ? 'inactive' : 'active' }} {{ $doneStepThree ? 'done' : '' }}"
 								href="#default-primary-step-3">Langkah
 								Ketiga<br><small>Kurikulum</small></a></li>
 						<li class="nav-item"><a class="nav-link {{ $currentStep != 4 ? 'inactive' : 'active' }}"
@@ -696,8 +700,9 @@
 
 
 @push('custom-script')
+	<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-	<script src="https://cdn.plyr.io/3.7.2/plyr.polyfilled.js"></script>
+
 	<script>
 		$(document).ready(function() {
 			$('.select2').select2({
@@ -735,9 +740,5 @@
 		window.addEventListener('hide-form', event => {
 			$('#add_lecture').modal('hide')
 		})
-	</script>
-
-	<script>
-		const player = new Plyr('#player');
 	</script>
 @endpush
