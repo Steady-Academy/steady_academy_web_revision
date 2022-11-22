@@ -7,18 +7,20 @@ use Livewire\WithFileUploads;
 use App\Http\Requests\PriceTypeRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
+use Session;
 
 
 class CoursesLivewire extends Component
 {
     use WithFileUploads;
     public $totalSteps = 4;
-    public $currentStep = 1;
+    public $currentStep = 3;
     public $ottPlatform = '';
 
     // form input step 1
-    public $nama_kursus, $kategori_kursus, $level_kursus, $tipe_harga, $deskripsi_kursus;
+    public $nama_kursus, $kategori_kursus, $tags, $level_kursus, $kategori, $level, $tipe_harga, $deskripsi_kursus;
     public $waktu_kursus, $harga_kursus, $diskon, $promo, $kode_promo = null;
+    public $tags_kursus = [];
 
     // form input step 2
     public $video_preview, $thumbnail;
@@ -30,6 +32,7 @@ class CoursesLivewire extends Component
     public $i = 0;
     public $sub_materi = [];
 
+    public $nama, $foto;
     public $sub_materi_item = [];
     public $materi_sub_materi = [];
     public $pelajaran;
@@ -79,7 +82,7 @@ class CoursesLivewire extends Component
 
     public function mount()
     {
-        $this->currentStep = 1;
+        $this->currentStep = 3;
     }
 
     public function increaseStep()
@@ -89,6 +92,15 @@ class CoursesLivewire extends Component
         $this->currentStep++;
         if ($this->currentStep > $this->totalSteps) {
             $this->currentStep = $this->totalSteps;
+        }
+    }
+
+    public function getCurrentStep($step)
+    {
+        $this->resetErrorBag();
+
+        if ($this->doneStepOne || $this->doneStepTwo || $this->doneStepThree) {
+            $this->currentStep = $step;
         }
     }
 
@@ -129,6 +141,8 @@ class CoursesLivewire extends Component
 
         $this->getCategory();
         $this->getLevel();
+        $this->getTags();
+        $this->getUser();
         return view('livewire.admin.courses-livewire')->extends('admin.layouts.app');
     }
 
@@ -138,7 +152,7 @@ class CoursesLivewire extends Component
         $category_course = $category->collection('Category_course');
         $query = $category_course->orderBy('created_at', 'DESC');
         $snapshot = $this->getSnapshot($query);
-        $this->kategori_kursus = json_decode($snapshot);
+        $this->kategori = json_decode($snapshot);
     }
 
     public function getLevel()
@@ -147,7 +161,24 @@ class CoursesLivewire extends Component
         $level_type = $level->collection('Category_level_type');
         $query = $level_type->orderBy('created_at', 'DESC');
         $snapshot = $this->getSnapshot($query);
-        $this->level_kursus = json_decode($snapshot);
+        $this->level = json_decode($snapshot);
+    }
+
+    public function getTags()
+    {
+        $tags = app('firebase.firestore')->database();
+        $category_tags = $tags->collection('Category_tags');
+        $query = $category_tags->orderBy('created_at', 'DESC');
+        $snapshot = $this->getSnapshot($query);
+        $this->tags = json_decode($snapshot);
+    }
+
+    public function getUser()
+    {
+        $uid = Session::get('uid');
+        $snapshot = app('firebase.firestore')->database()->collection('Users')->document($uid)->snapshot();
+        $this->foto = $snapshot->data()['photoUrl'];
+        $this->nama = $snapshot->data()['name'];
     }
 
     protected function rules()
@@ -164,11 +195,13 @@ class CoursesLivewire extends Component
                 'promo' => 'required',
                 'diskon' => 'required|integer|max:2',
                 'kode_promo' => 'required|string|max:6',
+                'tags_kursus' => 'required',
+
             ];
         } else if ($this->tipe_harga == "paid" && $this->promo == "false") {
             return [
                 'nama_kursus' => 'required|string|max:50',
-                'kategori_kursus' => 'required|string',
+                'kategori_kursus' => 'required',
                 'level_kursus' => 'required|string',
                 'tipe_harga' => 'required|string',
                 'waktu_kursus' => 'nullable',
@@ -177,6 +210,7 @@ class CoursesLivewire extends Component
                 'promo' => 'nullable',
                 'diskon' => 'nullable',
                 'kode_promo' => 'nullable',
+                'tags_kursus' => 'required',
             ];
         } else if ($this->tipe_harga == "paid" && $this->promo == "") {
             return [
@@ -190,6 +224,7 @@ class CoursesLivewire extends Component
                 'promo' => 'required',
                 'diskon' => 'nullable',
                 'kode_promo' => 'nullable',
+                'tags_kursus' => 'required',
             ];
         } else {
             return [
@@ -203,6 +238,7 @@ class CoursesLivewire extends Component
                 'promo' => 'nullable',
                 'diskon' => 'nullable',
                 'kode_promo' => 'nullable',
+                'tags_kursus' => 'required',
             ];
         }
     }
@@ -210,7 +246,9 @@ class CoursesLivewire extends Component
     public function validateData()
     {
         if ($this->currentStep == 1) {
+
             $this->validate();
+
             $this->doneStepOne = true;
         } else if ($this->currentStep == 2) {
             $this->validate([
