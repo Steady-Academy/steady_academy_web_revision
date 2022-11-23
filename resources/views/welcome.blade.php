@@ -409,8 +409,8 @@
 				<div class="col-lg-12 mb-4 text-center">
 
 					<h2>Kursus</h2>
-					<p class="mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae, deserunt aut quaerat
-						perferendis mollitia commodi cupiditate corporis quod quos saepe?</p>
+					<p class="mb-0">Anda akan mendapatkan kenyamanan dalam belajar dan pengalaman yang luar biasa dengan fitur-fitur
+						yang kami berikan.</p>
 				</div>
 			</div>
 			<div class="row g-4 g-lg-5">
@@ -434,7 +434,8 @@
 								class="fs-5 fas fa-clipboard"></i></div>
 						<!-- Title -->
 						<h5 class="mb-2">Kuis</h5>
-						<p class=" mb-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse, corporis.</p>
+						<p class=" mb-2">Implementasikan hasil pembelajaran Anda dengan mengerjakan kuis.
+						</p>
 
 					</div>
 				</div>
@@ -488,10 +489,8 @@
 			<div class="row g-5 align-items-center">
 				<div class="col-lg-5 col-xl-6 position-relative z-index-1 text-center text-lg-start mb-5 mb-sm-0">
 					<h2>Pelajari Apa Saja</h2>
-					<p class="fs-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorum, assumenda repudiandae soluta
-						error molestias
-						deserunt necessitatibus nisi veniam nam id quas natus aspernatur maiores officia explicabo nulla nemo ducimus ad
-						minus, consectetur rerum sint. Odio, dolores non, consequuntur.</p>
+					<p class="fs-5">Anda akan mendapatkan kenyamanan dalam belajar dan pengalaman yang luar biasa dengan fitur-fitur
+						yang kami berikan.</p>
 				</div>
 				<div class="col-lg-7 col-xl-6 text-center position-relative my-4 order-first order-sm-last">
 					<img src="{{ asset('assets-user/images/home/belajar_apapun.svg') }}" loading="lazy" width="500"

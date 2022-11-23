@@ -283,6 +283,7 @@ class FormInstructur extends Component
                     'website' => $this->website,
                     'alasan' => $this->alasan,
                 ],
+                'login_at' => Carbon::now()->toDayDateTimeString(),
                 'registered' => true,
                 'is_confirmed' => false,
             ], ['merge' => true]);
@@ -308,6 +309,7 @@ class FormInstructur extends Component
                     'website' => $this->website,
                     'alasan' => $this->alasan,
                 ],
+                'login_at' => Carbon::now()->toDayDateTimeString(),
                 'registered' => true,
                 'is_confirmed' => false,
             ], ['merge' => true]);

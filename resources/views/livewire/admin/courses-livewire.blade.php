@@ -135,12 +135,12 @@
 												<option value="paid">Berbayar</option>
 												<option value="free">Gratis</option>
 											</select>
-											@error('tipe_harga')
-												<div class="invalid-feedback">
-													{{ $message }}
-												</div>
-											@enderror
 										</div>
+										@error('tipe_harga')
+											<div class="text-center small">
+												{{ $message }}
+											</div>
+										@enderror
 									</div>
 									<div class="col-sm-6">
 										<div class="mb-3">
@@ -215,8 +215,8 @@
 										<div class="mb-3">
 											<div wire:ignore>
 												<label for="tags_kursus" class="form-label">Tags</label>
-												<select class="col-sm-6 form-control select2" wire:model.defer="tags_kursus[]" placeholder="Pilih Tag"
-													id="tags_kursus" multiple="multiple" wire:key="tags_kursus" data-allow-clear="1">
+												<select class="col-sm-6 form-control select2" wire:model="tags_kursus[]" placeholder="Pilih Tag"
+													id="tags_kursus" multiple="multiple" data-allow-clear="1">
 													<option></option>
 													@foreach ($tags as $data)
 														<option value="{{ $data->name }}">{{ $data->name }}</option>
@@ -678,7 +678,6 @@
 							<div class="text-center">
 								@if ($sub_materi_item)
 									<div class="video-player rounded-3" wire:key="{{ $key }}">
-
 										<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
 											<source
 												src="{{ $sub_materi_item[$key] != [] ? $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() : '' }}" />
