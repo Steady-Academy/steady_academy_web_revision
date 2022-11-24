@@ -28,6 +28,7 @@ Route::view('/', 'welcome')->name('landing');
 Route::view('/bantuan', 'help-center')->name('help.center');
 Route::view('/tentang/steadyacademy', 'about-steady-academy')->name('about.steady-academy');
 Route::view('/tentang/kami', 'about-us')->name('about.us');
+Route::view('/instruktur', 'become-instructur')->name('become.instructur');
 Route::view('/kontak', 'contact-us')->name('contact.us');
 Route::view('/bantuan/akun-dan-keamanan-student', 'help.account')->name('help.account');
 Route::view('/bantuan/pembelajaran', 'help.learning')->name('help.learning');
@@ -36,6 +37,7 @@ Route::view('/instruktur/syarat', 'become-instructur')->name('term.instructur');
 Route::view('/instruktur/list', 'list-instructur')->name('term.instructur.list');
 Route::view('/privasi-dan-sekurity', 'term.privacy')->name('term.privacy');
 Route::view('/syarat-dan-ketentuan', 'term.condition')->name('term.condition');
+
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('user', 'fireauth');

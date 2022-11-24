@@ -53,6 +53,12 @@ class RequestInstructurController extends Controller
                         return $data['phoneNumber'];
                     }
                 })
+                ->editColumn('login_at', function ($data) {
+                    $date = Carbon::parse($data['login_at'])->locale('id');
+                    $date->settings(['formatFunction' => 'translatedFormat']);
+                    $login_at = $date->format('l, j F Y  h:i a');
+                    return $login_at;
+                })
                 ->editColumn('created_at', function ($data) {
                     $date = Carbon::parse($data['created_at'])->locale('id');
                     $date->settings(['formatFunction' => 'translatedFormat']);

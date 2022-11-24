@@ -33,12 +33,7 @@
 						<a class="nav-link" href="{{ route('help.center') }}" aria-haspopup="true" aria-expanded="false">Pusat Bantuan</a>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true"
-							aria-expanded="false">Instruktur</a>
-						<ul class="dropdown-menu" aria-labelledby="demoMenu">
-							<li><a class="dropdown-item" href="">Jadi Instruktur</a></li>
-							<li><a class="dropdown-item" href="">Daftar Instruktur</a></li>
-						</ul>
+						<a class="nav-link" href="{{ route('become.instructur') }}">Instruktur</a>
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="demoMenu" data-bs-toggle="dropdown" aria-haspopup="true"
