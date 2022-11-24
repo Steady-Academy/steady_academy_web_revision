@@ -35,7 +35,7 @@
 								<div class="swiper-wrapper text-white text-center">
 									<div class="swiper-slide border-1">
 										<div class="d-grid">
-											<img src="{{ asset('assets-user/images/avatar/farrel.jpg') }}" loading="lazy" width="200" height="200"
+											<img src="{{ asset('assets-user/images/avatar/11.jpg') }}" loading="lazy" width="200" height="200"
 												class="rounded-circle mx-auto border border-3 border-primary" alt="">
 											<h3 class="text-white mb-0">Farrel Rafiardi Kusmana</h3>
 											<p>UI/UX Designer | Front-end Desktop GUI</p>
@@ -51,7 +51,7 @@
 									</div>
 									<div class="swiper-slide border-1">
 										<div class="d-grid">
-											<img src="{{ asset('assets-user/images/avatar/ripki.PNG') }}" loading="lazy" width="200" height="200"
+											<img src="{{ asset('assets-user/images/avatar/07.jpg') }}" loading="lazy" width="200" height="200"
 												class="rounded-circle mx-auto border border-3 border-primary" alt="">
 											<h3 class="text-white mb-0">Rifki Prayoga Lesmana</h3>
 											<p>UI/UX Designer | Front-end Desktop GUI</p>
@@ -67,7 +67,7 @@
 									</div>
 									<div class="swiper-slide border-1">
 										<div class="d-grid">
-											<img src="{{ asset('assets-user/images/avatar/ilham.jpg') }}" loading="lazy" width="200" height="200"
+											<img src="{{ asset('assets-user/images/avatar/04.jpg') }}" loading="lazy" width="200" height="200"
 												class="rounded-circle mx-auto border border-3 border-primary" alt="">
 											<h3 class="text-white mb-0">M. Ilham Iskandar</h3>
 											<p>Fullstack Desktop </p>
@@ -91,7 +91,7 @@
 									</div>
 									<div class="swiper-slide border-1">
 										<div class="d-grid">
-											<img src="{{ asset('assets-user/images/avatar/dini.jpeg') }}" loading="lazy" width="200" height="200"
+											<img src="{{ asset('assets-user/images/avatar/05.jpg') }}" loading="lazy" width="200" height="200"
 												class="rounded-circle mx-auto border border-3 border-primary" alt="">
 											<h3 class="text-white mb-0">Dini Laylalani</h3>
 											<p>UI/UX Designer</p>
@@ -107,7 +107,7 @@
 									</div>
 									<div class="swiper-slide border-1">
 										<div class="d-grid">
-											<img src="{{ asset('assets-user/images/avatar/alya.jpeg') }}" loading="lazy" width="200" height="200"
+											<img src="{{ asset('assets-user/images/avatar/01.jpg') }}" loading="lazy" width="200" height="200"
 												class="rounded-circle mx-auto border border-3 border-primary" alt="">
 											<h3 class="text-white mb-0">Alya Aura Devina</h3>
 											<p>UI/UX Designer</p>
