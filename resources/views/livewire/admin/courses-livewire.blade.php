@@ -47,7 +47,7 @@
 			@if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
 				<button class="btn sw-btn-next" type="button" wire:click="increaseStep()">Selanjutnya</button>
 			@endif --}}
-			<form wire:submit.prevent="register">
+			<form wire:submit.prevent="create">
 				<div id="smartwizard-default-primary" class="wizard wizard-primary mb-4 sw sw-theme-default sw-justified">
 					<ul class="nav">
 						<li class="nav-item"><a
@@ -137,7 +137,7 @@
 											</select>
 										</div>
 										@error('tipe_harga')
-											<div class="text-center small">
+											<div class="invalid-feedback">
 												{{ $message }}
 											</div>
 										@enderror
@@ -215,11 +215,11 @@
 										<div class="mb-3">
 											<div wire:ignore>
 												<label for="tags_kursus" class="form-label">Tags</label>
-												<select class="col-sm-6 form-control select2" wire:model="tags_kursus[]" placeholder="Pilih Tag"
-													id="tags_kursus" multiple="multiple" data-allow-clear="1">
+												<select class="col-sm-6 form-control select2" wire:model.defer="tags_kursus[]" placeholder="Pilih Tag"
+													id="tags_kursus" multiple="multiple" wire:key="tags_kursus" data-allow-clear="1">
 													<option></option>
 													@foreach ($tags as $data)
-														<option value="{{ $data->name }}">{{ $data->name }}</option>
+														<option value="{{ $data->id }}">{{ $data->name }}</option>
 													@endforeach
 												</select>
 											</div>
@@ -597,13 +597,12 @@
 							</div>
 							<div class="modal-body">
 								<div class="text-center">
-									@if ($sub_materi_item)
-										<div class="video-player rounded-3" wire:key="{{ $key }}">
+									@if ($sub_materi_item != [])
+										@if (array_key_exists($key, $sub_materi_item))
 											<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
-												<source
-													src="{{ $sub_materi_item[$key] != [] ? $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() : '' }}" />
+												<source src="{{ $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() }}" />
 											</video>
-										</div>
+										@endif
 									@endif
 									<div wire:loading wire:target="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 										wire:key="{{ $key }}">
@@ -664,7 +663,8 @@
 	{{-- Tambah Sub Materi --}}
 	@foreach ($materi_sub_materi as $key => $value)
 		<div class="modal fade" id="addSubMateri{{ $loop->index }}" tabindex="-1"
-			aria-labelledby="addSubMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self>
+			aria-labelledby="addSubMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self
+			wire:key="{{ $key }}">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<form wire:submit.prevent="subMateri">
@@ -676,13 +676,12 @@
 						</div>
 						<div class="modal-body">
 							<div class="text-center">
-								@if ($sub_materi_item)
-									<div class="video-player rounded-3" wire:key="{{ $key }}">
+								@if ($sub_materi_item != [])
+									@if (array_key_exists($key, $sub_materi_item))
 										<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
-											<source
-												src="{{ $sub_materi_item[$key] != [] ? $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() : '' }}" />
+											<source src="{{ $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() }}" />
 										</video>
-									</div>
+									@endif
 								@endif
 								<div wire:loading wire:target="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 									:key={{ $key }}>

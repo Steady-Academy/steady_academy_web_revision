@@ -8,13 +8,13 @@ use App\Http\Requests\PriceTypeRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 use Session;
-
+use Carbon\Carbon;
 
 class CoursesLivewire extends Component
 {
     use WithFileUploads;
     public $totalSteps = 4;
-    public $currentStep = 3;
+    public $currentStep = 1;
     public $ottPlatform = '';
 
     // form input step 1
@@ -45,7 +45,7 @@ class CoursesLivewire extends Component
 
     public function addMateriItems()
     {
-        data_set($this->materi_sub_materi, is_array($this->nama_materi) ?  array_map('ucfirst', $this->nama_materi) : ucfirst($this->nama_materi), $this->sub_materi);
+        data_set($this->materi_sub_materi, is_array($this->nama_materi) ?  array_map('ucfirst', str_replace(' ', '_', $this->nama_materi)) : ucfirst(str_replace(' ', '_', $this->nama_materi)), $this->sub_materi);
     }
 
     public function addSubMateriItems()
@@ -82,7 +82,7 @@ class CoursesLivewire extends Component
 
     public function mount()
     {
-        $this->currentStep = 3;
+        $this->currentStep = 1;
     }
 
     public function increaseStep()
@@ -365,5 +365,122 @@ class CoursesLivewire extends Component
 
     public function create()
     {
+        $this->resetErrorBag();
+        $uid = Session::get('uid');
+
+        // thumbnail
+        if ($this->thumbnail) {
+            $getThumbnail = $this->thumbnail;
+            $firebase_storage_path_thumbnail = 'Users/' . $uid . '/Courses/' . $this->nama_kursus . '/thumbnail/';
+            $date = Carbon::now();
+            $name = $date->getPreciseTimestamp(3);
+            $localfolder = public_path('storage/users/' . $uid) . '/Courses/';
+            $extension = $this->thumbnail->getClientOriginalExtension();
+            $thumbnail = $name . '.' . $extension;
+            if ($getThumbnail->storeAs('public/users/' . $uid . '/Courses/', $thumbnail)) {
+                $uploadedfile = fopen($localfolder . $thumbnail, 'r');
+                app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_thumbnail . $thumbnail]);
+                unlink($localfolder . $thumbnail);
+            }
+            $expiresAt = new \DateTime('20-12-2222');
+            $thumbnailReference = app('firebase.storage')->getBucket()->object($firebase_storage_path_thumbnail . $thumbnail);
+            if ($thumbnailReference->exists()) {
+                $thumbnail_img = $thumbnailReference->signedUrl($expiresAt);
+            }
+        }
+
+        // video preview
+        if ($this->video_preview) {
+            $getVideoPreview = $this->video_preview;
+            $firebase_storage_path_video_preview = 'Users/' . $uid . '/Courses/' . $this->nama_kursus . '/preview/';
+            $date = Carbon::now();
+            $name = $date->getPreciseTimestamp(3);
+            $localfolder = public_path('storage/users/' . $uid) . '/Courses/';
+            $extension = $this->video_preview->getClientOriginalExtension();
+            $preview = $name . '.' . $extension;
+            if ($getVideoPreview->storeAs('public/users/' . $uid . '/Courses/', $preview)) {
+                $uploadedfile = fopen($localfolder . $preview, 'r');
+                app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_video_preview . $preview]);
+                unlink($localfolder . $preview);
+            }
+
+            $previewReference = app('firebase.storage')->getBucket()->object($firebase_storage_path_video_preview . $preview);
+            if ($previewReference->exists()) {
+                $preview_video = $previewReference->signedUrl($expiresAt);
+            }
+        }
+        $db = app('firebase.firestore')->database();
+        $course = $db->collection('Courses')->newDocument();
+        $curriculum = $db->collection('Courses')->document($course->id())->collection('Curriculum')->newDocument();
+        $curriculum_section = $db->collection('Courses')->document($course->id())->collection('Curriculum')->document($curriculum->id())->collection('Curriculum_section')->newDocument();
+
+        $course->set([
+            'name' => $this->nama,
+            'id' => $course->id(),
+            'preview_video_url' => $preview_video,
+            'price' => $this->harga_kursus,
+            'thumbnail_url' => $thumbnail_img,
+            'time' => $this->waktu_kursus,
+            'promo' => $this->promo,
+            'code_promo' => $this->kode_promo,
+            'discount' => $this->diskon,
+            'updated_at' => Carbon::now()->toDayDateTimeString(),
+            'created_at' => Carbon::now()->toDayDateTimeString(),
+            'instructur' => $db->collection('Users')->document($uid),
+            'Category_course' => $db->collection('Category_course')->document($this->kategori_kursus),
+            'Category_level_type' => $db->collection('Category_level_type')->document($this->level_kursus),
+            'Category_price_type' => $db->collection('Category_price_type')->document($this->tipe_harga),
+        ]);
+        foreach ($this->tags_kursus as $key => $value) {
+            $course->set([
+                'Category_tags' => [
+                    $db->collection('Category_tags')->document($value),
+                ]
+            ], ['merge' => true]);
+        }
+        // $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi']
+        $parent = 0;
+        foreach ($this->materi_sub_materi as $key => $value) {
+            $child = 0;
+            foreach ($value as $keys => $values) {
+                // dd($this->materi_sub_materi, $key, $value, $keys, $values);
+                if ($this->materi_sub_materi[$key][$child][$parent]['video_sub_materi']) {
+                    $getVideo = $this->materi_sub_materi[$key][$child][$parent]['video_sub_materi'];
+                    $firebase_storage_path_videos = 'Users/' . $uid . '/Courses/' . $this->nama_kursus . '/videos/';
+                    $date = Carbon::now();
+                    $name = $date->getPreciseTimestamp(3);
+                    $localfolder = public_path('storage/users/' . $uid) . '/Courses/';
+                    $extension = $this->materi_sub_materi[$key][$child][$parent]['video_sub_materi']->getClientOriginalName();
+                    $video = $name . '.' . $extension;
+                    if ($getVideo->storeAs('public/users/' . $uid . '/Courses/', $video)) {
+                        $uploadedfile = fopen($localfolder . $video, 'r');
+                        app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_videos . $video]);
+                        unlink($localfolder . $video);
+                    }
+
+                    $videoReference = app('firebase.storage')->getBucket()->object($firebase_storage_path_videos . $video);
+                    if ($videoReference->exists()) {
+                        $video = $videoReference->signedUrl($expiresAt);
+                    }
+                }
+                $curriculum->set([
+                    'id' => $curriculum->id(),
+                    'name' => $key,
+                    'created_at' => Carbon::now()->toDayDateTimeString(),
+                    'updated_at' => Carbon::now()->toDayDateTimeString(),
+                ]);
+                $curriculum_section->set([
+                    'id' => $curriculum_section->id(),
+                    'name' => $this->materi_sub_materi[$key][$child][$parent]['nama_sub_materi'],
+                    'video' => $video,
+                    'description' => $this->materi_sub_materi[$key][$child][$parent]['deskripsi_sub_materi'],
+                    'created_at' => Carbon::now()->toDayDateTimeString(),
+                    'updated_at' => Carbon::now()->toDayDateTimeString(),
+                ]);
+                $child++;
+            }
+            $parent++;
+        }
+        return redirect()->route('admin.dashboard');
     }
 }
