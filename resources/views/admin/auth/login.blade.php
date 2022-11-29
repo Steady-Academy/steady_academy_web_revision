@@ -9,7 +9,7 @@
 
 	<title>Login</title>
 
-	<link rel="shortcut icon" href="img/favicon.ico">
+	<link rel="shortcut icon" href="{{ env('URL_NGROK') }}/assets-user/images/favicon_io/favicon.ico">
 
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&amp;display=swap" rel="stylesheet">
 

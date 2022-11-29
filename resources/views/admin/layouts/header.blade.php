@@ -2,47 +2,63 @@
 	<a class="sidebar-toggle">
 		<i class="hamburger align-self-center"></i>
 	</a>
-	{{-- @dd($notif) --}}
 
 	<div class="navbar-collapse collapse">
-		<ul class="navbar-nav navbar-align">
+		<ul class="navbar-nav navbar-align align-items-center">
 			<li class="nav-item dropdown">
-				<a class="nav-link d-none d-sm-inline-block " href="#" data-bs-toggle="dropdown">
-					<i class="bi bi-bell-fill fs-3 position-relative">
-						@if (count($notif) != 0)
-							<span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle"
-								style="padding: 5px !important">
-								<span class="visually-hidden">New alerts</span>
-							</span>
+				<a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-bs-toggle="dropdown" aria-expanded="true">
+					<div class="position-relative">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+							stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+							class="feather feather-bell align-middle me-2">
+							<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+							<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+						</svg>
+						@if (count($notif) > 0)
+							<span class="indicator">{{ count($notif) }}</span>
 						@endif
-					</i>
+					</div>
 				</a>
-				<div class="dropdown-menu dropdown-menu-end dropdown-menu-lg">
+				<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="messagesDropdown"
+					data-bs-popper="static">
 					@if (count($notif) != 0)
-						<h6 class="dropdown-header fw-bold">Permintaan Instruktur</h6>
-						@foreach ($notif as $notification)
-							<a class="dropdown-item" href="{{ route('admin.request.show', $notification['uid']) }}">
-								<div class="user d-flex align-items-center">
-									<div>
-										<img src="{{ $notification['photoUrl'] }}" class="rounded-circle border border-1 border-dark me-2"
-											width="30" height="30" alt="{{ $notification['name'] }}">
-									</div>
-									<div>
-										<p class="mb-0 fw-bold">{{ Str::limit($notification['name'], '30', '...') }}</p>
-										<p class="mb-0 small">{{ Str::limit($notification['email'], '30', '...') }}</p>
-									</div>
+						@if (count($notif) > 0)
+							<div class="dropdown-menu-header">
+								<div class="position-relative">
+									{{ count($notif) }} Permintaan
 								</div>
-							</a>
-							<div class="dropdown-divider"></div>
-						@endforeach
-						<a href="{{ route('admin.request.index') }}" class="dropdown-header text-center text-primary">
-							Lihat semua
-						</a>
+							</div>
+						@endif
+						<div class="list-group">
+							<h6 class="dropdown-header fw-bold">Permintaan Instruktur</h6>
+							@foreach ($notif as $notification)
+								<a href="{{ route('admin.request.show', $notification['uid']) }}" class="list-group-item">
+									<div class="row g-0 align-items-center">
+										<div class="col-2">
+											<img src="{{ $notification['photoUrl'] }}" class="avatar img-fluid rounded-circle"
+												alt="{{ $notification['name'] }}">
+										</div>
+										<div class="col-10 ps-2">
+											<div class="text-dark">{{ Str::limit($notification['name'], '30', '...') }}</div>
+											<div class="text-muted small mt-1">{{ Str::limit($notification['email'], '30', '...') }}</div>
+											<div class="text-muted small mt-1">{{ Carbon::parse($notification['register_at'])->diffForHumans() }}</div>
+										</div>
+									</div>
+								</a>
+							@endforeach
+						</div>
+						<div class="dropdown-menu-footer">
+							<a href="{{ route('admin.request.index') }}" class="text-muted">Lihat semua</a>
+						</div>
 					@else
-						<h6 class="dropdown-header fw-bold text-center">Tidak ada notifikasi.</h6>
+						<div class="dropdown-menu-footer">
+							<h6 class="fw-bold text-center m-0">Tidak ada notifikasi.</h6>
+						</div>
 					@endif
 				</div>
 			</li>
+
+
 			<li class="nav-item dropdown">
 				<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
 					<i class="align-middle" data-feather="settings"></i>
@@ -52,11 +68,12 @@
 						alt="{{ $user['name'] }}">
 				</a>
 				<div class="dropdown-menu dropdown-menu-end">
-					<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
+					{{-- <a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="user"></i> Profile</a>
 					<a class="dropdown-item" href="pages-settings.html"><i class="align-middle me-1"
-							data-feather="settings"></i>Settings & Privacy</a>
+							data-feather="settings"></i>Settings & Privacy</a> --}}
+					<a class="dropdown-item" href="{{ route('help.center') }}"><i class="align-middle me-1"
+							data-feather="info"></i>Bantuan</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#"><i class="align-middle me-1" data-feather="info"></i>Help</a>
 					<a class="dropdown-item" href="{{ route('logout') }}"
 						onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><i

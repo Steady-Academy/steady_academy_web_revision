@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Data Instructurs | Steady Academy')
+@section('title', 'Data Students | Steady Academy')
 @push('custom-style')
 	<style>
 		div.dataTables_wrapper div.dataTables_processing {
@@ -31,15 +31,15 @@
 @endpush
 @section('content')
 	<div class="container-fluid p-0">
-		<h1 class="mb-3">Data Instructurs</h1>
+		<h1 class="mb-3">Data Students</h1>
 		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Users</li>
-				<li class="breadcrumb-item active" aria-current="page">Instructur</li>
+				<li class="breadcrumb-item active" aria-current="page">Students</li>
 			</ol>
 		</nav>
-		<div class="row position-relative">
+		<div class="row">
 			<div class="col-12">
 				<div class="card">
 					<div class="card-body">
@@ -52,13 +52,9 @@
 						</div>
 						<div id="content" class="d-none">
 							<div id="add" class="add align-items-center text-lg-start text-center my-2">
-								<button class="btn btn-secondary mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-										viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-										stroke-linejoin="round" class="feather feather-rotate-cw align-middle me-2">
-										<polyline points="23 4 23 10 17 10"></polyline>
-										<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-									</svg> Reload </button>
-
+								<button class="btn btn-secondary mb-2"><i class="bi bi-arrow-repeat fs-4"></i> Reload </button>
+								{{-- <a href="#" class="btn btn-success mb-2"><i class="fas fa-puzzle-piece me-2"></i>New Class Type
+							</a> --}}
 							</div>
 							<div id="datatables-column-search-text-inputs_wrapper" class="dataTables_wrapper dt-bootstrap5">
 								<div class="row ">
@@ -127,10 +123,6 @@
 	</div>
 @endsection
 @push('custom-script')
-	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableInstructur.js"></script>
-
 	<script>
 		document.onreadystatechange = function() {
 			if (document.readyState !== "complete") {
@@ -145,6 +137,9 @@
 			}
 		};
 	</script>
+	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableStudent.js"></script>
 
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -211,7 +206,7 @@
 				if (result.isConfirmed) {
 					swalWithBootstrapButtons.fire(
 						'Dibisukan!',
-						'Pengguna berhasil dibisukan',
+						'Student berhasil dibisukan',
 						'success'
 					)
 					form.submit();
@@ -251,7 +246,7 @@
 				if (result.isConfirmed) {
 					swalWithBootstrapButtons.fire(
 						'Diaktifkan!',
-						'Pengguna berhasil diaktifkan',
+						'Student berhasil diaktifkan',
 						'success'
 					)
 					form.submit();

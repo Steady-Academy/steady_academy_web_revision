@@ -54,7 +54,6 @@ class CategoryCourseController extends Controller
             $snapshot = $this->getSnapshot($query);
             $data = json_decode($snapshot);
 
-
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('photo', function ($data) {
@@ -189,11 +188,11 @@ class CategoryCourseController extends Controller
             $getPhoto = $request->photo;
             $firebase_storage_path_categories = 'Categories/' . $db->id();
             $name = $db->id();
-            $localfolder = public_path('storage/categories/' . $db->id());
+            $localfolder = public_path('storage/categories/' . $db->id() . '/');
             $extension = $request->photo->getClientOriginalExtension();
             $photo = $name . '.' . $extension;
 
-            if ($getPhoto->storeAs('public/categories/' . $db->id(), $photo)) {
+            if ($getPhoto->storeAs('public/categories/' . $db->id() . '/', $photo)) {
                 $uploadedfile = fopen($localfolder . $photo, 'r');
                 app('firebase.storage')->getBucket()->upload($uploadedfile, ['name' => $firebase_storage_path_categories . $photo]);
                 unlink($localfolder . $photo);
@@ -245,7 +244,8 @@ class CategoryCourseController extends Controller
         $decode = urldecode($old);
         $url_token = explode('?', $decode);
         $url = explode('/', $url_token[0]);
-        $oldPhoto = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
+
+        $oldPhoto = $url[4] . '/' . $url[5];
         $imageDeleted = app('firebase.storage')->getBucket()->object($oldPhoto)->delete();
 
         $snapshot = app('firebase.firestore')->database()->collection('Category_course')->document($id)->delete();

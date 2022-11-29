@@ -9,18 +9,21 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Arr;
 use Session;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class CoursesLivewire extends Component
 {
     use WithFileUploads;
     public $totalSteps = 4;
-    public $currentStep = 1;
+    public $currentStep = 3;
     public $ottPlatform = '';
 
     // form input step 1
     public $nama_kursus, $kategori_kursus, $tags, $level_kursus, $kategori, $level, $tipe_harga, $deskripsi_kursus;
     public $waktu_kursus, $harga_kursus, $diskon, $promo, $kode_promo = null;
     public $tags_kursus = [];
+    public $tag_name = [];
+    public $kategori_name, $level_name;
 
     // form input step 2
     public $video_preview, $thumbnail;
@@ -42,6 +45,23 @@ class CoursesLivewire extends Component
     public $doneStepOne = false;
     public $doneStepTwo = false;
     public $doneStepThree = false;
+    public $refreshVideo = false;
+
+    protected $listeners = [
+        'selectedItem',
+        'refreshVideo',
+    ];
+
+    public function hydrate()
+    {
+        $this->emit('loadSelect2Hydrate');
+    }
+
+    public function selectedItem($value)
+    {
+        $this->tags_kursus = $value;
+    }
+
 
     public function addMateriItems()
     {
@@ -82,7 +102,7 @@ class CoursesLivewire extends Component
 
     public function mount()
     {
-        $this->currentStep = 1;
+        $this->currentStep = 3;
     }
 
     public function increaseStep()
@@ -143,6 +163,30 @@ class CoursesLivewire extends Component
         $this->getLevel();
         $this->getTags();
         $this->getUser();
+
+        if ($this->kategori_kursus) {
+            $db = app('firebase.firestore')->database();
+            $query = $db->collection('Category_course')->document($this->kategori_kursus)->snapshot();
+            $this->kategori_name = $query->data()['name'];
+        }
+
+        if ($this->level_kursus) {
+            $db = app('firebase.firestore')->database();
+            $query = $db->collection('Category_level_type')->document($this->level_kursus)->snapshot();
+            $this->level_name = $query->data()['name'];
+        }
+
+        if ($this->tags_kursus) {
+            $db = app('firebase.firestore')->database();
+            foreach ($this->tags_kursus as $key => $value) {
+                $query = $db->collection('Category_tags')->document($value)->snapshot();
+                if (!in_array($value, $this->tag_name, true)) {
+                    array_push($this->tag_name, $query->data()['name']);
+                }
+            }
+            $this->tag_name = array_unique($this->tag_name);
+        }
+
         return view('livewire.admin.courses-livewire')->extends('admin.layouts.app');
     }
 
@@ -195,7 +239,7 @@ class CoursesLivewire extends Component
                 'promo' => 'required',
                 'diskon' => 'required|integer|max:2',
                 'kode_promo' => 'required|string|max:6',
-                'tags_kursus' => 'required',
+                'tags_kursus' => 'required|array|min:1|max:3',
 
             ];
         } else if ($this->tipe_harga == "paid" && $this->promo == "false") {
@@ -203,14 +247,14 @@ class CoursesLivewire extends Component
                 'nama_kursus' => 'required|string|max:50',
                 'kategori_kursus' => 'required',
                 'level_kursus' => 'required|string',
-                'tipe_harga' => 'required|string',
+                'tipe_harga' => 'required',
                 'waktu_kursus' => 'nullable',
                 'deskripsi_kursus' => 'required|string',
                 'harga_kursus' => 'required|integer',
                 'promo' => 'nullable',
                 'diskon' => 'nullable',
                 'kode_promo' => 'nullable',
-                'tags_kursus' => 'required',
+                'tags_kursus' => 'required|array|min:1|max:3',
             ];
         } else if ($this->tipe_harga == "paid" && $this->promo == "") {
             return [
@@ -224,7 +268,7 @@ class CoursesLivewire extends Component
                 'promo' => 'required',
                 'diskon' => 'nullable',
                 'kode_promo' => 'nullable',
-                'tags_kursus' => 'required',
+                'tags_kursus' => 'required|array|min:1|max:3',
             ];
         } else {
             return [
@@ -238,7 +282,7 @@ class CoursesLivewire extends Component
                 'promo' => 'nullable',
                 'diskon' => 'nullable',
                 'kode_promo' => 'nullable',
-                'tags_kursus' => 'required',
+                'tags_kursus' => 'required|array|min:1|max:3',
             ];
         }
     }
@@ -272,14 +316,7 @@ class CoursesLivewire extends Component
         return array_combine($keys, $array);
     }
 
-    // public function materi_sub_materi()
-    // {
-    //     $this->materi();
-    //     array_push($this->materi_sub_materi, $this->materi);
-    //     $this->subMateri();
-    //     array_push($this->subMateri_sub_materi, $this->sub_materi);
 
-    // }
 
     public function materi()
     {
@@ -321,6 +358,15 @@ class CoursesLivewire extends Component
         $this->nama_materi_baru = [];
     }
 
+    public function refreshVideo($sub_materi_item = null, $key = null, $child = null, $parent = null)
+    {
+        if (!is_null($key) || !is_null($child) || !is_null($parent)) {
+            if ($sub_materi_item[$key][$child] != $this->materi_sub_materi[$key][$child][$parent]) {
+                $this->sub_materi_item[$key][$child] = $this->materi_sub_materi[$key][$child][$parent];
+            }
+        }
+    }
+
     public function addNew()
     {
         $this->dispatchBrowserEvent('show-form');
@@ -331,10 +377,6 @@ class CoursesLivewire extends Component
         $this->sub_materi_item[$key][$child]['video_sub_materi'] = $this->materi_sub_materi[$key][$child][$parent]['video_sub_materi'];
         $this->sub_materi_item[$key][$child]['nama_sub_materi'] = $this->materi_sub_materi[$key][$child][$parent]['nama_sub_materi'];
         $this->sub_materi_item[$key][$child]['deskripsi_sub_materi'] = $this->materi_sub_materi[$key][$child][$parent]['deskripsi_sub_materi'];
-
-
-        // dd($this->sub_materi_item[$key][$parent]['nama_sub_materi']);
-        // dd($this->sub_materi_item[$key . $child . 'nama_sub_materi']);
     }
 
     public function updateSubMateri($key, $child, $parent)
@@ -344,7 +386,20 @@ class CoursesLivewire extends Component
             '*.*.video_sub_materi' => 'required|mimes:mp4,mov,ogg,mkv|max:20000',
             '*.*.deskripsi_sub_materi' => 'required|string',
         ])->validate();
-        $this->materi_sub_materi[$key][$child][$parent] = $this->sub_materi_item[$key][$child];
+
+        if ($this->materi_sub_materi[$key][$child][$parent]['video_sub_materi'] != $this->sub_materi_item[$key][$child]['video_sub_materi']) {
+            $oldVideo = Storage::delete('livewire-tmp/' . $this->materi_sub_materi[$key][$child][$parent]['video_sub_materi']->getFileName());
+            if ($oldVideo) {
+                $this->materi_sub_materi[$key][$child][$parent]['video_sub_materi'] = $this->sub_materi_item[$key][$child]['video_sub_materi'];
+                $this->materi_sub_materi[$key][$child][$parent]['nama_sub_materi'] = $this->sub_materi_item[$key][$child]['nama_sub_materi'];
+                $this->materi_sub_materi[$key][$child][$parent]['deskripsi_sub_materi'] = $this->sub_materi_item[$key][$child]['deskripsi_sub_materi'];
+            }
+        } else {
+            $this->materi_sub_materi[$key][$child][$parent]['nama_sub_materi'] = $this->sub_materi_item[$key][$child]['nama_sub_materi'];
+            $this->materi_sub_materi[$key][$child][$parent]['deskripsi_sub_materi'] = $this->sub_materi_item[$key][$child]['deskripsi_sub_materi'];
+        }
+
+        $this->emit('refreshVideo', $this->sub_materi_item, $key, $child, $parent);
         $this->dispatchBrowserEvent('hide-form');
         $this->sub_materi_item = [];
     }
@@ -359,8 +414,8 @@ class CoursesLivewire extends Component
 
 
         $this->addSubMateriItems();
-        $this->dispatchBrowserEvent('hide-form');
         $this->sub_materi_item = [];
+        $this->dispatchBrowserEvent('hide-form');
     }
 
     public function create()
@@ -429,7 +484,7 @@ class CoursesLivewire extends Component
             'instructur' => $db->collection('Users')->document($uid),
             'Category_course' => $db->collection('Category_course')->document($this->kategori_kursus),
             'Category_level_type' => $db->collection('Category_level_type')->document($this->level_kursus),
-            'Category_price_type' => $db->collection('Category_price_type')->document($this->tipe_harga),
+            'Category_price_type' => $this->tipe_harga,
         ]);
         foreach ($this->tags_kursus as $key => $value) {
             $course->set([

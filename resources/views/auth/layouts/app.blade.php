@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>@yield('title')</title>
+	<link rel="shortcut icon" href="{{ env('URL_NGROK') }}/assets-user/images/favicon_io/favicon.ico">
 	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/css/style.css">
 	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/vendor/font-awesome/css/all.min.css">
 	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">

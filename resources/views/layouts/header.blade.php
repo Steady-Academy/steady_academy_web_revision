@@ -113,15 +113,25 @@
 										</a>
 									</li>
 								@else
-									<li><a class="dropdown-item" href="{{ route('instructur.dashboard') }}"><i
-												class="bi bi-person fa-fw me-2"></i>Dashboard</a>
-									</li>
-									<li><a class="dropdown-item" href="#"><i class="bi bi-person fa-fw me-2"></i>Ubah Profil</a>
-									</li>
-									<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Setting Akun</a>
-									</li>
-									<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Bantuan</a>
-									</li>
+									@if ($user['role'] == 'Admin')
+										<li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i
+													class="bi bi-person fa-fw me-2"></i>Dashboard</a>
+										</li>
+										{{-- <li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Setting Akun</a>
+										</li> --}}
+										<li><a class="dropdown-item" href="{{ route('help.center') }}"><i
+													class="bi bi-info-circle fa-fw me-2"></i>Bantuan</a>
+										</li>
+									@elseif($user['role'] == 'Instruktur')
+										<li><a class="dropdown-item" href="{{ route('instructur.dashboard') }}"><i
+													class="bi bi-person fa-fw me-2"></i>Dashboard</a>
+										</li>
+										{{-- <li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Setting Akun</a>
+										</li> --}}
+										<li><a class="dropdown-item" href="{{ route('help.center') }}"><i
+													class="bi bi-info-circle fa-fw me-2"></i>Bantuan</a>
+										</li>
+									@endif
 								@endif
 
 								<li><a class="dropdown-item bg-danger-soft-hover" href="{{ route('logout') }}"
@@ -134,7 +144,8 @@
 							</ul>
 						</div>
 					</div>
-				@else
+				@endauth
+				@guest
 					<div class="nav my-3 my-xl-0 px-4 flex-nowrap align-items-center text-center">
 						<div class="nav-item w-100">
 							<div class="login">
@@ -144,7 +155,8 @@
 							</div>
 						</div>
 					</div>
-				@endauth
+				@endguest
+
 				<!-- Nav Search END -->
 			</div>
 			<!-- Main navbar END -->

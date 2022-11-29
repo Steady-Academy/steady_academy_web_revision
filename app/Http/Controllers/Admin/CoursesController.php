@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CoursesController extends Controller
 {
@@ -12,10 +13,43 @@ class CoursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        return view('admin.course.index');
+        $db = app('firebase.firestore')->database();
+        // $category = $db->collection('Course_category')->documents;
+        $courses = $db->collection('Courses');
+        $query = $courses->orderBy('created_at', 'DESC');
+        // $snapshot = $this->getSnapshot($query);
+        // $data = json_decode($snapshot);
+        $data = $query->documents();
+
+
+
+        return view('admin.course.index', compact('data'));
     }
+
+    // public function getSnapshot($query)
+    // {
+    //     $json = [];
+    //     $snapshot = $query->documents();
+    //     foreach ($snapshot as $document) {
+    //         if ($document->exists()) {
+    //             $d = [];
+    //             foreach ($document->data() as $key => $data) {
+    //                 if (is_object($data)) {
+    //                     $d[$key] = $data->formatAsString();
+    //                 } else {
+    //                     $d[$key] = $data;
+    //                 }
+    //             }
+
+    //             $json[] = $d;
+    //         }
+    //     }
+    //     return json_encode($json);
+    // }
+
 
     /**
      * Show the form for creating a new resource.

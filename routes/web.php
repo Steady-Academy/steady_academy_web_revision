@@ -81,7 +81,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('kategori/tags', CategoryTagsController::class, ['except' => ['show']]);
         Route::resource('kategori/tipe_level', CategoryLevelTypeController::class, ['except' => ['show']]);
         // Route::resource('kursus', CoursesController::class);
-        Route::get('kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('kursus');
+        Route::get('tambah/kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('add.course');
+        // Route::get('kursus', CoursesController::class)->name('kursus');
+        Route::resource('kursus', CoursesController::class);
     });
 });
 
@@ -101,7 +103,7 @@ Route::prefix('instructur')->name('instructur.')->group(function () {
 Route::middleware(['user', 'fireauth', 'student'])->group(function () {
 });
 
-Route::middleware(['user', 'fireauth', 'auth'])->group(function () {
+Route::middleware(['user', 'fireauth', 'auth', 'isRegistered'])->group(function () {
     Route::get('instruktur/formulir', App\Http\Livewire\FormInstructur::class)->name('form.instructur');
 });
 

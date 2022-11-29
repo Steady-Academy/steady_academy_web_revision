@@ -1,101 +1,72 @@
 @extends('admin.layouts.app')
 @section('title', 'Data Kursus | Steady Academy')
-@push('custom-style')
-	<style>
-		div.dataTables_wrapper div.dataTables_processing {
-			background-color: #fff !important;
-
-		}
-
-		.loading>#datatables-column-search-text-inputs_processing {
-			width: 100%;
-			position: relative;
-		}
-
-		div.dataTables_wrapper div.dataTables_processing .progress {
-			background-color: #fff !important;
-			width: 100%;
-		}
-
-		div.dataTables_wrapper div.dataTables_processing {
-			left: 0;
-			margin-left: 0px;
-			margin-top: 0px;
-			padding: 0px;
-			position: absolute;
-			text-align: center;
-			top: 0;
-			width: 200px;
-		}
-	</style>
-@endpush
 @section('content')
 	<div class="container-fluid p-0">
-		<h1 class="mb-3">Data Kursus</h1>
+		<div class="d-flex align-items-center justify-content-between">
+			<h1 class="mb-3">Data Kursus</h1>
+			<a href="{{ route('admin.add.course') }}" class="btn btn-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24"
+					height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+					stroke-linejoin="round" class="feather feather-plus">
+					<line x1="12" y1="5" x2="12" y2="19" />
+					<line x1="5" y1="12" x2="19" y2="12" />
+				</svg> Tambah Kursus</a>
+		</div>
 		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Kursus</li>
 			</ol>
 		</nav>
-		<div class="content">
-			{{-- <button type="button" class="btn btn-primary my-1" data-bs-toggle="modal" data-bs-target="#centeredModalPrimary">
-				Primary
-			</button>
-			<div class="modal fade" id="centeredModalPrimary" tabindex="-1" style="display: none;" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Centered modal</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body m-3">
-							<p class="mb-0">Use Bootstrap’s JavaScript modal plugin to add dialogs to your site for lightboxes, user
-								notifications, or completely custom content.</p>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-primary">Save changes</button>
-						</div>
-					</div>
-				</div>
-			</div> --}}
-			<div id="smartwizard-default-primary" class="wizard wizard-primary mb-4 sw sw-theme-default sw-justified">
-				<ul class="nav">
-					<li class="nav-item"><a class="nav-link inactive active" href="#default-primary-step-1">First Step<br><small>Step
-								description</small></a></li>
-					<li class="nav-item"><a class="nav-link inactive" href="#default-primary-step-2">Second Step<br><small>Step
-								description</small></a></li>
-					<li class="nav-item"><a class="nav-link inactive" href="#default-primary-step-3">Third Step<br><small>Step
-								description</small></a></li>
-					<li class="nav-item"><a class="nav-link inactive" href="#default-primary-step-4">Fourth Step<br><small>Step
-								description</small></a></li>
-				</ul>
 
-				<div class="tab-content" style="height: 61px;">
-					<div id="default-primary-step-1" class="tab-pane" role="tabpanel" style="display: block;">
-						Step Content 1
+
+		@if ($data)
+			<div class="row align-items-center g-2">
+
+				@foreach ($data as $course)
+					@php
+						$db = app('firebase.firestore')->database();
+						// $id_instructur = $course->data()['instructur']->id();
+						// $category = $db
+						//     ->collection('Users')
+						//     ->document($id_instructur)
+						//     ->snapshot();
+						// $id = $course->data()['instructur']->id();A
+
+						// $tags = $course->data()['Category_tags'];
+						// foreach ($tags as $tag) {
+						//     dd($tag->id());
+						// }
+
+						$category = $db->document($course->data()['Category_course']->path())->snapshot();
+						dd($category);
+						$instructur = $db->document($course->data()['instructur']->path())->snapshot();
+
+					@endphp
+					{{-- {!! $db->collection() !!} --}}
+					@dd($data, $course, $instructur, $category->data()['name'])
+					<div class="col-12 col-sm-3">
+						<div class="card border border-1 shadow shadow-sm" style="border-radius: 25px">
+							<img class="card-img-top" src="{{ $course->data()['thumbnail_url'] }}"
+								style="border-radius: 25px 25px 0 0; max-height:180px; max-widht:355px" alt="thumbnail">
+							<div class="card-body py-2">
+								<a href="#" class="card-title fs-h5 mb-1 fw-bold text-truncate text-decoration-none stretched-link"
+									style="max-width: 330px">{{ $course->data()['name'] }}</a>
+								<h6 class="card-title mb-1 fw-light">{{ $course->data()['Category_course'] }}</h6>
+								<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2" style="font-size: 12px">Ruby</span>
+								<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2" style="font-size: 12px">Website</span>
+								<div class="d-flex my-2">
+									<p class="mb-0">10 Video</p>
+									<h4 class="ms-auto fw-bold text-success mb-0">Gratis</h4>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div id="default-primary-step-2" class="tab-pane" role="tabpanel" style="display: none;">
-						Step Content 2
-					</div>
-					<div id="default-primary-step-3" class="tab-pane" role="tabpanel" style="display: none;">
-						Step Content 3
-					</div>
-					<div id="default-primary-step-4" class="tab-pane" role="tabpanel" style="display: none;">
-						Step Content 4
-					</div>
-				</div>
-				<div class="toolbar toolbar-bottom" role="toolbar" style="text-align: right;"><button
-						class="btn sw-btn-prev disabled" type="button">Previous</button><button class="btn sw-btn-next"
-						type="button">Next</button></div>
-			</div>
-		</div>
+				@endforeach
+			@else
+				<h6 class="text-center">Tidak ada data kursus.</h6>
+		@endif
 	</div>
-@endsection
-@push('custom-script')
-	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
 
-	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-@endpush
+	</div>
+
+@endsection
