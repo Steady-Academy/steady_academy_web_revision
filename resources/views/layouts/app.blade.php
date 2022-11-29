@@ -11,7 +11,7 @@
 
 	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/vendor/font-awesome/css/all.min.css">
 	<link rel="stylesheet" href="{{ env('URL_NGROK') }}/assets-user/vendor/bootstrap-icons/bootstrap-icons.css">
-
+	<link rel="icon" href="{{ env('URL_NGROK') }}/assets-user/images/favicon_io/favicon.ico">
 
 
 	{{-- Default style --}}

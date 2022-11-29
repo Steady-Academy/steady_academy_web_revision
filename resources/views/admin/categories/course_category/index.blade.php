@@ -52,9 +52,19 @@
 						</div>
 						<div id="content" class="d-none">
 							<div id="add" class="add align-items-center text-lg-start text-center my-2">
-								<button class="btn btn-secondary mb-2"><i class="bi bi-arrow-repeat"></i> Reload </button>
-								<a href="{{ route('admin.kursus_kategori.create') }}" class="btn btn-success mb-2"><i
-										class="bi bi-bookmark-plus-fill"></i> Tambah Kategori </a>
+								<button class="btn btn-secondary mb-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+										viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+										stroke-linejoin="round" class="feather feather-rotate-cw align-middle me-2">
+										<polyline points="23 4 23 10 17 10"></polyline>
+										<path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+									</svg> Reload </button>
+								<a href="{{ route('admin.kursus_kategori.create') }}" class="btn btn-success mb-2"><svg
+										xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+										stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+										class="feather feather-plus">
+										<line x1="12" y1="5" x2="12" y2="19" />
+										<line x1="5" y1="12" x2="19" y2="12" />
+									</svg> Tambah Kategori </a>
 								{{-- <a href="#" class="btn btn-success mb-2"><i class="fas fa-puzzle-piece me-2"></i>New Class Type
 							</a> --}}
 							</div>
@@ -82,7 +92,8 @@
 														Tanggal dibuat
 													</th>
 													<th class="short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-														colspan="1" aria-label="Tanggal diperbaharui: activate to sort column ascending" style="width: 179px;">
+														colspan="1" aria-label="Tanggal diperbaharui: activate to sort column ascending"
+														style="width: 179px;">
 														Tanggal diperbaharui
 													</th>
 													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"

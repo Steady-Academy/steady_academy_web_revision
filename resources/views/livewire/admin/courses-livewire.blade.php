@@ -34,7 +34,7 @@
 		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Kursus</li>
+				<li class="breadcrumb-item"><a href="{{ route('admin.kursus.index') }}">Kursus</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Tambah Kursus</li>
 			</ol>
 		</nav>
@@ -47,7 +47,7 @@
 			@if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
 				<button class="btn sw-btn-next" type="button" wire:click="increaseStep()">Selanjutnya</button>
 			@endif --}}
-			<form wire:submit.prevent="create">
+			<form wire:submit.prevent="create" enctype="multipart/form-data">
 				<div id="smartwizard-default-primary" class="wizard wizard-primary mb-4 sw sw-theme-default sw-justified">
 					<ul class="nav">
 						<li class="nav-item"><a
@@ -92,11 +92,11 @@
 										<div class="mb-3">
 											<div wire:ignore>
 												<label for="kategori_kursus" class="form-label">Kategori Kursus </label>
-												<select class="col-sm-6 form-control select2" wire:model.defer="kategori_kursus"
-													placeholder="Pilih Kategori" id="kategori_kursus" wire:key="kategori_kursus">
+												<select class="col-sm-6 form-control select2" wire:model="kategori_kursus" placeholder="Pilih Kategori"
+													id="kategori_kursus">
 													<option></option>
 													@foreach ($kategori as $data)
-														<option value="{{ $data->name }}">{{ $data->name }}</option>
+														<option value="{{ $data->id }}">{{ $data->name }}</option>
 													@endforeach
 												</select>
 											</div>
@@ -111,11 +111,11 @@
 										<div class="mb-3">
 											<div wire:ignore>
 												<label for="level_kursus" class="form-label">Kursus Level </label>
-												<select class="col-sm-6 form-control select2" id="level_kursus" placeholder="Pilih Level"
-													wire:model.defer="level_kursus" id="level_kursus">
+												<select class="col-sm-6 form-control select2" placeholder="Pilih Level" wire:model.defer="level_kursus"
+													id="level_kursus">
 													<option></option>
 													@foreach ($level as $data)
-														<option value="{{ $data->name }}">{{ $data->name }}</option>
+														<option value="{{ $data->id }}">{{ $data->name }}</option>
 													@endforeach
 												</select>
 											</div>
@@ -127,20 +127,22 @@
 										</div>
 									</div>
 									<div class="col-sm-6">
-										<div class="mb-3" wire:ignore>
-											<label for="tipe_harga" class="form-label">Tipe Harga</label>
-											<select class="form-control select2" placeholder="Pilih Tipe Harga" id="tipe_harga"
-												wire:model.defer="tipe_harga">
-												<option value="">Pilih Tipe Harga</option>
-												<option value="paid">Berbayar</option>
-												<option value="free">Gratis</option>
-											</select>
-										</div>
-										@error('tipe_harga')
-											<div class="invalid-feedback">
-												{{ $message }}
+										<div class="mb-3">
+											<div wire:ignore>
+												<label for="tipe_harga" class="form-label">Tipe Harga</label>
+												<select class="form-control select2" placeholder="Pilih Tipe Harga" id="tipe_harga"
+													wire:model.defer="tipe_harga">
+													<option></option>
+													<option value="paid">Berbayar</option>
+													<option value="free">Gratis</option>
+												</select>
 											</div>
-										@enderror
+											@error('tipe_harga')
+												<div class="text-danger small">
+													{{ $message }}
+												</div>
+											@enderror
+										</div>
 									</div>
 									<div class="col-sm-6">
 										<div class="mb-3">
@@ -215,8 +217,8 @@
 										<div class="mb-3">
 											<div wire:ignore>
 												<label for="tags_kursus" class="form-label">Tags</label>
-												<select class="col-sm-6 form-control select2" wire:model.defer="tags_kursus[]" placeholder="Pilih Tag"
-													id="tags_kursus" multiple="multiple" wire:key="tags_kursus" data-allow-clear="1">
+												<select class="col-sm-6 form-control select2" name="tags_kursus[]" wire:model="tags_kursus"
+													placeholder="Pilih Tag" id="tags_kursus" multiple="multiple" data-allow-clear="1">
 													<option></option>
 													@foreach ($tags as $data)
 														<option value="{{ $data->id }}">{{ $data->name }}</option>
@@ -412,14 +414,15 @@
 											@endif
 											<div class="card-body py-2">
 												<h5 class="card-title mb-1 fw-bold text-truncate" style="max-width: 330px;">{{ $nama_kursus }}</h5>
-												<h6 class="card-title mb-1 fw-light">{{ $kategori_kursus }}</h6>
-												@foreach ($tags_kursus as $tag)
+												<h6 class="card-title mb-1 fw-light">{{ $kategori_name }}</h6>
+
+												@foreach ($tag_name as $key => $value)
 													<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2"
-														style="font-size: 12px">{{ $tag }}</span>
+														style="font-size: 12px">{{ $value }}</span>
 												@endforeach
 												<div class="d-flex my-2">
 													<p class="mb-0">{{ array_sum(array_map('count', $materi_sub_materi)) }} Video</p>
-													<h4 class="ms-auto fw-bold text-success mb-0">{{ $harga_kursus }}</h4>
+													<h4 class="ms-auto fw-bold text-success mb-0">{{ $tipe_harga == 'free' ? 'Gratis' : $harga_kursus }}</h4>
 												</div>
 											</div>
 										</div>
@@ -434,7 +437,7 @@
 											<div class="hstack gap-1 gap-lg-3">
 												<div class="category">
 													<h6 class="text-start">Kategori</h6>
-													<div class=" text-warp" style="width: 8rem;">{{ $kategori_kursus }}</div>
+													<div class=" text-warp" style="width: 8rem;">{{ $kategori_name }}</div>
 												</div>
 												<div class="vr"></div>
 												<div class="video">
@@ -521,15 +524,27 @@
 						@endif
 
 						@if ($currentStep == 2 || $currentStep == 3 || $currentStep == 4)
-							<button class="btn sw-btn-prev" type="button" wire:click="decreaseStep()">Kembali</button>
+							<button class="btn sw-btn-prev" type="button" wire:click="decreaseStep()" wire:loading.attr="disabled">
+								<span wire:loading wire:target="decreaseStep" class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span>
+								Kembali
+							</button>
 						@endif
 
 						@if ($currentStep == 1 || $currentStep == 2 || $currentStep == 3)
-							<button class="btn sw-btn-next" type="button" wire:click="increaseStep()">Selanjutnya</button>
+							<button class="btn sw-btn-next" type="button" wire:click="increaseStep()" wire:loading.attr="disabled">
+								<span wire:loading wire:target="increaseStep" class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span>
+								Selanjutnya
+							</button>
 						@endif
 
 						@if ($currentStep == 4)
-							<button class="btn btn-success" type="submit">Selesai</button>
+							<button class="btn btn-success" type="submit">
+								<span wire:loading wire:target="create" class="spinner-border spinner-border-sm" role="status"
+									aria-hidden="true"></span>
+								Selesai
+							</button>
 						@endif
 					</div>
 				</div>
@@ -541,8 +556,7 @@
 	@foreach ($materi_sub_materi as $key => $value)
 		@foreach ($value as $keys => $values)
 			<div class="modal fade" id="detailSubMateri{{ $loop->index . $loop->parent->index }}" tabindex="-1"
-				aria-labelledby="detailSubMateri{{ $loop->index . $loop->parent->index }}Label" aria-hidden="true"
-				wire:ignore.self>
+				aria-labelledby="detailSubMateri{{ $loop->index . $loop->parent->index }}Label" aria-hidden="true">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -554,9 +568,13 @@
 						<div class="modal-body">
 							<div class="text-center">
 								<div class="video-player rounded-3">
-									<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
-										<source src="{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}" />
-									</video>
+									@if ($materi_sub_materi[$key][$loop->index][$loop->parent->index])
+										<video width="450" height="250" id="player" playsinline class="rounded-3" controls
+											wire:key="{{ $key }}">
+											<source
+												src="{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['video_sub_materi']->temporaryUrl() }}" />
+										</video>
+									@endif
 								</div>
 							</div>
 							<div class="mb-3">
@@ -599,7 +617,8 @@
 								<div class="text-center">
 									@if ($sub_materi_item != [])
 										@if (array_key_exists($key, $sub_materi_item))
-											<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
+											<video width="450" height="250" id="player" playsinline class="rounded-3" controls
+												wire:key="{{ $key }}">
 												<source src="{{ $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() }}" />
 											</video>
 										@endif
@@ -627,7 +646,7 @@
 								<div class="mb-3">
 									<label for="nama_sub_materi">Nama Sub Materi</label>
 									<input type="text"
-										wire:model.defer="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
+										wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
 										wire:key="{{ $key }}"
 										class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi') is-invalid @enderror">
 									@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi')
@@ -651,7 +670,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-								<button type="submit" class="btn btn-primary">Simpan</button>
+								<button type="submit" class="btn btn-primary" wire:click="$emit('refreshVideo')">Simpan</button>
 							</div>
 						</form>
 					</div>
@@ -663,8 +682,7 @@
 	{{-- Tambah Sub Materi --}}
 	@foreach ($materi_sub_materi as $key => $value)
 		<div class="modal fade" id="addSubMateri{{ $loop->index }}" tabindex="-1"
-			aria-labelledby="addSubMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self
-			wire:key="{{ $key }}">
+			aria-labelledby="addSubMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self>
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<form wire:submit.prevent="subMateri">
@@ -678,7 +696,8 @@
 							<div class="text-center">
 								@if ($sub_materi_item != [])
 									@if (array_key_exists($key, $sub_materi_item))
-										<video width="450" height="250" id="player" playsinline class="rounded-3" controls>
+										<video width="450" height="250" id="player" playsinline class="rounded-3" controls
+											wire:key="{{ $key }}">
 											<source src="{{ $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() }}" />
 										</video>
 									@endif
@@ -705,8 +724,7 @@
 							</div>
 							<div class="mb-3">
 								<label for="nama_sub_materi">Nama Sub Materi</label>
-								<input type="text"
-									wire:model.defer="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
+								<input type="text" wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
 									:key="{{ $key }}"
 									class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi') is-invalid @enderror"
 									{{ isset($sub_materi_item[$key]) ? '' : 'disabled' }}>
@@ -824,6 +842,8 @@
 				$('#editMateri{{ $loop->index }}').modal('hide')
 			})
 		</script>
+	@endforeach
+	@foreach ($materi_sub_materi as $key => $value)
 		<script>
 			window.addEventListener('show-form', event => {
 				$('#addSubMateri{{ $loop->index }}').modal('show')
@@ -851,38 +871,41 @@
 				})
 			})
 
-			$('#kategori_kursus').on('change', function(e) {
-				var data = $('#kategori_kursus').select2("val");
-				@this.set('kategori_kursus', data);
-			})
-
 			$('#level_kursus').on('change', function(e) {
 				var data = $('#level_kursus').select2("val");
 				@this.set('level_kursus', data);
 			})
 
-			$('#tags_kursus').on('change', function(e) {
-				var data = $('#tags_kursus').select2("val");
-				@this.set('tags_kursus', data);
-			})
+			// $('#tipe_harga').on('change', function(e) {
+			// 	var data = $('#tipe_harga').select2("val");
+			// 	@this.set('tipe_harga', data);
+			// })
 
-			$('#tipe_harga').on('change', function(e) {
-				var data = $('#tipe_harga').select2("val");
-				@this.set('tipe_harga', data);
-			})
+			window.loadSelect2 = () => {
+				$('#tipe_harga').select2().on('change', function() {
+					@this.set('tipe_harga', $(this).val());
+				});
+				$('#kategori_kursus').select2().on('change', function() {
+					@this.set('kategori_kursus', $(this).val());
+				});
+				$('#tags_kursus').select2().on('change', function() {
+					@this.set('tags_kursus', $(this).val());
+				});
+			}
+
+			loadSelect2();
+			window.livewire.on('loadSelect2Hydrate', () => {
+				loadSelect2();
+				$('.select2').each(function() {
+					$(this).select2({
+						theme: 'bootstrap4',
+						placeholder: $(this).attr('placeholder'),
+					})
+				})
+			});
 
 		});
 	</script>
-	{{-- @foreach ($sub_materi as $key => $value)
-		<script>
-			window.addEventListener('show-form', event => {
-				$('#addSubMateri'.$key).modal('show')
-			})
-			window.addEventListener('hide-form', event => {
-				$('#addSubMateri'.$key).modal('hide')
-			})
-		</script>
-	@endforeach --}}
 
 	<script>
 		window.addEventListener('show-form', event => {
