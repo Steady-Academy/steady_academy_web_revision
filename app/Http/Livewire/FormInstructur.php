@@ -286,6 +286,7 @@ class FormInstructur extends Component
                 'login_at' => Carbon::now()->toDayDateTimeString(),
                 'registered' => true,
                 'is_confirmed' => false,
+                'register_at' => Carbon::now()->toDayDateTimeString(),
             ], ['merge' => true]);
         } else {
             $db = app('firebase.firestore')->database()->collection('Users')->document($uid);
@@ -312,6 +313,7 @@ class FormInstructur extends Component
                 'login_at' => Carbon::now()->toDayDateTimeString(),
                 'registered' => true,
                 'is_confirmed' => false,
+                'register_at' => Carbon::now()->toDayDateTimeString(),
             ], ['merge' => true]);
         }
 

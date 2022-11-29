@@ -62,7 +62,7 @@
 			</li>
 
 			<li class="sidebar-item {{ request()->is('admin/kursus*') ? 'active' : '' }}">
-				<a class="sidebar-link" href="{{ route('admin.kursus') }}">
+				<a class="sidebar-link" href="{{ route('admin.kursus.index') }}">
 					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Kursus</span>
 				</a>
 			</li>
