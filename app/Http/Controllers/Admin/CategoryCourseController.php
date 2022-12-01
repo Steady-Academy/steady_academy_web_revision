@@ -245,7 +245,7 @@ class CategoryCourseController extends Controller
         $url_token = explode('?', $decode);
         $url = explode('/', $url_token[0]);
 
-        $oldPhoto = $url[4] . '/' . $url[5];
+        $oldPhoto = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
         $imageDeleted = app('firebase.storage')->getBucket()->object($oldPhoto)->delete();
 
         $snapshot = app('firebase.firestore')->database()->collection('Category_course')->document($id)->delete();

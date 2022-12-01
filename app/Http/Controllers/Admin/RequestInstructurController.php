@@ -209,7 +209,7 @@ class RequestInstructurController extends Controller
         $mailData = [
             "name" => $req_instructur->data()['name'],
             "date" => Carbon::now(),
-            "action" => route('instructur.dashboard'),
+            "button" => route('landing'),
         ];
         if ($req_instructur) {
             Mail::to($req_instructur->data()['email'])->send(new RegistrationInstructurMail($mailData));
