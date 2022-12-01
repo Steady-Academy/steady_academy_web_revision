@@ -39,7 +39,7 @@
 				</div>
 			</div>
 		</div> --}}
-		<div class="card">
+		<div class="card ">
 			<div class="row g-0">
 				<div class="col-12 col-lg-7 col-xl-12">
 					<div class="py-2 px-4 border-bottom d-none d-lg-block">
@@ -49,10 +49,13 @@
 							</div>
 						</div>
 					</div>
+					<div class="card overflow-scroll mb-0" style="height: 650px">
+						<div class="card-body">
+							<div class="position-relative">
+								<div class="chat-messages p-4" id="bodyContent">
 
-					<div class="position-relative">
-						<div class="chat-messages p-4" id="bodyContent">
-
+								</div>
+							</div>
 						</div>
 					</div>
 
