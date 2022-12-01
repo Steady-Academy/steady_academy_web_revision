@@ -29,6 +29,6 @@ class RegistrationInstructurMail extends Mailable
      */
     public function build()
     {
-        return $this->subject('Pendaftaran Kamu Diterima.')->view('email.request');
+        return $this->markdown('email.request');
     }
 }

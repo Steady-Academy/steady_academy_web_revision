@@ -2,7 +2,7 @@
 	<h2>
 		Hallo {{ $mailData['name'] }},</h2>
 	<p> Selemat kamu terpiliih menjadi Instruktur di Steady Academy
-		@component('mail::button', ['url' => $mailData['action']])
+		@component('mail::button', ['url' => $mailData['button']])
 			Lanjutkan Ke Dashboard
 		@endcomponent
 	</p>
