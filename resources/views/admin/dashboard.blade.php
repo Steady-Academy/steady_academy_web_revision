@@ -23,8 +23,8 @@
 								<div class="row g-0 w-100">
 									<div class="col-6">
 										<div class="illustration-text p-3 m-1">
-											<h4 class="illustration-text">Welcome Dadang Jebred!</h4>
-											<p class="mb-0">BasicSchool Dashboard</p>
+											<h4 class="illustration-text">{{ Auth::user()->displayName }}</h4>
+											<p class="mb-0">Steady Academy Dashboard</p>
 										</div>
 									</div>
 									<div class="col-6 align-self-end text-end">
@@ -49,11 +49,11 @@
 										</div>
 									</div>
 								</div>
-								<span class="h1 d-inline-block mt-1 mb-4">20</span>
+								<span class="h1 d-inline-block mt-1 mb-4">{{ $totalStudents }}</span>
 								<div class="mb-0">
 									{{-- {{-- @if ($studentsNew != '') --}}
-									<span class="badge badge-soft-success me-2"> +20 % </span>
-									<span class="text-muted">New Students</span>
+									<span class="badge badge-soft-success me-2">+{{ $newStudents }} %</span>
+									<span class="text-muted">Student Baru</span>
 									{{-- @endif --}}
 								</div>
 							</div>
@@ -73,11 +73,11 @@
 										</div>
 									</div>
 								</div>
-								<span class="h1 d-inline-block mt-1 mb-4">12</span>
+								<span class="h1 d-inline-block mt-1 mb-4">{{ $totalInstructurs }}</span>
 								<div class="mb-0">
 									{{-- @if ($instructorsNew != '') --}}
-									<span class="badge badge-soft-success me-2"> +12 % </span>
-									<span class="text-muted">New Instructor</span>
+									<span class="badge badge-soft-success me-2">+{{ $newInstructurs }}%</span>
+									<span class="text-muted">Instruktur Baru</span>
 									{{-- @endif --}}
 								</div>
 							</div>
@@ -97,11 +97,11 @@
 										</div>
 									</div>
 								</div>
-								<span class="h1 d-inline-block mt-1 mb-4">50</span>
+								<span class="h1 d-inline-block mt-1 mb-4">{{ $totalCourses }}</span>
 								<div class="mb-0">
 									{{-- @if ($masterclassesNew != '') --}}
-									<span class="badge badge-soft-success me-2"> +40 %</span>
-									<span class="text-muted">New Course</span>
+									<span class="badge badge-soft-success me-2">+{{ $newCourses }}%</span>
+									<span class="text-muted">Kursus Baru</span>
 									{{-- @endif --}}
 								</div>
 							</div>
@@ -117,20 +117,7 @@
 		<div class="col-12 col-lg-4 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-					<div class="card-actions float-end">
-						<div class="dropdown position-relative">
-							<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="align-middle" data-feather="more-horizontal"></i>
-							</a>
-
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-							</div>
-						</div>
-					</div>
-					<h5 class="card-title mb-0">Interests</h5>
+					<h5 class="card-title mb-0">Ketertarikan</h5>
 				</div>
 				<div class="card-body">
 					<div class="chart">
@@ -153,15 +140,9 @@
 									<circle cx="5" cy="12" r="1"></circle>
 								</svg>
 							</a>
-
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-							</div>
 						</div>
 					</div>
-					<h5 class="card-title mb-0">Course Category</h5>
+					<h5 class="card-title mb-0">Kategori Berdasarkan Kursus</h5>
 				</div>
 				<div class="card-body d-flex w-100">
 					<div class="align-self-center chart">
@@ -193,85 +174,36 @@
 									<circle cx="5" cy="12" r="1"></circle>
 								</svg>
 							</a>
-
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-							</div>
 						</div>
 					</div>
-					<h5 class="card-title mb-0">Categories</h5>
+					<h5 class="card-title mb-0">Permintaan Instructur</h5>
 				</div>
 				<table class="table table-striped my-0">
 					<thead>
 						<tr>
-							<th>Language</th>
-							<th class="text-end">Users</th>
-							<th class="d-none d-xl-table-cell w-75">% Users</th>
+							<th class="d-none d-xl-table-cell w-50">Akun</th>
+							<th class="text-end">No Teleon</th>
+							<th>Aksi</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>en-us</td>
-							<td class="text-end">735</td>
-							<td class="d-none d-xl-table-cell">
-								<div class="progress">
-									<div class="progress-bar bg-primary" role="progressbar" style="width: 43%;" aria-valuenow="43"
-										aria-valuemin="0" aria-valuemax="100">43%</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>en-gb</td>
-							<td class="text-end">223</td>
-							<td class="d-none d-xl-table-cell">
-								<div class="progress">
-									<div class="progress-bar bg-primary" role="progressbar" style="width: 27%;" aria-valuenow="27"
-										aria-valuemin="0" aria-valuemax="100">27%</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>fr-fr</td>
-							<td class="text-end">181</td>
-							<td class="d-none d-xl-table-cell">
-								<div class="progress">
-									<div class="progress-bar bg-primary" role="progressbar" style="width: 22%;" aria-valuenow="22"
-										aria-valuemin="0" aria-valuemax="100">22%</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>es-es</td>
-							<td class="text-end">132</td>
-							<td class="d-none d-xl-table-cell">
-								<div class="progress">
-									<div class="progress-bar bg-primary" role="progressbar" style="width: 16%;" aria-valuenow="16"
-										aria-valuemin="0" aria-valuemax="100">16%</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>de-de</td>
-							<td class="text-end">118</td>
-							<td class="d-none d-xl-table-cell">
-								<div class="progress">
-									<div class="progress-bar bg-primary" role="progressbar" style="width: 15%;" aria-valuenow="15"
-										aria-valuemin="0" aria-valuemax="100">15%</div>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>ru-ru</td>
-							<td class="text-end">98</td>
-							<td class="d-none d-xl-table-cell">
-								<div class="progress">
-									<div class="progress-bar bg-primary" role="progressbar" style="width: 13%;" aria-valuenow="13"
-										aria-valuemin="0" aria-valuemax="100">13%</div>
-								</div>
-							</td>
-						</tr>
+						@foreach ($requestInstructurs as $request)
+							<tr>
+								<td>
+									<div class="d-flex gap-2">
+										<img src="{{ $request->data()['photoUrl'] }}" class="rounded-circle border border-2 border-dark"
+											width="50" height="50" alt="{{ $request->data()['name'] }}">
+										<div class="text-left align-self-center">
+											<h5 class="fw-bold mb-0">{{ $request->data()['name'] }}</h5>
+											<p class="mb-0">{{ Str::limit($request->data()['email'], 20, '...') }}</p>
+										</div>
+									</div>
+								</td>
+								<td class="text-left">{{ $request->data()['phoneNumber'] }}</td>
+								<td><a href="{{ route('admin.request.show', $request->data()['uid']) }}" class="btn btn-info"><i
+											class="fas fa-search"></i></a></td>
+							</tr>
+						@endforeach
 					</tbody>
 				</table>
 			</div>
@@ -281,19 +213,7 @@
 		<div class="col-12 col-lg-7 col-xl-12 d-flex">
 			<div class="card flex-fill">
 				<div class="card-header">
-					<div class="card-actions float-end">
-						<div class="dropdown position-relative">
-							<a href="#" data-bs-toggle="dropdown" data-bs-display="static">
-								<i class="align-middle" data-feather="more-horizontal"></i>
-							</a>
-							<div class="dropdown-menu dropdown-menu-end">
-								<a class="dropdown-item" href="#">Action</a>
-								<a class="dropdown-item" href="#">Another action</a>
-								<a class="dropdown-item" href="#">Something else here</a>
-							</div>
-						</div>
-					</div>
-					<h5 class="card-title mb-0">Masterclasses</h5>
+					<h5 class="card-title mb-0">Kursus</h5>
 				</div>
 				<table id="datatables-dashboard-traffic" class="table table-striped my-0">
 					<thead>
@@ -373,9 +293,7 @@
 			new Chart(document.getElementById("chartjs-dashboard-bar-devices"), {
 				type: "bar",
 				data: {
-					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov",
-						"Dec"
-					],
+					labels: {!! $categoryName !!},
 					datasets: [{
 						label: "Mobile",
 						backgroundColor: window.theme.primary,
@@ -425,118 +343,6 @@
 	</script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			var markers = [{
-					coords: [31.230391, 121.473701],
-					name: "Shanghai"
-				},
-				{
-					coords: [39.904202, 116.407394],
-					name: "Beijing"
-				},
-				{
-					coords: [28.704060, 77.102493],
-					name: "Delhi"
-				},
-				{
-					coords: [6.524379, 3.379206],
-					name: "Lagos"
-				},
-				{
-					coords: [39.343357, 117.361649],
-					name: "Tianjin"
-				},
-				{
-					coords: [24.860735, 67.001137],
-					name: "Karachi"
-				},
-				{
-					coords: [41.008240, 28.978359],
-					name: "Istanbul"
-				},
-				{
-					coords: [35.689487, 139.691711],
-					name: "Tokyo"
-				},
-				{
-					coords: [23.129110, 113.264381],
-					name: "Guangzhou"
-				},
-				{
-					coords: [19.075983, 72.877655],
-					name: "Mumbai"
-				},
-				{
-					coords: [40.7127837, -74.0059413],
-					name: "New York"
-				},
-				{
-					coords: [34.052235, -118.243683],
-					name: "Los Angeles"
-				},
-				{
-					coords: [41.878113, -87.629799],
-					name: "Chicago"
-				},
-				{
-					coords: [29.760427, -95.369804],
-					name: "Houston"
-				},
-				{
-					coords: [33.448376, -112.074036],
-					name: "Phoenix"
-				},
-				{
-					coords: [51.507351, -0.127758],
-					name: "London"
-				},
-				{
-					coords: [48.856613, 2.352222],
-					name: "Paris"
-				},
-				{
-					coords: [55.755825, 37.617298],
-					name: "Moscow"
-				},
-				{
-					coords: [40.416775, -3.703790],
-					name: "Madrid"
-				}
-			];
-			var map = new jsVectorMap({
-				map: "world",
-				selector: "#world_map",
-				zoomButtons: true,
-				markers: markers,
-				markerStyle: {
-					initial: {
-						r: 9,
-						stroke: window.theme.white,
-						strokeWidth: 7,
-						stokeOpacity: .4,
-						fill: window.theme.primary
-					},
-					hover: {
-						fill: window.theme.primary,
-						stroke: window.theme.primary
-					}
-				},
-				regionStyle: {
-					initial: {
-						fill: window.theme["gray-200"]
-					}
-				},
-				zoomOnScroll: false
-			});
-			window.addEventListener("resize", () => {
-				map.updateSize();
-			});
-			setTimeout(function() {
-				map.updateSize();
-			}, 250);
-		});
-	</script>
-	<script>
-		document.addEventListener("DOMContentLoaded", function() {
 			// Pie chart
 			new Chart(document.getElementById("chartjs-dashboard-pie"), {
 				type: "pie",
@@ -571,7 +377,7 @@
 			new Chart(document.getElementById("chartjs-dashboard-radar"), {
 				type: "radar",
 				data: {
-					labels: ["Technology", "Sports", "Media", "Gaming", "Arts"],
+					labels: {!! $categoryName !!},
 					datasets: [{
 						label: "Interests",
 						backgroundColor: "rgba(0, 123, 255, 0.2)",

@@ -34,7 +34,7 @@
 		<nav style="--bs-breadcrumb-divider: '/';" aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a href="#">Dashboard</a></li>
-				<li class="breadcrumb-item"><a href="{{ route('admin.kursus.index') }}">Kursus</a></li>
+				<li class="breadcrumb-item"><a href="{{ route('instructur.kursus.index') }}">Kursus</a></li>
 				<li class="breadcrumb-item active" aria-current="page">Tambah Kursus</li>
 			</ol>
 		</nav>

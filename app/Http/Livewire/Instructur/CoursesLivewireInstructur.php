@@ -11,7 +11,7 @@ use Session;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 
-class CoursesLivewire extends Component
+class CoursesLivewireInstructur extends Component
 {
     use WithFileUploads;
     public $totalSteps = 4;
@@ -83,7 +83,7 @@ class CoursesLivewire extends Component
             $this->tag_name = array_unique($this->tag_name);
         }
 
-        return view('livewire.admin.courses-livewire')->extends('admin.layouts.app');
+        return view('livewire.instructur.courses-livewire')->extends('instructur.layouts.app');
     }
 
     public function addNew()
@@ -520,6 +520,6 @@ class CoursesLivewire extends Component
             }
             $parent++;
         }
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('instructur.dashboard');
     }
 }

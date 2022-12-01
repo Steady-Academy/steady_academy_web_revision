@@ -67,6 +67,12 @@
 				</a>
 			</li>
 
+			<li class="sidebar-item {{ request()->is('admin/chatting*') ? 'active' : '' }}">
+				<a class="sidebar-link" href="{{ route('admin.chatting.index') }}">
+					<i class="align-middle" data-feather="message-circle"></i> <span class="align-middle">Chat</span>
+				</a>
+			</li>
+
 			<li class="sidebar-header">Halaman</li>
 			<li class="sidebar-item">
 				<a class="sidebar-link" href="{{ route('landing') }}">

@@ -9,7 +9,9 @@ use App\Http\Controllers\Admin\CategoryCourseController;
 use App\Http\Controllers\Admin\CategoryLevelTypeController;
 use App\Http\Controllers\Admin\CategoryPriceTypeController;
 use App\Http\Controllers\Admin\CategoryTagsController;
+use App\Http\Controllers\Admin\ChattingController;
 use App\Http\Controllers\Admin\CoursesController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HelpCenterController;
 
 
@@ -63,9 +65,9 @@ Route::middleware(['user', 'fireauth'])->group(function () {
 // if user role is admin and is verified
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['auth', 'fireauth', 'admin'])->group(function () {
-        Route::get('dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('chatting', [ChattingController::class, 'index'])->name('chatting.index');
+        Route::get('chatting/{id}', [ChattingController::class, 'update'])->name('chatting.update');
         Route::resource('users/student', StudentController::class, ['except' => ['create', 'store']]);
         Route::put('users/student/{student}/enable', [StudentController::class, 'enable'])->name('student.enable');
         Route::put('users/student/{student}/disable', [StudentController::class, 'disabled'])->name('student.disable');
@@ -92,10 +94,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::prefix('instructur')->name('instructur.')->group(function () {
     Route::view('success', 'registration-success')->name('success')->middleware(['user', 'fireauth']);
     Route::middleware(['user', 'fireauth', 'instructur'])->group(function () {
-        Route::resource('profile', App\Http\Controllers\Auth\ProfileController::class);
+        // Route::resource('profile', App\Http\Controllers\Auth\ProfileController::class);
         Route::get('dashboard', function () {
             return view('instructur.dashboard');
         })->name('dashboard');
+        Route::get('tambah/kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('add.course');
     });
 });
 

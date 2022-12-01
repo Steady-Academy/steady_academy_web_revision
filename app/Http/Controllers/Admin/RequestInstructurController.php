@@ -11,6 +11,8 @@ use Kreait\Firebase\Auth;
 use Kreait\Auth\Request\UpdateUser;
 use Kreait\Firebase\Exception\FirebaseException;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Mail\RegistrationInstructurMail;
+use Illuminate\Support\Facades\Mail;
 
 use Carbon\Carbon;
 
@@ -200,11 +202,22 @@ class RequestInstructurController extends Controller
 
     public function approve(Request $request, $id)
     {
-        $db = app('firebase.firestore')->database()->collection('Users')->document($id);
-        $approve = $db->set([
+        $db = app('firebase.firestore')->database();
+        $confirm = $db->collection('Users')->document($id);
+        $req_instructur = $db->collection('Users')->document($id)->snapshot();
+
+        $mailData = [
+            "name" => $req_instructur->data()['name'],
+            "date" => Carbon::now(),
+            "action" => route('instructur.dashboard'),
+        ];
+
+        $approve = $confirm->set([
             'is_confirmed' => true,
         ], ['merge' => true]);
+
         if ($approve) {
+            Mail::to($req_instructur->data()['email'])->send(new RegistrationInstructurMail($mailData));
             toast("User telah menjadi instructur", 'success');
             return redirect()->back();
         }
