@@ -17,14 +17,15 @@
 				<li class="breadcrumb-item active" aria-current="page">Kursus</li>
 			</ol>
 		</nav>
-
-
-		@if ($data)
-			<div class="row align-items-center g-2">
-
+		<div class="row align-items-center g-2">
+			@if (!is_array($data))
+				<h6 class="text-center">Tidak ada data kursus.</h6>
+			@else
+				@php
+					$db = app('firebase.firestore')->database();
+				@endphp
 				@foreach ($data as $course)
 					@php
-						$db = app('firebase.firestore')->database();
 						// $id_instructur = $course->data()['instructur']->id();
 						// $category = $db
 						//     ->collection('Users')
@@ -38,12 +39,11 @@
 						// }
 
 						$category = $db->document($course->data()['Category_course']->path())->snapshot();
-						dd($category);
-						$instructur = $db->document($course->data()['instructur']->path())->snapshot();
-
+						$tags = $db->document($course->data()['Category_tags']->path())->snapshot();
+						// $instructur = $db->document($course->data()['instructur']->path())->snapshot();
+						// dd($instructur);
 					@endphp
 					{{-- {!! $db->collection() !!} --}}
-					@dd($data, $course, $instructur, $category->data()['name'])
 					<div class="col-12 col-sm-3">
 						<div class="card border border-1 shadow shadow-sm" style="border-radius: 25px">
 							<img class="card-img-top" src="{{ $course->data()['thumbnail_url'] }}"
@@ -52,8 +52,10 @@
 								<a href="#" class="card-title fs-h5 mb-1 fw-bold text-truncate text-decoration-none stretched-link"
 									style="max-width: 330px">{{ $course->data()['name'] }}</a>
 								<h6 class="card-title mb-1 fw-light">{{ $course->data()['Category_course'] }}</h6>
-								<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2" style="font-size: 12px">Ruby</span>
-								<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2" style="font-size: 12px">Website</span>
+								@foreach ($tags as $tag)
+									<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2"
+										style="font-size: 12px">{{ $tag }}</span>
+								@endforeach
 								<div class="d-flex my-2">
 									<p class="mb-0">10 Video</p>
 									<h4 class="ms-auto fw-bold text-success mb-0">Gratis</h4>
@@ -62,11 +64,8 @@
 						</div>
 					</div>
 				@endforeach
-			@else
-				<h6 class="text-center">Tidak ada data kursus.</h6>
-		@endif
-	</div>
-
+			@endif
+		</div>
 	</div>
 
 @endsection

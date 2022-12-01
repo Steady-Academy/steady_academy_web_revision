@@ -98,6 +98,7 @@ Route::prefix('instructur')->name('instructur.')->group(function () {
         Route::get('dashboard', function () {
             return view('instructur.dashboard');
         })->name('dashboard');
+        // Route::get('users/student', App\Http\Controllers\Instructur\InstructurStudentController::class)->name('users.student');
         Route::get('tambah/kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('add.course');
     });
 });

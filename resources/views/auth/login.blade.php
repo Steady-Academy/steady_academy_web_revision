@@ -17,6 +17,7 @@
 									<p>Masukkan akunmu untuk mengajar</p>
 								</div>
 							</div>
+
 							@if (session('success'))
 								<div class="alert alert-dark bg-dark fw-normal text-white py-2 px-3 align-items-center"
 									style="border-radius: 30px" role="alert">
@@ -51,6 +52,11 @@
 									<label for="email" class="form-label">Email</label>
 									<input type="email" class="form-control form-control-md" name="email" value="{{ old('email') }}"
 										placeholder="Masukan email kamu" required>
+									@error('email')
+										<div class="invalid-feedback">
+											{{ $message }}
+										</div>
+									@enderror
 								</div>
 								<div class="mb-3">
 									<label for="password" class="form-label">Password</label>
@@ -60,6 +66,11 @@
 										<span class="input-group-text bg-light rounded-end border-1 text-secondary px-3"><i class="fas fa-eye"
 												id="togglePassword"></i></span>
 									</div>
+									@error('email')
+										<div class="invalid-feedback">
+											{{ $message }}
+										</div>
+									@enderror
 								</div>
 								<div class="d-flex">
 									<div class="form-check align-items-center">

@@ -211,13 +211,12 @@ class RequestInstructurController extends Controller
             "date" => Carbon::now(),
             "action" => route('instructur.dashboard'),
         ];
-
-        $approve = $confirm->set([
-            'is_confirmed' => true,
-        ], ['merge' => true]);
-
-        if ($approve) {
+        if ($req_instructur) {
             Mail::to($req_instructur->data()['email'])->send(new RegistrationInstructurMail($mailData));
+            $confirm->set([
+                'is_confirmed' => true,
+            ], ['merge' => true]);
+
             toast("User telah menjadi instructur", 'success');
             return redirect()->back();
         }

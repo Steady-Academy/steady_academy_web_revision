@@ -1,13 +1,12 @@
 @component('mail::message')
 	<h2>
-		Hello {{ $mailData['name'] }},</h2>
-	<p> Selemat kamu terpiliih menjadi Instruktur di SteadyAcademy
+		Hallo {{ $mailData['name'] }},</h2>
+	<p> Selemat kamu terpiliih menjadi Instruktur di Steady Academy
 		@component('mail::button', ['url' => $mailData['action']])
-			Bacancy Technology
+			Lanjutkan Ke Dashboard
 		@endcomponent
 	</p>
 
 	Terima kasih,<br>
-	{{ config('app.name') }}<br>
 	Steady Academy Team
 @endcomponent

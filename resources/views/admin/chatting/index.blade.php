@@ -4,9 +4,9 @@
 	<section>
 		<h1>Chatting</h1>
 
-		<div class="card">
-			<div class="row justify-content-center">
-				{{-- <div class="col-12 col-lg-5 col-xl-3 border-end list-group">
+		{{-- <div class="card">
+			<div class="row justify-content-center"> --}}
+		{{-- <div class="col-12 col-lg-5 col-xl-3 border-end list-group">
 					@foreach ($userAdmin as $user)
 
 						<a href="{{ route('admin.chatting.update', $user->data()['uid']) }}"
@@ -25,7 +25,7 @@
 					@endforeach
 				</div> --}}
 
-				<div class="col-12 col-lg-7 col-xl-12">
+		{{-- <div class="col-12 col-lg-7 col-xl-12">
 					<div class="position-relative">
 						<div class="chat-messages p-4" id="bodyContent">
 						</div>
@@ -34,6 +34,32 @@
 						<div class="input-group">
 							<input type="text" class="form-control" id="message" placeholder="Type your message">
 							<button id="submit" class="btn btn-primary">Send</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> --}}
+		<div class="card">
+			<div class="row g-0">
+				<div class="col-12 col-lg-7 col-xl-12">
+					<div class="py-2 px-4 border-bottom d-none d-lg-block">
+						<div class="d-flex align-items-start align-items-center py-1">
+							<div class="flex-grow-1 ps-3">
+								<h4>Group Admin</h4>
+							</div>
+						</div>
+					</div>
+
+					<div class="position-relative">
+						<div class="chat-messages p-4" id="bodyContent">
+
+						</div>
+					</div>
+
+					<div class="flex-grow-0 py-3 px-4 border-top">
+						<div class="input-group">
+							<input type="text" class="form-control" id="message" placeholder="Ketik pesan">
+							<button id="submit" class="btn btn-primary">Kirim</button>
 						</div>
 					</div>
 				</div>

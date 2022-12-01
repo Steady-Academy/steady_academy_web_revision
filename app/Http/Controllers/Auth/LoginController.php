@@ -11,9 +11,9 @@ use Kreait\Firebase\Auth\SignInResult\SignInResult;
 use Kreait\Firebase\Exception\FirebaseException;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
-
-use Auth;
 use Session;
+use Auth;
+
 use App\Models\User;
 
 class LoginController extends Controller
@@ -74,8 +74,6 @@ class LoginController extends Controller
                 ]);
                 return redirect()->route('form.instructur');
             }
-
-
             Session::flush();
             return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
         } catch (FirebaseException $e) {
