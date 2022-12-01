@@ -15,7 +15,7 @@ class CoursesLivewire extends Component
 {
     use WithFileUploads;
     public $totalSteps = 4;
-    public $currentStep = 3;
+    public $currentStep = 1;
     public $ottPlatform = '';
 
     // form input step 1
@@ -49,111 +49,7 @@ class CoursesLivewire extends Component
 
     protected $listeners = [
         'selectedItem',
-        'refreshVideo',
     ];
-
-    public function hydrate()
-    {
-        $this->emit('loadSelect2Hydrate');
-    }
-
-    public function selectedItem($value)
-    {
-        $this->tags_kursus = $value;
-    }
-
-
-    public function addMateriItems()
-    {
-        data_set($this->materi_sub_materi, is_array($this->nama_materi) ?  array_map('ucfirst', str_replace(' ', '_', $this->nama_materi)) : ucfirst(str_replace(' ', '_', $this->nama_materi)), $this->sub_materi);
-    }
-
-    public function addSubMateriItems()
-    {
-
-        $materi_key = array_keys($this->materi_sub_materi);
-        $sub_materi_key = array_keys($this->sub_materi_item);
-
-        $check_key = array_intersect_key($materi_key, $sub_materi_key);
-
-        $get_key = key($this->sub_materi_item);
-        $current_key = current(array($this->sub_materi_item));
-        foreach ($this->materi_sub_materi as $key => $value) {
-            if (key($current_key) == $key) {
-                array_push($this->materi_sub_materi[key($current_key)], $this->sub_materi_item[$key]);
-                next($current_key);
-                reset($current_key);
-            } else {
-                [];
-            }
-        }
-    }
-
-    public function removeMateriItems($key)
-    {
-        unset($this->materi_sub_materi[$key]);
-    }
-
-    public function removeSubMateriItems($key, $loop, $parent)
-    {
-        unset($this->materi_sub_materi[$key][$loop][$parent]);
-    }
-
-
-    public function mount()
-    {
-        $this->currentStep = 3;
-    }
-
-    public function increaseStep()
-    {
-        $this->resetErrorBag();
-        $this->validateData();
-        $this->currentStep++;
-        if ($this->currentStep > $this->totalSteps) {
-            $this->currentStep = $this->totalSteps;
-        }
-    }
-
-    public function getCurrentStep($step)
-    {
-        $this->resetErrorBag();
-
-        if ($this->doneStepOne || $this->doneStepTwo || $this->doneStepThree) {
-            $this->currentStep = $step;
-        }
-    }
-
-    public function decreaseStep()
-    {
-        $this->resetErrorBag();
-        $this->currentStep--;
-        if ($this->currentStep < 1) {
-            $this->currentStep = 1;
-        }
-    }
-
-    public function getSnapshot($query)
-    {
-        $json = [];
-        $snapshot = $query->documents();
-        foreach ($snapshot as $document) {
-            if ($document->exists()) {
-                $d = [];
-                foreach ($document->data() as $key => $data) {
-                    if (is_object($data)) {
-                        $d[$key] = $data->formatAsString();
-                    } else {
-                        $d[$key] = $data;
-                    }
-                }
-
-                $json[] = $d;
-            }
-        }
-        return json_encode($json);
-    }
-
 
     public function render()
     {
@@ -188,6 +84,85 @@ class CoursesLivewire extends Component
         }
 
         return view('livewire.admin.courses-livewire')->extends('admin.layouts.app');
+    }
+
+    public function addNew()
+    {
+        $this->dispatchBrowserEvent('show-form');
+    }
+
+    public function hydrate()
+    {
+        $this->emit('loadSelect2Hydrate');
+    }
+
+    public function selectedItem($value)
+    {
+        $this->tags_kursus = $value;
+    }
+
+    public function mount()
+    {
+        $this->currentStep = 1;
+    }
+
+    public function removeMateriItems($key)
+    {
+        unset($this->materi_sub_materi[$key]);
+    }
+
+    public function removeSubMateriItems($key, $loop, $parent)
+    {
+        unset($this->materi_sub_materi[$key][$loop][$parent]);
+    }
+
+    public function increaseStep()
+    {
+        $this->resetErrorBag();
+        $this->validateData();
+        $this->currentStep++;
+        if ($this->currentStep > $this->totalSteps) {
+            $this->currentStep = $this->totalSteps;
+        }
+    }
+
+    public function decreaseStep()
+    {
+        $this->resetErrorBag();
+        $this->currentStep--;
+        if ($this->currentStep < 1) {
+            $this->currentStep = 1;
+        }
+    }
+
+    public function getCurrentStep($step)
+    {
+        $this->resetErrorBag();
+
+        if ($this->doneStepOne || $this->doneStepTwo || $this->doneStepThree) {
+            $this->currentStep = $step;
+        }
+    }
+
+    public function getSnapshot($query)
+    {
+        $json = [];
+        $snapshot = $query->documents();
+        foreach ($snapshot as $document) {
+            if ($document->exists()) {
+                $d = [];
+                foreach ($document->data() as $key => $data) {
+                    if (is_object($data)) {
+                        $d[$key] = $data->formatAsString();
+                    } else {
+                        $d[$key] = $data;
+                    }
+                }
+
+                $json[] = $d;
+            }
+        }
+        return json_encode($json);
     }
 
     public function getCategory()
@@ -316,7 +291,31 @@ class CoursesLivewire extends Component
         return array_combine($keys, $array);
     }
 
+    public function addMateriItems()
+    {
+        data_set($this->materi_sub_materi, is_array($this->nama_materi) ?  array_map('ucfirst', $this->nama_materi) : ucfirst($this->nama_materi), $this->sub_materi);
+    }
 
+    public function addSubMateriItems()
+    {
+
+        $materi_key = array_keys($this->materi_sub_materi);
+        $sub_materi_key = array_keys($this->sub_materi_item);
+
+        $check_key = array_intersect_key($materi_key, $sub_materi_key);
+
+        $get_key = key($this->sub_materi_item);
+        $current_key = current(array($this->sub_materi_item));
+        foreach ($this->materi_sub_materi as $key => $value) {
+            if (key($current_key) == $key) {
+                array_push($this->materi_sub_materi[key($current_key)], $this->sub_materi_item[$key]);
+                next($current_key);
+                reset($current_key);
+            } else {
+                [];
+            }
+        }
+    }
 
     public function materi()
     {
@@ -358,20 +357,6 @@ class CoursesLivewire extends Component
         $this->nama_materi_baru = [];
     }
 
-    public function refreshVideo($sub_materi_item = null, $key = null, $child = null, $parent = null)
-    {
-        if (!is_null($key) || !is_null($child) || !is_null($parent)) {
-            if ($sub_materi_item[$key][$child] != $this->materi_sub_materi[$key][$child][$parent]) {
-                $this->sub_materi_item[$key][$child] = $this->materi_sub_materi[$key][$child][$parent];
-            }
-        }
-    }
-
-    public function addNew()
-    {
-        $this->dispatchBrowserEvent('show-form');
-    }
-
     public function updateSubMateriItem($key, $child, $parent)
     {
         $this->sub_materi_item[$key][$child]['video_sub_materi'] = $this->materi_sub_materi[$key][$child][$parent]['video_sub_materi'];
@@ -399,9 +384,8 @@ class CoursesLivewire extends Component
             $this->materi_sub_materi[$key][$child][$parent]['deskripsi_sub_materi'] = $this->sub_materi_item[$key][$child]['deskripsi_sub_materi'];
         }
 
-        $this->emit('refreshVideo', $this->sub_materi_item, $key, $child, $parent);
-        $this->dispatchBrowserEvent('hide-form');
         $this->sub_materi_item = [];
+        $this->dispatchBrowserEvent('hide-form');
     }
 
     public function subMateri()

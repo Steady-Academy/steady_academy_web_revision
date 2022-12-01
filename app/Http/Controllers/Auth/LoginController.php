@@ -4,16 +4,17 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Firebase\Auth\Token\Exception\InvalidToken;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Kreait\Firebase\Auth as FirebaseAuth;
 use Kreait\Firebase\Auth\SignInResult\SignInResult;
 use Kreait\Firebase\Exception\FirebaseException;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
-
 use Auth;
-use Session;
+
 use App\Models\User;
 
 class LoginController extends Controller
@@ -49,9 +50,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->auth = $auth;
     }
+
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => 'required|string',
+            'password' => 'required|string',
+        ]);
+    }
+
     protected function login(Request $request)
     {
-
         try {
             $signInResult = $this->auth->signInWithEmailAndPassword($request['email'], $request['password']);
             $user = new User($signInResult->data());
@@ -74,8 +83,6 @@ class LoginController extends Controller
                 ]);
                 return redirect()->route('form.instructur');
             }
-
-
             Session::flush();
             return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Instruktur');
         } catch (FirebaseException $e) {
@@ -83,6 +90,7 @@ class LoginController extends Controller
             throw ValidationException::withMessages([$this->username() => [trans('auth.failed')],]);
         }
     }
+
     public function username()
     {
         return 'email';
@@ -123,9 +131,7 @@ class LoginController extends Controller
             Session::put('uid', $uid);
             Auth::login($user);
             return redirect()->route('form.instructur');
-        } catch (\InvalidArgumentException $e) {
-            return redirect()->route('login');
-        } catch (InvalidToken $e) {
+        } catch (\InvalidArgumentException | InvalidToken $e) {
             return redirect()->route('login');
         }
     }

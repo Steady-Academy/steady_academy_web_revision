@@ -246,6 +246,7 @@ class InstructurController extends Controller
         $decode = urldecode($photo);
         $url_token = explode('?', $decode);
         $url = explode('/', $url_token[0]);
+        dd($url);
         $photo = $url[4] . '/' . $url[5] . '/' . $url[6] . '/' . $url[7];
         app('firebase.storage')->getBucket()->object($photo)->delete();
 

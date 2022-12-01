@@ -87,19 +87,22 @@ class LoginController extends Controller
 
             $db = app('firebase.firestore')->database();
             $snapshot = $db->collection('Users')->document($loginuid)->snapshot();
+
             if ($snapshot->data()['role'] == 'Admin') {
                 $result = Auth::login($user);
-                $userDetails = app('firebase.auth')->getUser($loginuid);
+                $auth = app('firebase.auth');
+                $userDetails = $auth->getUser($loginuid);
 
+                $setCustomClaim = $auth->setCustomUserClaims($loginuid, ['admin' => true]);
                 // update user data
-
                 $db_users = app('firebase.firestore')->database()->collection('Users')->document($loginuid);
                 $db_users->update([
                     ['path' => 'login_at', 'value' => Carbon::now()->toDayDateTimeString()]
                 ]);
-                return redirect($this->redirectPath());
+
+                return redirect()->route('admin.dashboard');
             }
-            Session::flush();
+            Session::flush('message', 'Akun tidak memiliki akses ke Steady Admin');
             return redirect()->back()->with('message', 'Akun kamu tidak memiliki akses ke Steady Admin');
         } catch (FirebaseException $e) {
             Session::flash('error', 'email atau password salah!');

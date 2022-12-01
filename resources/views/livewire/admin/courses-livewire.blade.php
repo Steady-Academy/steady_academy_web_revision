@@ -356,17 +356,20 @@
 																			data-bs-target="#detailSubMateri{{ $loop->index . $loop->parent->index }}">
 																			<i class="bi bi-play-circle-fill text-primary fs-2"></i>
 																			<h5 class="ms-2 mb-0">
-																				{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}</h5>
+																				{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}
+																			</h5>
 																		</button>
 																		<button type="button" class="btn btn-warning ms-auto mx-2" data-bs-toggle="modal"
 																			data-bs-target="#editSubMateri{{ $loop->index . $loop->parent->index }}"
 																			wire:click.prevent="updateSubMateriItem({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})">
-																			<i class="bi bi-pencil-fill"></i></button>
+																			<i class="bi bi-pencil-fill"></i>
+																		</button>
 
 																		<button type="button" class="btn btn-danger"
 																			onclick="confirm('Apakah kamu yakin menghapus sub materi  ({{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }})  ? ') || event.stopImmediatePropagation()"
-																			wire:click.prevent="removeSubMateriItems({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})"><i
-																				class="bi bi-trash-fill"></i></button>
+																			wire:click.prevent="removeSubMateriItems({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})">
+																			<i class="bi bi-trash-fill"></i>
+																		</button>
 																	</div>
 																	<div class="row text-center">
 																		<div wire:loading
@@ -502,7 +505,8 @@
 																			data-bs-target="#detailSubMateri{{ $loop->index . $loop->parent->index }}">
 																			<i class="bi bi-play-circle-fill text-primary fs-2"></i>
 																			<h5 class="ms-2 mb-0">
-																				{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}</h5>
+																				{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}
+																			</h5>
 																		</button>
 																	</div>
 																	<hr>
@@ -556,13 +560,15 @@
 	@foreach ($materi_sub_materi as $key => $value)
 		@foreach ($value as $keys => $values)
 			<div class="modal fade" id="detailSubMateri{{ $loop->index . $loop->parent->index }}" tabindex="-1"
-				aria-labelledby="detailSubMateri{{ $loop->index . $loop->parent->index }}Label" aria-hidden="true">
+				aria-hidden="true" wire:ignore>
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="detailSubMateri{{ $loop->index . $loop->parent->index }}Label">Detail Sub
-								Materi {{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}
-							</h1>
+							@if (in_array($loop->index, $materi_sub_materi[$key]))
+								<h1 class="modal-title fs-5">Detail Sub Materi
+									{{ array_key_exists($loop->parent->index, $materi_sub_materi[$key][$loop->index]) ? $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] : '' }}
+								</h1>
+							@endif
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
@@ -570,10 +576,7 @@
 								<div class="video-player rounded-3">
 									@if ($materi_sub_materi[$key][$loop->index][$loop->parent->index])
 										<video width="450" height="250" id="player" playsinline class="rounded-3" controls
-											wire:key="{{ $key }}">
-											<source
-												src="{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['video_sub_materi']->temporaryUrl() }}" />
-										</video>
+											src="{{ array_key_exists($loop->index, $materi_sub_materi[$key]) ? $materi_sub_materi[$key][$loop->index][$loop->parent->index]['video_sub_materi']->temporaryUrl() : '' }}"></video>
 									@endif
 								</div>
 							</div>
@@ -583,8 +586,8 @@
 									value="{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['nama_sub_materi'] }}" readonly>
 							</div>
 							<div class="mb-3">
-								<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
-								<textarea class="form-control" cols="10" rows="5" readonly>{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['deskripsi_sub_materi'] }}</textarea>
+								<label for="nama_sub_materi">Deskripsi Sub Materi</label>
+								<textarea cols="10" rows="5" readonly class="form-control">{{ $materi_sub_materi[$key][$loop->index][$loop->parent->index]['deskripsi_sub_materi'] }}</textarea>
 							</div>
 						</div>
 						<div class="modal-footer">
@@ -600,29 +603,19 @@
 	@foreach ($materi_sub_materi as $key => $value)
 		@foreach ($value as $keys => $values)
 			<div class="modal fade" id="editSubMateri{{ $loop->index . $loop->parent->index }}" tabindex="-1"
-				aria-labelledby="editSubMateri{{ $loop->index . $loop->parent->index }}Label" aria-hidden="true"
-				wire:ignore.self>
+				aria-hidden="true" wire:ignore.self>
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<form
 							wire:submit.prevent="updateSubMateri({{ '\'' . $key . '\'' . ',' . $loop->index . ',' . $loop->parent->index }})">
 							<div class="modal-header">
-								<h1 class="modal-title fs-5" id="editSubMateri{{ $loop->index . $loop->parent->index }}Label">Edit
-									Sub
-									Materi {{ $key }}
+								<h1 class="modal-title fs-5">
+									Sub Materi {{ $key }}
 								</h1>
 								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
 								<div class="text-center">
-									@if ($sub_materi_item != [])
-										@if (array_key_exists($key, $sub_materi_item))
-											<video width="450" height="250" id="player" playsinline class="rounded-3" controls
-												wire:key="{{ $key }}">
-												<source src="{{ $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() }}" />
-											</video>
-										@endif
-									@endif
 									<div wire:loading wire:target="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 										wire:key="{{ $key }}">
 										<div class="spinner-border text-primary" role="status">
@@ -633,23 +626,22 @@
 								<div class="mb-3">
 									<label for="video_sub_materi">Video Sub Materi</label>
 									<input type="file"
-										class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi') is-invalid @enderror"
-										wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
+										class="form-control @error('sub_materi_item.*.*.video_sub_materi') is-invalid @enderror"
+										wire:model.prevent="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
 										wire:key="{{ $key }}">
-
-									@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi')
+									@error('sub_materi_item.*.*.video_sub_materi')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
 									@enderror
 								</div>
 								<div class="mb-3">
-									<label for="nama_sub_materi">Nama Sub Materi</label>
+									<label for="nama_sub_mateir">Nama Sub Materi</label>
 									<input type="text"
-										wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
-										wire:key="{{ $key }}"
-										class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi') is-invalid @enderror">
-									@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi')
+										class="form-control @error('sub_materi_item.*.*.nama_sub_materi') is-invalid @enderror"
+										wire:model.prevent="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
+										wire:key="{{ $key }}">
+									@error('sub_materi_item.*.*.nama_sub_materi')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
@@ -657,11 +649,10 @@
 								</div>
 								<div class="mb-3">
 									<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
-									<textarea wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi"
-									 wire:key="{{ $key }}"
-									 class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi') is-invalid @enderror"
-									 cols="10" rows="5"></textarea>
-									@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi')
+									<textarea class="form-control @error('sub_materi_item.*.*.deskripsi_sub_materi') is-invalid @enderror"
+									 wire:model.prevent="sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi" cols="10"
+									 rows="5" wire:key="{{ $key }}"></textarea>
+									@error('sub_materi_item.*.*.deskripsi_sub_materi')
 										<div class="invalid-feedback">
 											{{ $message }}
 										</div>
@@ -670,7 +661,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-								<button type="submit" class="btn btn-primary" wire:click="$emit('refreshVideo')">Simpan</button>
+								<button type="submit" class="btn btn-primary">Simpan</button>
 							</div>
 						</form>
 					</div>
@@ -681,29 +672,19 @@
 
 	{{-- Tambah Sub Materi --}}
 	@foreach ($materi_sub_materi as $key => $value)
-		<div class="modal fade" id="addSubMateri{{ $loop->index }}" tabindex="-1"
-			aria-labelledby="addSubMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self>
+		<div class="modal fade" id="addSubMateri{{ $loop->index }}" tabindex="-1" wire:ignore.self
+			wire:key="{{ $key }}">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<form wire:submit.prevent="subMateri">
 						<div class="modal-header">
-							<h1 class="modal-title fs-5" id="addSubMateri{{ $loop->index }}Label">Tambah Sub
-								Materi {{ $key }}
-							</h1>
+							<h1 class="modal-title fs-5">Tambah Sub Materi {{ $key }}</h1>
 							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 						</div>
 						<div class="modal-body">
 							<div class="text-center">
-								@if ($sub_materi_item != [])
-									@if (array_key_exists($key, $sub_materi_item))
-										<video width="450" height="250" id="player" playsinline class="rounded-3" controls
-											wire:key="{{ $key }}">
-											<source src="{{ $sub_materi_item[$key][$loop->index]['video_sub_materi']->temporaryUrl() }}" />
-										</video>
-									@endif
-								@endif
 								<div wire:loading wire:target="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
-									:key={{ $key }}>
+									wire:key="{{ $key }}">
 									<div class="spinner-border text-primary" role="status">
 										<span class="visually-hidden">Loading...</span>
 									</div>
@@ -712,23 +693,21 @@
 							<div class="mb-3">
 								<label for="video_sub_materi">Video Sub Materi</label>
 								<input type="file"
-									class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi') is-invalid @enderror"
-									wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
-									:key="{{ $key }}">
-
-								@error('sub_materi_item.video_sub_materi')
+									class="form-control @error('sub_materi_item.*.*.video_sub_materi') is-invalid @enderror"
+									wire:model.prevent="sub_materi_item.{{ $key }}.{{ $loop->index }}.video_sub_materi"
+									wire:key="{{ $key }}">
+								@error('sub_materi_item.*.*.video_sub_materi')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>
 								@enderror
 							</div>
 							<div class="mb-3">
-								<label for="nama_sub_materi">Nama Sub Materi</label>
-								<input type="text" wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
-									:key="{{ $key }}"
-									class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi') is-invalid @enderror"
-									{{ isset($sub_materi_item[$key]) ? '' : 'disabled' }}>
-								@error('sub_materi_item.nama_sub_materi')
+								<label for="nama_sub_mateir">Nama Sub Materi</label>
+								<input type="text" class="form-control @error('sub_materi_item.*.*.nama_sub_materi') is-invalid @enderror"
+									wire:model.prevent="sub_materi_item.{{ $key }}.{{ $loop->index }}.nama_sub_materi"
+									{{ isset($sub_materi_item[$key]) ? '' : 'disabled' }} wire:key="{{ $key }}">
+								@error('sub_materi_item.*.*.nama_sub_materi')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>
@@ -736,11 +715,10 @@
 							</div>
 							<div class="mb-3">
 								<label for="deskripsi_sub_materi">Deskripsi Sub Materi</label>
-								<textarea wire:model="sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi"
-								 :key="{{ $key }}"
-								 class="form-control @error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi') is-invalid @enderror"
-								 cols="10" rows="5" {{ isset($sub_materi_item[$key]) ? '' : 'disabled' }}></textarea>
-								@error('sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi')
+								<textarea class="form-control @error('sub_materi_item.*.*.deskripsi_sub_materi') is-invalid @enderror"
+								 wire:model.prevent="sub_materi_item.{{ $key }}.{{ $loop->index }}.deskripsi_sub_materi" cols="10"
+								 rows="5" {{ isset($sub_materi_item[$key]) ? '' : 'disabled' }} wire:key="{{ $key }}"></textarea>
+								@error('sub_materi_item.*.*.deskripsi_sub_materi')
 									<div class="invalid-feedback">
 										{{ $message }}
 									</div>
@@ -757,10 +735,12 @@
 		</div>
 	@endforeach
 
+
 	{{-- Edit Materi --}}
 	@foreach ($materi_sub_materi as $key => $value)
 		<div class="modal fade" id="editMateri{{ $loop->index }}" tabindex="-1"
-			aria-labelledby="editMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self>
+			aria-labelledby="editMateri{{ $loop->index }}Label" aria-hidden="true" wire:ignore.self
+			wire:key="{{ $key }}">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<form wire:submit.prevent="updateMateri({{ '\'' . $key . '\'' }})">
@@ -814,10 +794,11 @@
 						<button type="submit" class="btn btn-primary">Simpan</button>
 					</div>
 				</form>
-
 			</div>
 		</div>
 	</div>
+
+
 
 	{{-- Modal Control --}}
 	@foreach ($materi_sub_materi as $key => $value)

@@ -41,7 +41,8 @@
 										<div class="col-10 ps-2">
 											<div class="text-dark">{{ Str::limit($notification['name'], '30', '...') }}</div>
 											<div class="text-muted small mt-1">{{ Str::limit($notification['email'], '30', '...') }}</div>
-											<div class="text-muted small mt-1">{{ Carbon::parse($notification['register_at'])->diffForHumans() }}</div>
+											<div class="text-muted small mt-1">{{ \Carbon\Carbon::parse($notification['register_at'])->diffForHumans() }}
+											</div>
 										</div>
 									</div>
 								</a>
