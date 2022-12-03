@@ -22,10 +22,21 @@
 				<h6 class="text-center">Tidak ada data kursus.</h6>
 			@else --}}
 			@php
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 				$db = app('firebase.firestore')->database();
 			@endphp
 			@foreach ($data as $course)
 				@php
+<<<<<<< HEAD
+					$category = $db->document($course->data()['Category_course']->path())->snapshot();
+					// $tags = $db->document($course->data()['Category_tags']->path())->snapshot();
+				@endphp
+
+				{{-- {!!  !!} --}}
+=======
 					// $id_instructur = $course->data()['instructur']->id();
 					// $category = $db
 					//     ->collection('Users')
@@ -52,6 +63,7 @@
 
 				@endphp
 				{{-- {!! $db->collection() !!} --}}
+>>>>>>> main
 				<div class="col-12 col-sm-3">
 					<div class="card border border-1 shadow shadow-sm" style="border-radius: 25px">
 						<img class="card-img-top" src="{{ $course->data()['thumbnail_url'] }}"
@@ -60,6 +72,15 @@
 							<a href="#" class="card-title fs-h5 mb-1 fw-bold text-truncate text-decoration-none stretched-link"
 								style="max-width: 330px">{{ $course->data()['name'] }}</a>
 							<h6 class="card-title mb-1 fw-light">{{ $category->data()['name'] }}</h6>
+<<<<<<< HEAD
+							{{-- @foreach ($tags as $tag) --}}
+							<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2"
+								style="font-size: 12px">{{ $tag }}</span>
+							{{-- @endforeach --}}
+							<div class="d-flex my-2">
+								<p class="mb-0">10 Video</p>
+								<h4 class="ms-auto fw-bold text-success mb-0">{{ $course->data()['price'] }}</h4>
+=======
 							{{-- @foreach ($tags as $tag)
 									<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2"
 										style="font-size: 12px">{{ $tag }}</span>
@@ -67,6 +88,7 @@
 							<div class="d-flex my-2">
 								<p class="mb-0">{{ $videos }} Video</p>
 								<h4 class="ms-auto fw-bold text-success mb-0">{{ $course->data()['Category_price_type'] }}</h4>
+>>>>>>> main
 							</div>
 						</div>
 					</div>

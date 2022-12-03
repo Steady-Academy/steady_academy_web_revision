@@ -82,10 +82,6 @@
 								<div class="text-center mt-3 d-grid ">
 									<button type="submit" id="btn-loading" class="btn btn-primary fw-bold">Masuk</button>
 								</div>
-								{{-- <button class="btn btn-primary" type="button" disabled>
-									<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-									Loading...
-								</button> --}}
 							</form>
 							<div class="row">
 								<div class="position-relative my-1">

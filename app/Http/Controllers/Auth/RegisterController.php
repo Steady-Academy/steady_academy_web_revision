@@ -52,6 +52,7 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
+
     protected function register(Request $request)
     {
         try {
