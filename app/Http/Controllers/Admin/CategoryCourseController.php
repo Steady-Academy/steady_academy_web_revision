@@ -46,7 +46,6 @@ class CategoryCourseController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
             $category = app('firebase.firestore')->database();
             $category_course = $category->collection('Category_course');

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\InstructurController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\RequestInstructurController;
