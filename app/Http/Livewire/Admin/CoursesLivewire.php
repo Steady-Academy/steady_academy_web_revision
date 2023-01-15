@@ -521,6 +521,6 @@ class CoursesLivewire extends Component
             }
             $parent++;
         }
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('admin.course.index');
     }
 }

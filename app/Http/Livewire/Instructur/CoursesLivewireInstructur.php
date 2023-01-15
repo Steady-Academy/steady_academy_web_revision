@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Admin;
+namespace App\Http\Livewire\Instructur;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -460,6 +460,7 @@ class CoursesLivewireInstructur extends Component
             'price' => $this->harga_kursus,
             'thumbnail_url' => $thumbnail_img,
             'time' => $this->waktu_kursus,
+            'description' => $this->deskripsi_kursus,
             'promo' => $this->promo,
             'code_promo' => $this->kode_promo,
             'discount' => $this->diskon,
@@ -520,6 +521,6 @@ class CoursesLivewireInstructur extends Component
             }
             $parent++;
         }
-        return redirect()->route('instructur.dashboard');
+        return redirect()->route('instructur.index.course');
     }
 }

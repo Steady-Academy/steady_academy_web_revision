@@ -86,7 +86,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Route::resource('kursus', CoursesController::class);
         Route::get('tambah/kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('add.course');
         Route::get('kursus/{id}', [CoursesController::class, 'show'])->name('show.course');
-        Route::get('edit/kursus/{id}', App\Http\Livewire\Admin\EditCourses::class)->name('edit.course');
+        Route::get('kursus/edit/{id}', App\Http\Livewire\Admin\EditCourses::class)->name('edit.course');
         // Route::get('kursus', CoursesController::class)->name('kursus');
         Route::resource('kursus', CoursesController::class);
     });
@@ -101,8 +101,10 @@ Route::prefix('instructur')->name('instructur.')->group(function () {
         Route::get('dashboard', function () {
             return view('instructur.dashboard');
         })->name('dashboard');
-        // Route::get('users/student', App\Http\Controllers\Instructur\InstructurStudentController::class)->name('users.student');
-        Route::get('tambah/kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('add.course');
+        Route::get('users/student', [App\Http\Controllers\Instructur\InstructurStudentController::class, 'index'])->name('users.student');
+        Route::get('kursus/tambah', App\Http\Livewire\Instructur\CoursesLivewireInstructur::class)->name('add.course');
+        Route::get('kursus/{id}', [App\Http\Controllers\Instructur\CoursesInstructurController::class, 'show'])->name('show.course');
+        Route::get('kursus', [App\Http\Controllers\Instructur\CoursesInstructurController::class, 'index'])->name('index.course');
     });
 });
 

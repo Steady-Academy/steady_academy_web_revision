@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Instructur;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
+use Carbon\Carbon;
 
 class InstructurStudentController extends Controller
 {
@@ -25,11 +27,7 @@ class InstructurStudentController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('name', function ($data) {
-                    return view('instructur.users.student.partialsTable.account')->with('data', $data);
-                })
-                ->addColumn('action', function ($data) {
-                    $user = app('firebase.auth')->getUser($data['uid']);
-                    return view('instructur.users.student.partialsTable.button', compact('data', 'user'));
+                    return view('instructur.student.partialsTable.account')->with('data', $data);
                 })
                 ->editColumn('phoneNumber', function ($data) {
                     if (!$data['phoneNumber']) {
@@ -53,6 +51,6 @@ class InstructurStudentController extends Controller
                 ->rawColumns(['name', 'action'])
                 ->make(true);
         }
-        return view('instructur.users.student.index');
+        return view('instructur.student.index');
     }
 }

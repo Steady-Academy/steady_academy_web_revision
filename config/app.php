@@ -176,7 +176,9 @@ return [
         App\Providers\RouteServiceProvider::class,
         \App\Providers\HomeServiceProvider::class,
         \App\Providers\AdminProvider::class,
+        \App\Providers\InstructurProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+
         /*
          * Firebase Service Providers...
          */

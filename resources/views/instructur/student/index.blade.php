@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('instructur.layouts.app')
 @section('title', 'Data Students | Steady Academy')
 @push('custom-style')
 	<style>
@@ -82,8 +82,6 @@
 														colspan="1" aria-label="Tanggal dibuat: activate to sort column ascending" style="width: 179px;">Tanggal
 														dibuat
 													</th>
-													<th class="no-short" tabindex="0" aria-controls="datatables-column-search-text-inputs" rowspan="1"
-														colspan="1" aria-label="aksi: activate to sort column ascending" style="width: 179px;">Aksi</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -105,9 +103,6 @@
 													</th>
 													<th rowspan="1" colspan="1">
 														<input type="text" class="form-control" placeholder="Search Tanggal dibuat">
-													</th>
-													<th rowspan="1" colspan="1">
-														<input type="text" class="form-control d-none" placeholder="Search Action">
 													</th>
 												</tr>
 											</tfoot>
@@ -139,7 +134,7 @@
 	</script>
 	<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableStudent.js"></script>
+	<script src="{{ env('URL_NGROK') }}/assets-admin/js/page/dataTableStudentInstructur.js"></script>
 
 	<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

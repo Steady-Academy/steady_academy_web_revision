@@ -17,14 +17,9 @@ class CoursesController extends Controller
     public function index()
     {
         $db = app('firebase.firestore')->database();
-        // $category = $db->collection('Course_category')->documents;
         $courses = $db->collection('Courses');
         $query = $courses->orderBy('created_at', 'DESC');
-        // $snapshot = $this->getSnapshot($query);
-        // $data = json_decode($snapshot);
         $data = $query->documents();
-
-
 
         return view('admin.course.index', compact('data'));
     }

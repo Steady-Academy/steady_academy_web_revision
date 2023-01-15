@@ -19,7 +19,7 @@
 			</li>
 
 			<li class="sidebar-item {{ request()->is('instructur/kursus*') ? 'active' : '' }}">
-				<a class="sidebar-link" href="{{ route('instructur.kursus.index') }}">
+				<a class="sidebar-link" href="{{ route('instructur.index.course') }}">
 					<i class="align-middle" data-feather="book"></i> <span class="align-middle">Kursus</span>
 				</a>
 			</li>
