@@ -85,6 +85,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('kategori/tipe_level', CategoryLevelTypeController::class, ['except' => ['show']]);
         // Route::resource('kursus', CoursesController::class);
         Route::get('tambah/kursus', App\Http\Livewire\Admin\CoursesLivewire::class)->name('add.course');
+        Route::get('kursus/{id}', [CoursesController::class, 'show'])->name('show.course');
+        Route::get('edit/kursus/{id}', App\Http\Livewire\Admin\EditCourses::class)->name('edit.course');
         // Route::get('kursus', CoursesController::class)->name('kursus');
         Route::resource('kursus', CoursesController::class);
     });

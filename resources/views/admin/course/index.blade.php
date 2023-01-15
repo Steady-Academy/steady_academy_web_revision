@@ -18,37 +18,12 @@
 			</ol>
 		</nav>
 		<div class="row align-items-center g-2">
-			{{-- @if (!is_array($data))
-				<h6 class="text-center">Tidak ada data kursus.</h6>
-			@else --}}
 			@php
-<<<<<<< HEAD
-
-=======
->>>>>>> b3deb15 (edit something)
 				$db = app('firebase.firestore')->database();
 			@endphp
 			@foreach ($data as $course)
+            @if ($course != [])
 				@php
-<<<<<<< HEAD
-					$category = $db->document($course->data()['Category_course']->path())->snapshot();
-					// $tags = $db->document($course->data()['Category_tags']->path())->snapshot();
-				@endphp
-
-				{{-- {!!  !!} --}}
-=======
-					// $id_instructur = $course->data()['instructur']->id();
-					// $category = $db
-					//     ->collection('Users')
-					//     ->document($id_instructur)
-					//     ->snapshot();
-					// $id = $course->data()['instructur']->id();A
-
-					// $tags = $course->data()['Category_tags'];
-					// foreach ($tags as $tag) {
-					//     dd($tag->id());
-					// }
-
 					$category = $db->document($course->data()['Category_course']->path())->snapshot();
 					$video = $db
 					    ->collection('Courses')
@@ -56,43 +31,38 @@
 					    ->collection('Curriculum')
 					    ->documents();
 					$videos = count(collect($video));
-
-					// $tags = $db->document($course->data()['Category_tags']->path())->snapshot();
-					// $instructur = $db->document($course->data()['instructur']->path())->snapshot();
-					// dd($instructur);
-
+					$instructur = $db->document($course->data()['instructur']->path())->snapshot()
 				@endphp
-				{{-- {!! $db->collection() !!} --}}
->>>>>>> b3deb15 (edit something)
 				<div class="col-12 col-sm-3">
 					<div class="card border border-1 shadow shadow-sm" style="border-radius: 25px">
 						<img class="card-img-top" src="{{ $course->data()['thumbnail_url'] }}"
 							style="border-radius: 25px 25px 0 0; max-height:180px; max-widht:355px" alt="thumbnail">
 						<div class="card-body py-2">
-							<a href="#" class="card-title fs-h5 mb-1 fw-bold text-truncate text-decoration-none stretched-link"
+							<a href="{{ route('admin.show.course', $course->data()['id']) }}" class="card-title fs-h5 mb-1 fw-bold text-truncate text-decoration-none stretched-link"
 								style="max-width: 330px">{{ $course->data()['name'] }}</a>
 							<h6 class="card-title mb-1 fw-light">{{ $category->data()['name'] }}</h6>
-<<<<<<< HEAD
-							{{-- @foreach ($tags as $tag) --}}
-							<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2"
-								style="font-size: 12px">{{ $tag }}</span>
-							{{-- @endforeach --}}
-							<div class="d-flex my-2">
-								<p class="mb-0">10 Video</p>
-								<h4 class="ms-auto fw-bold text-success mb-0">{{ $course->data()['price'] }}</h4>
-=======
-							{{-- @foreach ($tags as $tag)
+							@foreach ($course->data()['Category_tags'] as $tag)
 									<span class="badge bg-primary bg-opacity-25 py-1 px-2 text-primary me-2"
-										style="font-size: 12px">{{ $tag }}</span>
-								@endforeach --}}
+										style="font-size: 12px">{{ $tag->snapshot()->data()['name'] }}</span>
+							@endforeach
+                            <div class="d-flex my-2 align-items-center">
+                                <img src="{{ $instructur->data()['photoUrl'] }}" width="25" height="25" class="border border-1 border-dark rounded-circle" alt="">
+                                <h6 class="mb-0 ms-2">{{ $instructur->data()['name'] }}</h6>
+                            </div>
 							<div class="d-flex my-2">
 								<p class="mb-0">{{ $videos }} Video</p>
-								<h4 class="ms-auto fw-bold text-success mb-0">{{ $course->data()['Category_price_type'] }}</h4>
->>>>>>> b3deb15 (edit something)
+                                @if ($course->data()['Category_price_type'] == "paid")
+                                <h4 class="ms-auto fw-bold text-danger mb-0">{{ "Rp." . $course->data()['price'] }}</h4>
+                                @else
+                                <h4 class="ms-auto fw-bold text-success mb-0">{{ $course->data()['Category_price_type'] }}</h4>
+                                @endif
 							</div>
 						</div>
 					</div>
 				</div>
+                @else
+                <h6 class="text-center">Tidak ada data kursus.</h6>
+                @endif
 			@endforeach
 			{{-- @endif --}}
 		</div>

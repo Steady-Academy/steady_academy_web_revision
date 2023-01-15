@@ -80,7 +80,9 @@ class CoursesController extends Controller
      */
     public function show($id)
     {
-        //
+        $course = app('firebase.firestore')->database()->collection('Courses')->document($id)->snapshot();
+        return view('admin.course.show', compact('course'));
+
     }
 
     /**
