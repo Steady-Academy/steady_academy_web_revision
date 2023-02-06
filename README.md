@@ -1,7 +1,7 @@
 # Guide Cara Menjalankan Aplikasi Steady Academy
 Disini kami menggunakan microservice firebase firestore jadi dibutuhkan GRPC untuk 
 komunikasi antara laravel dengan database firebase firestore. 
-catatan: membutuhkan koneksi internet 
+#### catatan: Membutuhkan koneksi internet 
 
 ## Requirement
   - Composer
@@ -30,12 +30,12 @@ catatan: membutuhkan koneksi internet
   - Jika PHP gRPC sudah terinstall buka folder aplikasi dan jalankan `composer install`
   - Jika terjadi error coba menggunakan `composer install --ignore-platform-reqs`
   - Lalu jika file `.env` tidak ada silahkan copy `.env.example` menjadi `.env`
-  - Setelah itu silahkan buka terminal dan ketika php artisan key:generate
+  - Setelah itu silahkan buka terminal dan ketika `php artisan key:generate`
   - Jika telah selesai, jalankan `php artisan serve --port 8080`
 
 ## Cara login Admin
   - Silahkan ketikan url `http://localhost:8080/steadyacademy/admin/login`
-  - untuk emailnya adalah `refi.ahmad.fauzn@gmai.com`
+  - untuk emailnya adalah `refi.ahmad.fauzn@gmail.com`
   - untuk passwordnya adalah `password`
 
 ## Cara login instructur menggunakan Google
@@ -46,5 +46,17 @@ catatan: membutuhkan koneksi internet
   - tambahkan url forwarding pada ngrok yang dijalankan contoh `https://dc28-125-164-19-108.ap.ngrok.io`
     ke `APP_URL` dan ke `URL_NGROK`
   - jika sudah, kemudian buka firebase console -> authentication -> settings -> Authorized Domain copy url tadi dan pastekan disini.
+    note: untuk melakukannya silahkan kontak ke Farrel Rafiardi Kusmana karena firebase consolenya menggunakan akun pribadi.
+ 
 
-jika ada kendala silahkan tanyakan ke Farrel Rafiardi Kusmana XII RPL 1
+Jika ada kendala silahkan tanyakan ke Farrel Rafiardi Kusmana XII RPL 1
+
+# Fitur yang tersedia
+- Login & Register
+- Authentication menggunakan Google
+- Group Chatting Admin
+- CRUD Kategori Kursus
+- CRUD Level Kursus
+- CRUD Tipe Harga Kursus
+- Membuat kursus dengan stepper
+- CRUD Tags
