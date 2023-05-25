@@ -47,16 +47,23 @@ komunikasi antara laravel dengan database firebase firestore.
     ke `APP_URL` dan ke `URL_NGROK`
   - jika sudah, kemudian buka firebase console -> authentication -> settings -> Authorized Domain copy url tadi dan pastekan disini.
     note: untuk melakukannya silahkan kontak ke Farrel Rafiardi Kusmana karena firebase consolenya menggunakan akun pribadi.
- 
-
-Jika ada kendala silahkan tanyakan ke Farrel Rafiardi Kusmana XII RPL 1
 
 # Fitur yang tersedia
-- Login & Register
-- Authentication menggunakan Google
+- Login dengan Google Authentication
+- Login dengan email dan password
+- Register dengan Google Authentication
+- Register dengan mengisi form
+- Verifikasi email
 - Group Chatting Admin
 - CRUD Kategori Kursus
 - CRUD Level Kursus
 - CRUD Tipe Harga Kursus
-- Membuat kursus dengan stepper
+- CRUD Kursus
 - CRUD Tags
+- CRUD Siswa
+- CRUD Instructur
+- Validasi permintaan sebagai Instructur
+- Pembayaran menggunakan midtrans (Pending)
+- Kuis Kursus (Pending)
+- Discount & Coupon (Pending)
+- Certificate (Pending)
